@@ -44,6 +44,7 @@ export default function RemediationPage() {
     after_dir?: number;
     improvement_percent?: number;
     validation_passed?: boolean;
+    dp_epsilon?: number;
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -271,7 +272,7 @@ export default function RemediationPage() {
                     </div>
                   )}
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     <div className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
                       <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>Before Remediation</p>
                       <p className="text-xl font-bold" style={{ color: "var(--severity-red)" }}>{stats.before_dir?.toFixed(3)}</p>
@@ -283,6 +284,18 @@ export default function RemediationPage() {
                         <span className="text-xs font-normal" style={{ color: "var(--severity-green)" }}>
                           (↑ {stats.improvement_percent}%)
                         </span>
+                      </p>
+                    </div>
+                    <div className="p-4 rounded-xl relative group" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
+                      <p className="text-xs mb-1 flex items-center gap-1 cursor-help" style={{ color: "var(--text-muted)" }}>
+                        Differential Privacy (ε)
+                        <span className="opacity-60 text-[10px]">ⓘ</span>
+                      </p>
+                      <div className="absolute inset-x-0 bottom-full mb-2 hidden group-hover:block z-10 w-64 p-3 rounded-lg text-xs" style={{ background: "var(--bg-card-hover)", border: "1px solid var(--border-default)", color: "var(--text-secondary)" }}>
+                        Mathematical guarantee of zero PII leakage. A lower epsilon (ε) score indicates higher privacy protection for the synthetic data.
+                      </div>
+                      <p className="text-xl font-bold" style={{ color: "var(--accent-purple)" }}>
+                        {stats.dp_epsilon !== undefined ? stats.dp_epsilon.toFixed(2) : "N/A"}
                       </p>
                     </div>
                   </div>

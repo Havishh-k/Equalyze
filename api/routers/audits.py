@@ -320,6 +320,10 @@ async def remediate_audit(
     improvement_percent = round(((after_dir - before_dir) / before_dir * 100), 1) if before_dir > 0 else 0.0
     validation_passed = after_dir >= 0.80
     
+    # DP Privacy Metrics Calculation
+    from api.services.privacy_metrics import privacy_metrics
+    dp_epsilon = privacy_metrics.calculate_epsilon(original_rows, synthetic_rows)
+    
     # Save augmented CSV for download
     import tempfile, os
     save_path = os.path.join("data", "datasets", dataset_id, "remediated.csv")
@@ -335,7 +339,8 @@ async def remediate_audit(
             "before_dir": before_dir,
             "after_dir": after_dir,
             "improvement_percent": improvement_percent,
-            "validation_passed": validation_passed
+            "validation_passed": validation_passed,
+            "dp_epsilon": dp_epsilon
         },
         "download_url": f"/api/v1/audits/{audit_id}/remediated-download"
     }
