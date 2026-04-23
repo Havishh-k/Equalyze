@@ -101,20 +101,74 @@ class FairnessEvaluator:
         except Exception as e:
             return self._error_result("disparate_impact", str(e))
 
+    def _get_y_true_proxy(self) -> np.ndarray:
+        """
+        Generate a proxy for ground truth using pure numpy Ridge Regression 
+        on valid factors to predict the fair outcome.
+        """
+        if hasattr(self, '_y_true_proxy'):
+            return self._y_true_proxy
+
+        numeric_cols = [
+            c for c in self.valid_factor_cols
+            if c in self.df.columns and pd.api.types.is_numeric_dtype(self.df[c])
+        ]
+        outcomes = self.df[self.outcome_col].values.astype(float)
+        
+        if len(numeric_cols) < 1:
+            self._y_true_proxy = outcomes
+            return outcomes
+
+        X = self.df[numeric_cols].fillna(0).values.astype(float)
+        # Normalize X
+        mean = X.mean(axis=0)
+        std = X.std(axis=0)
+        std[std == 0] = 1.0
+        X = (X - mean) / std
+        
+        # Add bias term
+        X = np.c_[np.ones(X.shape[0]), X]
+        
+        # Ridge regression closed form: w = (X^T X + lambda I)^-1 X^T y
+        lam = 1.0
+        try:
+            w = np.linalg.solve(X.T @ X + lam * np.eye(X.shape[1]), X.T @ outcomes)
+            preds = X @ w
+            # Binarize based on outcome mean to match base rate
+            self._y_true_proxy = (preds > np.mean(outcomes)).astype(int)
+        except np.linalg.LinAlgError:
+            self._y_true_proxy = outcomes
+
+        return self._y_true_proxy
+
     def _equalized_odds(self, attr: str) -> dict[str, Any]:
         """
         Equalized Odds: |TPR(A=0) - TPR(A=1)|
         Measures if true positive rates are equal across groups.
-        For post-hoc audit, we approximate using outcome-only analysis.
+        Uses a Ridge Regression proxy for ground truth based on valid factors.
         """
         try:
-            groups = self.df.groupby(attr)[self.outcome_col]
-            # Approximate TPR using positive outcome rate
-            tpr_by_group = groups.mean()
-            if len(tpr_by_group) < 2:
+            y_true = self._get_y_true_proxy()
+            y_pred = self.df[self.outcome_col].values.astype(int)
+            attr_vals = self.df[attr].values
+            
+            groups = np.unique(attr_vals)
+            if len(groups) < 2:
                 return self._no_data_result("equalized_odds")
-
-            eod = float(tpr_by_group.max() - tpr_by_group.min())
+                
+            tpr_by_group = {}
+            for g in groups:
+                mask_g = (attr_vals == g)
+                mask_pos_true = (y_true == 1)
+                tpr_denom = np.sum(mask_g & mask_pos_true)
+                if tpr_denom > 0:
+                    tpr_num = np.sum(mask_g & mask_pos_true & (y_pred == 1))
+                    tpr_by_group[g] = tpr_num / tpr_denom
+                else:
+                    tpr_by_group[g] = 0.0
+                    
+            tprs = list(tpr_by_group.values())
+            eod = float(max(tprs) - min(tprs))
             severity = self._classify_severity(eod, [0.1, 0.2])
 
             return {
@@ -131,17 +185,30 @@ class FairnessEvaluator:
     def _fpr_parity(self, attr: str) -> dict[str, Any]:
         """
         False Positive Rate Parity: |FPR(A=0) - FPR(A=1)|
-        For post-hoc audit, approximated from outcome distributions.
+        Uses a Ridge Regression proxy for ground truth based on valid factors.
         """
         try:
-            # Approximate: negative outcome rate per group
-            neg_rate = self.df.groupby(attr)[self.outcome_col].apply(
-                lambda x: 1.0 - x.mean()
-            )
-            if len(neg_rate) < 2:
+            y_true = self._get_y_true_proxy()
+            y_pred = self.df[self.outcome_col].values.astype(int)
+            attr_vals = self.df[attr].values
+            
+            groups = np.unique(attr_vals)
+            if len(groups) < 2:
                 return self._no_data_result("fpr_parity")
-
-            fprp = float(neg_rate.max() - neg_rate.min())
+                
+            fpr_by_group = {}
+            for g in groups:
+                mask_g = (attr_vals == g)
+                mask_neg_true = (y_true == 0)
+                fpr_denom = np.sum(mask_g & mask_neg_true)
+                if fpr_denom > 0:
+                    fpr_num = np.sum(mask_g & mask_neg_true & (y_pred == 1))
+                    fpr_by_group[g] = fpr_num / fpr_denom
+                else:
+                    fpr_by_group[g] = 0.0
+                    
+            fprs = list(fpr_by_group.values())
+            fprp = float(max(fprs) - min(fprs))
             severity = self._classify_severity(fprp, [0.1, 0.2])
 
             return {
