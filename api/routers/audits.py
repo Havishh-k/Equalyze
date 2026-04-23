@@ -385,3 +385,64 @@ async def verify_audit_integrity(
         "current_hash": current_hash,
         "message": "Integrity verified." if is_valid else "Hash mismatch or missing log."
     }
+
+class ResolutionRequest(BaseModel):
+    action_taken: str  # "Approved", "Halted", "Retrained via Synthetic Data", "Exception Granted"
+    reviewer_2_uid: str
+
+@router.post("/audits/{audit_id}/resolve")
+async def resolve_audit(
+    audit_id: str,
+    req: ResolutionRequest,
+    user: Dict[str, Any] = Depends(get_optional_user),
+    db = Depends(get_db)
+):
+    """
+    Two-Factor Judgment CQRS Endpoint.
+    Writes approval to Firestore for instant UI updates, streams to BigQuery for immutable ledger.
+    """
+    org_id = user.get("current_org_id", "demo-org")
+    reviewer_1_uid = user.get("uid", "unknown_user")
+    
+    doc_ref = db.collection("organizations").document(org_id).collection("audits").document(audit_id)
+    doc = doc_ref.get()
+    
+    if not doc.exists:
+        raise HTTPException(status_code=404, detail="Audit not found")
+        
+    audit_dict = doc.to_dict()
+    
+    # CQRS Write 1: Update Firestore for instant UI reflection
+    event = {
+        "anomaly_timestamp": datetime.utcnow().isoformat(),
+        "reviewer_1_uid": reviewer_1_uid,
+        "reviewer_2_uid": req.reviewer_2_uid,
+        "action_taken": req.action_taken,
+    }
+    
+    resolution_events = audit_dict.get("resolution_events", [])
+    resolution_events.append(event)
+    
+    # Update Firestore
+    try:
+        doc_ref.update({"resolution_events": resolution_events})
+    except Exception as e:
+        print(f"[Firestore] Resolution event save failed: {e}")
+    
+    # CQRS Write 2: Stream to BigQuery for immutable ledger
+    from api.services.bigquery_logger import bq_logger, AuditLogEntry
+    
+    log_entry = AuditLogEntry(
+        org_id=org_id,
+        user_id=reviewer_1_uid,
+        action=f"TWO_FACTOR_RESOLUTION_{req.action_taken.upper().replace(' ', '_')}",
+        resource_id=audit_id,
+        dataset_hash=audit_dict.get("dataset", {}).get("file_hash", "unknown"),
+        findings_hash=audit_dict.get("report_hash", "unknown"),
+        metadata={"reviewer_2_uid": req.reviewer_2_uid, "ui_updated": True},
+        resolution_events=[event]
+    )
+    
+    bq_logger.log_action(log_entry)
+    
+    return {"message": "Resolution recorded successfully", "event": event}

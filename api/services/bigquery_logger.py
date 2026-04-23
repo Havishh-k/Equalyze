@@ -16,6 +16,7 @@ class AuditLogEntry(BaseModel):
     dataset_hash: str
     findings_hash: Optional[str] = None
     metadata: Dict[str, Any] = {}
+    resolution_events: list[Dict[str, Any]] = []
 
 class BigQueryLogger:
     def __init__(self):
@@ -52,6 +53,12 @@ class BigQueryLogger:
                 bigquery.SchemaField("dataset_hash", "STRING", mode="REQUIRED"),
                 bigquery.SchemaField("findings_hash", "STRING", mode="NULLABLE"),
                 bigquery.SchemaField("metadata", "JSON", mode="NULLABLE"),
+                bigquery.SchemaField("resolution_events", "RECORD", mode="REPEATED", fields=[
+                    bigquery.SchemaField("anomaly_timestamp", "TIMESTAMP", mode="REQUIRED"),
+                    bigquery.SchemaField("reviewer_1_uid", "STRING", mode="REQUIRED"),
+                    bigquery.SchemaField("reviewer_2_uid", "STRING", mode="REQUIRED"),
+                    bigquery.SchemaField("action_taken", "STRING", mode="REQUIRED"),
+                ]),
             ]
             table = bigquery.Table(table_ref, schema=schema)
             # Enforce append-only (not natively possible on table creation without specific IAM policies,
@@ -76,6 +83,7 @@ class BigQueryLogger:
                 "dataset_hash": entry.dataset_hash,
                 "findings_hash": entry.findings_hash,
                 "metadata": entry.metadata,
+                "resolution_events": entry.resolution_events,
             }
         ]
         

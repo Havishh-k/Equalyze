@@ -1,73 +1,77 @@
-# Graph Report - .  (2026-04-22)
+# Graph Report - C:\DEV apps\Google solutions  (2026-04-23)
 
 ## Corpus Check
-- Corpus is ~32,601 words - fits in a single context window. You may not need a graph.
+- 52 files · ~40,006 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 268 nodes · 623 edges · 35 communities detected
-- Extraction: 48% EXTRACTED · 52% INFERRED · 0% AMBIGUOUS · INFERRED: 323 edges (avg confidence: 0.57)
+- 355 nodes · 939 edges · 38 communities detected
+- Extraction: 40% EXTRACTED · 60% INFERRED · 0% AMBIGUOUS · INFERRED: 559 edges (avg confidence: 0.55)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Bias Metrics & Twin Engine|Bias Metrics & Twin Engine]]
-- [[_COMMUNITY_Agent Framework & Governance|Agent Framework & Governance]]
-- [[_COMMUNITY_Audit Orchestration & Models|Audit Orchestration & Models]]
-- [[_COMMUNITY_Ingestion & Proxy Detection|Ingestion & Proxy Detection]]
-- [[_COMMUNITY_Frontend API Client|Frontend API Client]]
-- [[_COMMUNITY_Dataset Parser|Dataset Parser]]
-- [[_COMMUNITY_Auth Context & Design Docs|Auth Context & Design Docs]]
-- [[_COMMUNITY_FastAPI Server & Scheduler|FastAPI Server & Scheduler]]
-- [[_COMMUNITY_Demo Dataset Generation|Demo Dataset Generation]]
-- [[_COMMUNITY_Cryptographic Utilities|Cryptographic Utilities]]
-- [[_COMMUNITY_App Configuration|App Configuration]]
-- [[_COMMUNITY_Monitoring & Drift Detection|Monitoring & Drift Detection]]
-- [[_COMMUNITY_Firebase Database Layer|Firebase Database Layer]]
-- [[_COMMUNITY_Organization Management|Organization Management]]
-- [[_COMMUNITY_Monitoring Dashboard UI|Monitoring Dashboard UI]]
-- [[_COMMUNITY_Login & Registration Pages|Login & Registration Pages]]
-- [[_COMMUNITY_Root Layout|Root Layout]]
-- [[_COMMUNITY_Graphify Detection|Graphify Detection]]
-- [[_COMMUNITY_Graphify Summary|Graphify Summary]]
-- [[_COMMUNITY_Agents Module Init|Agents Module Init]]
-- [[_COMMUNITY_Models Module Init|Models Module Init]]
-- [[_COMMUNITY_Routers Module Init|Routers Module Init]]
-- [[_COMMUNITY_Services Module Init|Services Module Init]]
-- [[_COMMUNITY_Utils Module Init|Utils Module Init]]
-- [[_COMMUNITY_ESLint Config|ESLint Config]]
-- [[_COMMUNITY_Next.js Type Defs|Next.js Type Defs]]
-- [[_COMMUNITY_Next.js Config|Next.js Config]]
-- [[_COMMUNITY_PostCSS Config|PostCSS Config]]
-- [[_COMMUNITY_Landing Page|Landing Page]]
-- [[_COMMUNITY_Dashboard Layout|Dashboard Layout]]
-- [[_COMMUNITY_Dashboard Overview|Dashboard Overview]]
-- [[_COMMUNITY_Audit List Page|Audit List Page]]
-- [[_COMMUNITY_Firebase Client SDK|Firebase Client SDK]]
-- [[_COMMUNITY_Continuous Monitoring PRD|Continuous Monitoring PRD]]
-- [[_COMMUNITY_Audit Reporting PRD|Audit Reporting PRD]]
+- [[_COMMUNITY_Community 0|Community 0]]
+- [[_COMMUNITY_Community 1|Community 1]]
+- [[_COMMUNITY_Community 2|Community 2]]
+- [[_COMMUNITY_Community 3|Community 3]]
+- [[_COMMUNITY_Community 4|Community 4]]
+- [[_COMMUNITY_Community 5|Community 5]]
+- [[_COMMUNITY_Community 6|Community 6]]
+- [[_COMMUNITY_Community 7|Community 7]]
+- [[_COMMUNITY_Community 8|Community 8]]
+- [[_COMMUNITY_Community 9|Community 9]]
+- [[_COMMUNITY_Community 10|Community 10]]
+- [[_COMMUNITY_Community 11|Community 11]]
+- [[_COMMUNITY_Community 12|Community 12]]
+- [[_COMMUNITY_Community 13|Community 13]]
+- [[_COMMUNITY_Community 14|Community 14]]
+- [[_COMMUNITY_Community 15|Community 15]]
+- [[_COMMUNITY_Community 16|Community 16]]
+- [[_COMMUNITY_Community 17|Community 17]]
+- [[_COMMUNITY_Community 18|Community 18]]
+- [[_COMMUNITY_Community 19|Community 19]]
+- [[_COMMUNITY_Community 20|Community 20]]
+- [[_COMMUNITY_Community 21|Community 21]]
+- [[_COMMUNITY_Community 22|Community 22]]
+- [[_COMMUNITY_Community 23|Community 23]]
+- [[_COMMUNITY_Community 24|Community 24]]
+- [[_COMMUNITY_Community 25|Community 25]]
+- [[_COMMUNITY_Community 26|Community 26]]
+- [[_COMMUNITY_Community 27|Community 27]]
+- [[_COMMUNITY_Community 28|Community 28]]
+- [[_COMMUNITY_Community 29|Community 29]]
+- [[_COMMUNITY_Community 30|Community 30]]
+- [[_COMMUNITY_Community 31|Community 31]]
+- [[_COMMUNITY_Community 32|Community 32]]
+- [[_COMMUNITY_Community 33|Community 33]]
+- [[_COMMUNITY_Community 34|Community 34]]
+- [[_COMMUNITY_Community 35|Community 35]]
+- [[_COMMUNITY_Community 36|Community 36]]
+- [[_COMMUNITY_Community 37|Community 37]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `Severity` - 36 edges
-2. `BaseEqualyzeAgent` - 31 edges
-3. `Finding` - 30 edges
-4. `FairnessEvaluator` - 24 edges
-5. `BiasMetric` - 21 edges
-6. `TwinEngineAgent` - 20 edges
-7. `AgentStatus` - 20 edges
-8. `AgentState` - 20 edges
-9. `ProxyWarning` - 15 edges
-10. `GovernanceAgent` - 12 edges
+1. `Severity` - 56 edges
+2. `Finding` - 50 edges
+3. `BaseEqualyzeAgent` - 44 edges
+4. `FairnessEvaluator` - 41 edges
+5. `AgentStatus` - 37 edges
+6. `AgentState` - 37 edges
+7. `BiasMetric` - 28 edges
+8. `Audit` - 25 edges
+9. `AuditStatus` - 24 edges
+10. `TwinEngineAgent` - 22 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Counterfactual Twin Testing` --semantically_similar_to--> `TwinEngineAgent`  [INFERRED] [semantically similar]
-  equalyze-PRD.md → api\agents\twin_engine_agent.py
-- `REST API Design` --semantically_similar_to--> `create_audit()`  [INFERRED] [semantically similar]
-  equalyze-TRD.md → api\routers\audits.py
-- `Proxy Variable Detection` --semantically_similar_to--> `ProxyDetector`  [INFERRED] [semantically similar]
-  equalyze-PRD.md → api\services\proxy_detector.py
-- `Governance & Legal Compliance` --semantically_similar_to--> `GovernanceAgent`  [INFERRED] [semantically similar]
-  equalyze-PRD.md → api\agents\governance_agent.py
-- `Bias Detection System` --semantically_similar_to--> `IngestionAgent`  [INFERRED] [semantically similar]
-  equalyze-PRD.md → api\agents\ingestion_agent.py
+- `GovernanceAgent` --semantically_similar_to--> `Governance & Legal Compliance`  [INFERRED] [semantically similar]
+  C:\DEV apps\Google solutions\api\agents\governance_agent.py → equalyze-PRD.md
+- `TwinEngineAgent` --semantically_similar_to--> `Counterfactual Twin Testing`  [INFERRED] [semantically similar]
+  C:\DEV apps\Google solutions\api\agents\twin_engine_agent.py → equalyze-PRD.md
+- `create_audit()` --semantically_similar_to--> `REST API Design`  [INFERRED] [semantically similar]
+  C:\DEV apps\Google solutions\api\routers\audits.py → equalyze-TRD.md
+- `RemediationAgent` --semantically_similar_to--> `AI Remediation Engine`  [INFERRED] [semantically similar]
+  api\agents\remediation_agent.py → equalyze-PRD.md
+- `upload_dataset()` --semantically_similar_to--> `Dataset Schema Mapping`  [INFERRED] [semantically similar]
+  C:\DEV apps\Google solutions\api\routers\datasets.py → equalyze-PRD.md
 
 ## Hyperedges (group relationships)
 - **End-to-End Bias Audit Pipeline** — prd_bias_detection, prd_counterfactual_twins, prd_governance_compliance, prd_remediation_engine, prd_multi_agent_pipeline [EXTRACTED 0.95]
@@ -75,202 +79,218 @@
 
 ## Communities
 
-### Community 0 - "Bias Metrics & Twin Engine"
-Cohesion: 0.16
-Nodes (24): BiasMetric, CounterfactualTwin, FindingType, GenealogyNode, Severity, FairnessEvaluator, Equalyze — Fairness Metrics Engine Pure Python/numpy statistical fairness comput, Equalized Odds: |TPR(A=0) - TPR(A=1)|         Measures if true positive rates ar (+16 more)
+### Community 0 - "Community 0"
+Cohesion: 0.13
+Nodes (34): BiasMetric, CounterfactualTwin, FindingType, GenealogyNode, Severity, BaseEqualyzeAgent, Equalyze — Base Agent (Gemini API Wrapper) All specialist agents inherit from th, Base class for all Equalyze agents.     Wraps the google-generativeai SDK with: (+26 more)
 
-### Community 1 - "Agent Framework & Governance"
+### Community 1 - "Community 1"
+Cohesion: 0.18
+Nodes (42): AgentState, AgentStatus, Audit, AuditCreateResponse, AuditStatus, AuditStatusResponse, DatasetInfo, Finding (+34 more)
+
+### Community 2 - "Community 2"
+Cohesion: 0.08
+Nodes (30): ColumnTag, ProxyWarning, SchemaMap, BaseEqualyzeAgent, get_schema_suggestions(), IngestionAgent, Equalyze — Ingestion Agent Parses datasets, auto-tags schema, detects proxy vari, Parse Gemini's classification into a SchemaMap. (+22 more)
+
+### Community 3 - "Community 3"
+Cohesion: 0.08
+Nodes (26): remediate_audit(), run_audit_pipeline(), get_dataset_store(), get_current_user(), get_db(), get_optional_user(), generate_clean_healthcare_dataset(), generate_healthcare_insurance_dataset() (+18 more)
+
+### Community 4 - "Community 4"
 Cohesion: 0.11
-Nodes (25): Finding, LegalViolation, RemediationLevel, RemediationStrategy, RiskLevel, BaseEqualyzeAgent, Equalyze — Base Agent (Gemini API Wrapper) All specialist agents inherit from th, Base class for all Equalyze agents.     Wraps the google-generativeai SDK with: (+17 more)
+Nodes (16): createAudit(), fetchAPI(), getAudit(), getAuditFindings(), getAuditStatus(), getDatasetStatus(), getSchemaSuggestions(), listAudits() (+8 more)
 
-### Community 2 - "Audit Orchestration & Models"
+### Community 5 - "Community 5"
+Cohesion: 0.13
+Nodes (17): LegalViolation, RiskLevel, hash_dict(), hash_file(), hash_string(), Equalyze — SHA-256 Hashing Utilities, Compute SHA-256 hash of a file., Compute SHA-256 hash of a JSON-serializable dictionary. (+9 more)
+
+### Community 6 - "Community 6"
 Cohesion: 0.15
-Nodes (31): AgentState, AgentStatus, Audit, AuditCreateResponse, AuditStatus, AuditStatusResponse, DatasetInfo, ModelDomain (+23 more)
+Nodes (13): RemediationLevel, RemediationStrategy, Send a prompt to Gemini and get a structured JSON response.         Includes ret, Synchronous version of invoke., Build the full prompt, optionally including context., Parse Gemini response into a Python dict.         Handles JSON extraction from m, Governance & Legal Compliance, AI Remediation Engine (+5 more)
 
-### Community 3 - "Ingestion & Proxy Detection"
-Cohesion: 0.16
-Nodes (17): ColumnTag, ProxyWarning, SchemaMap, get_schema_suggestions(), Equalyze — Dataset API Routes Upload, parse, and get schema suggestions for data, IngestionAgent, Equalyze — Ingestion Agent Parses datasets, auto-tags schema, detects proxy vari, Parse Gemini's classification into a SchemaMap. (+9 more)
+### Community 7 - "Community 7"
+Cohesion: 0.11
+Nodes (11): CloudTasksClient, Enqueue task to parse dataset and generate schema., Enqueue task to run the heavy ML audit pipeline., DatasetParser, Equalyze — Dataset Parser Service Parses CSV/XLSX/JSON files into profiled DataF, Parse and profile uploaded datasets., Parse a dataset file and return (DataFrame, profile)., Generate a statistical profile of the dataset. (+3 more)
 
-### Community 4 - "Frontend API Client"
-Cohesion: 0.14
-Nodes (11): createAudit(), fetchAPI(), getAudit(), getAuditFindings(), getAuditStatus(), getSchemaSuggestions(), listAudits(), uploadDataset() (+3 more)
-
-### Community 5 - "Dataset Parser"
-Cohesion: 0.12
-Nodes (14): DatasetParser, Equalyze — Dataset Parser Service Parses CSV/XLSX/JSON files into profiled DataF, Parse and profile uploaded datasets., Parse a dataset file and return (DataFrame, profile)., Generate a statistical profile of the dataset., upload_dataset(), Bias Detection System, Counterfactual Twin Testing (+6 more)
-
-### Community 6 - "Auth Context & Design Docs"
+### Community 8 - "Community 8"
 Cohesion: 0.2
 Nodes (8): AuthProvider(), REST API Design, Data Processing Pipeline, FastAPI Backend Design, Firebase Authentication, Google Gemini AI Integration, Next.js Frontend Design, System Architecture Design
 
-### Community 7 - "FastAPI Server & Scheduler"
+### Community 9 - "Community 9"
+Cohesion: 0.28
+Nodes (4): LegalVectorStore, Equalyze — Legal Vector Store Vertex AI Vector Search-based Retrieval-Augmented, Initialize Vertex AI Vector Search Endpoint., Search the index for relevant legal clauses, optionally filtering/boosting by do
+
+### Community 10 - "Community 10"
 Cohesion: 0.22
 Nodes (5): lifespan(), Equalyze — FastAPI Application Entry Point, Mocks Google Cloud Scheduler triggering the webhook., start_scheduler(), trigger_cloud_scheduler_mock()
 
-### Community 8 - "Demo Dataset Generation"
-Cohesion: 0.25
-Nodes (7): generate_clean_healthcare_dataset(), generate_healthcare_insurance_dataset(), generate_msme_lending_dataset(), Equalyze — Demo Dataset Generator Generates the two core demo datasets with know, MSME Lending dataset with GENDER + GEOGRAPHY BIAS.          KNOWN BIAS: Female b, Healthcare/Insurance dataset with ZIP CODE PROXY BIAS.          KNOWN BIAS: Rura, Clean/unbiased healthcare dataset — should produce GREEN results.     Used to va
+### Community 11 - "Community 11"
+Cohesion: 0.29
+Nodes (4): resolve_audit(), BigQueryLogger, Ensures the dataset and table exist for immutable audit logging., Appends a new immutable record to the BigQuery ledger.
 
-### Community 9 - "Cryptographic Utilities"
-Cohesion: 0.25
-Nodes (7): hash_dict(), hash_file(), hash_string(), Equalyze — SHA-256 Hashing Utilities, Compute SHA-256 hash of a file., Compute SHA-256 hash of a JSON-serializable dictionary., Compute SHA-256 hash of a string.
-
-### Community 10 - "App Configuration"
+### Community 12 - "Community 12"
 Cohesion: 0.4
 Nodes (3): Equalyze — Configuration, Application settings loaded from environment variables., Settings
 
-### Community 11 - "Monitoring & Drift Detection"
-Cohesion: 0.4
-Nodes (4): get_drift_metrics(), Webhook target for Cloud Scheduler.     Triggers a background "drift" audit on t, Fetch historical audits to plot drift over time., run_scheduled_audit()
-
-### Community 12 - "Firebase Database Layer"
-Cohesion: 0.67
-Nodes (2): get_current_user(), get_optional_user()
-
-### Community 13 - "Organization Management"
+### Community 13 - "Community 13"
 Cohesion: 0.5
 Nodes (1): OrganizationCreate
 
-### Community 14 - "Monitoring Dashboard UI"
+### Community 14 - "Community 14"
 Cohesion: 0.5
 Nodes (0): 
 
-### Community 15 - "Login & Registration Pages"
+### Community 15 - "Community 15"
 Cohesion: 0.67
 Nodes (2): handleGoogle(), handleSubmit()
 
-### Community 16 - "Root Layout"
+### Community 16 - "Community 16"
+Cohesion: 0.67
+Nodes (2): analyze_and_mask_csv(), Triggered by a change to a Cloud Storage bucket.     Reads a CSV, samples first
+
+### Community 17 - "Community 17"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 17 - "Graphify Detection"
+### Community 18 - "Community 18"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 18 - "Graphify Summary"
+### Community 19 - "Community 19"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 19 - "Agents Module Init"
+### Community 20 - "Community 20"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 20 - "Models Module Init"
+### Community 21 - "Community 21"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 21 - "Routers Module Init"
+### Community 22 - "Community 22"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 22 - "Services Module Init"
+### Community 23 - "Community 23"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 23 - "Utils Module Init"
+### Community 24 - "Community 24"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 24 - "ESLint Config"
+### Community 25 - "Community 25"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 25 - "Next.js Type Defs"
+### Community 26 - "Community 26"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 26 - "Next.js Config"
+### Community 27 - "Community 27"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 27 - "PostCSS Config"
+### Community 28 - "Community 28"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 28 - "Landing Page"
+### Community 29 - "Community 29"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 29 - "Dashboard Layout"
+### Community 30 - "Community 30"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 30 - "Dashboard Overview"
+### Community 31 - "Community 31"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 31 - "Audit List Page"
+### Community 32 - "Community 32"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 32 - "Firebase Client SDK"
+### Community 33 - "Community 33"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): Ensures the dataset and table exist for immutable audit logging.
 
-### Community 33 - "Continuous Monitoring PRD"
+### Community 34 - "Community 34"
+Cohesion: 1.0
+Nodes (1): Appends a new immutable record to the BigQuery ledger.
+
+### Community 35 - "Community 35"
+Cohesion: 1.0
+Nodes (1): Appends a new immutable record to the BigQuery ledger.
+
+### Community 36 - "Community 36"
 Cohesion: 1.0
 Nodes (1): Continuous Monitoring System
 
-### Community 34 - "Audit Reporting PRD"
+### Community 37 - "Community 37"
 Cohesion: 1.0
 Nodes (1): Audit Reporting Dashboard
 
 ## Knowledge Gaps
-- **31 isolated node(s):** `Equalyze — Configuration`, `Application settings loaded from environment variables.`, `Equalyze — FastAPI Application Entry Point`, `Equalyze — Base Agent (Gemini API Wrapper) All specialist agents inherit from th`, `Base class for all Equalyze agents.     Wraps the google-generativeai SDK with:` (+26 more)
+- **47 isolated node(s):** `Equalyze — Configuration`, `Application settings loaded from environment variables.`, `Equalyze — FastAPI Application Entry Point`, `Equalyze — Base Agent (Gemini API Wrapper) All specialist agents inherit from th`, `Base class for all Equalyze agents.     Wraps the google-generativeai SDK with:` (+42 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Root Layout`** (2 nodes): `layout.tsx`, `RootLayout()`
+- **Thin community `Community 17`** (2 nodes): `layout.tsx`, `RootLayout()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Graphify Detection`** (1 nodes): `_gf_detect.py`
+- **Thin community `Community 18`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Graphify Summary`** (1 nodes): `_gf_summary.py`
+- **Thin community `Community 19`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Agents Module Init`** (1 nodes): `__init__.py`
+- **Thin community `Community 20`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Models Module Init`** (1 nodes): `__init__.py`
+- **Thin community `Community 21`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Routers Module Init`** (1 nodes): `__init__.py`
+- **Thin community `Community 22`** (1 nodes): `__init__.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Services Module Init`** (1 nodes): `__init__.py`
+- **Thin community `Community 23`** (1 nodes): `eslint.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Utils Module Init`** (1 nodes): `__init__.py`
+- **Thin community `Community 24`** (1 nodes): `next-env.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `ESLint Config`** (1 nodes): `eslint.config.mjs`
+- **Thin community `Community 25`** (1 nodes): `next.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Next.js Type Defs`** (1 nodes): `next-env.d.ts`
+- **Thin community `Community 26`** (1 nodes): `postcss.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Next.js Config`** (1 nodes): `next.config.ts`
+- **Thin community `Community 27`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `PostCSS Config`** (1 nodes): `postcss.config.mjs`
+- **Thin community `Community 28`** (1 nodes): `layout.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Landing Page`** (1 nodes): `page.tsx`
+- **Thin community `Community 29`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Dashboard Layout`** (1 nodes): `layout.tsx`
+- **Thin community `Community 30`** (1 nodes): `page.tsx`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Dashboard Overview`** (1 nodes): `page.tsx`
+- **Thin community `Community 31`** (1 nodes): `firebase.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Audit List Page`** (1 nodes): `page.tsx`
+- **Thin community `Community 32`** (1 nodes): `setup.py`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Firebase Client SDK`** (1 nodes): `firebase.ts`
+- **Thin community `Community 33`** (1 nodes): `Ensures the dataset and table exist for immutable audit logging.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Continuous Monitoring PRD`** (1 nodes): `Continuous Monitoring System`
+- **Thin community `Community 34`** (1 nodes): `Appends a new immutable record to the BigQuery ledger.`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Audit Reporting PRD`** (1 nodes): `Audit Reporting Dashboard`
+- **Thin community `Community 35`** (1 nodes): `Appends a new immutable record to the BigQuery ledger.`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 36`** (1 nodes): `Continuous Monitoring System`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 37`** (1 nodes): `Audit Reporting Dashboard`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `BaseEqualyzeAgent` connect `Agent Framework & Governance` to `Bias Metrics & Twin Engine`, `Ingestion & Proxy Detection`?**
-  _High betweenness centrality (0.090) - this node is a cross-community bridge._
-- **Why does `Severity` connect `Bias Metrics & Twin Engine` to `Agent Framework & Governance`, `Audit Orchestration & Models`?**
-  _High betweenness centrality (0.079) - this node is a cross-community bridge._
-- **Why does `create_audit()` connect `Audit Orchestration & Models` to `Bias Metrics & Twin Engine`, `Auth Context & Design Docs`?**
-  _High betweenness centrality (0.067) - this node is a cross-community bridge._
-- **Are the 33 inferred relationships involving `Severity` (e.g. with `GovernanceAgent` and `Equalyze — Governance Agent Maps bias findings to regulations and computes legal`) actually correct?**
-  _`Severity` has 33 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 24 inferred relationships involving `BaseEqualyzeAgent` (e.g. with `GovernanceAgent` and `Equalyze — Governance Agent Maps bias findings to regulations and computes legal`) actually correct?**
-  _`BaseEqualyzeAgent` has 24 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 28 inferred relationships involving `Finding` (e.g. with `GovernanceAgent` and `Equalyze — Governance Agent Maps bias findings to regulations and computes legal`) actually correct?**
-  _`Finding` has 28 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 18 inferred relationships involving `str` (e.g. with `.run_audit()` and `._generate_twin()`) actually correct?**
-  _`str` has 18 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `BaseEqualyzeAgent` connect `Community 0` to `Community 2`, `Community 5`, `Community 6`?**
+  _High betweenness centrality (0.089) - this node is a cross-community bridge._
+- **Why does `Severity` connect `Community 0` to `Community 1`, `Community 3`, `Community 5`?**
+  _High betweenness centrality (0.075) - this node is a cross-community bridge._
+- **Why does `ProxyWarning` connect `Community 2` to `Community 1`?**
+  _High betweenness centrality (0.069) - this node is a cross-community bridge._
+- **Are the 53 inferred relationships involving `Severity` (e.g. with `GovernanceAgent` and `Equalyze — Governance Agent Maps bias findings to regulations and computes legal`) actually correct?**
+  _`Severity` has 53 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 48 inferred relationships involving `Finding` (e.g. with `GovernanceAgent` and `Equalyze — Governance Agent Maps bias findings to regulations and computes legal`) actually correct?**
+  _`Finding` has 48 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 37 inferred relationships involving `BaseEqualyzeAgent` (e.g. with `GovernanceAgent` and `Equalyze — Governance Agent Maps bias findings to regulations and computes legal`) actually correct?**
+  _`BaseEqualyzeAgent` has 37 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 28 inferred relationships involving `FairnessEvaluator` (e.g. with `TwinEngineAgent` and `Equalyze — Twin Engine Agent THE CORE DIFFERENTIATOR. Combines statistical bias`) actually correct?**
+  _`FairnessEvaluator` has 28 INFERRED edges - model-reasoned connections that need verification._

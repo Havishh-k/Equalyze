@@ -154,13 +154,20 @@ async def get_schema_suggestions(
     if dataset_id in _datastore_cache:
         df = _datastore_cache[dataset_id]["df"]
         from api.services.proxy_detector import proxy_detector
+        from api.agents.proxy_agent import proxy_agent
+        
         if schema.protected_attributes and schema.valid_factors:
             proxies = proxy_detector.detect_proxies(
                 df=df,
                 protected_cols=schema.protected_attributes,
                 valid_factor_cols=schema.valid_factors,
             )
-            schema.proxy_warnings = proxies
+            
+            # Use Gemini to generate semantic explanations for the detected proxies
+            domain = ds.get("domain", "other") if ds else "other"
+            proxies_with_explanations = proxy_agent.explain_proxies(proxies, domain=domain)
+            
+            schema.proxy_warnings = proxies_with_explanations
 
     return {
         "dataset_id": dataset_id,

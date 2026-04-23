@@ -137,6 +137,21 @@ export async function listAudits() {
   }>("/audits");
 }
 
+export async function resolveAudit(auditId: string, params: {
+  action: "approve" | "escalate";
+  comments: string;
+}) {
+  return fetchAPI<{
+    message: string;
+    audit_id: string;
+    resolution_status: string;
+  }>(`/audits/${auditId}/resolve`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  });
+}
+
 // ── Types ─────────────────────────────────
 
 export interface SchemaMap {
@@ -264,6 +279,9 @@ export interface AuditFull {
   report_hash: string | null;
   agents: Record<string, AgentState>;
   audit_log: { event: string; details: string; timestamp: string }[];
+  resolution_status?: string;
+  resolution_comments?: string;
+  resolution_events?: any[];
 }
 
 export interface AuditSummary {

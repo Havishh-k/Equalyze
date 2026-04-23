@@ -16,6 +16,8 @@ class ProxyDetector:
 
     PROXY_THRESHOLD_HIGH = 0.5
     PROXY_THRESHOLD_MEDIUM = 0.3
+    MAX_CARDINALITY = 100
+    MAX_ROWS_SAMPLE = 100000
 
     def detect_proxies(
         self,
@@ -26,17 +28,32 @@ class ProxyDetector:
         """
         Detect proxy variables by computing correlations between
         valid factors and protected attributes.
+        Includes cardinality cap and downsampling to prevent OOM errors.
         """
         warnings = []
+        
+        # 1. Downsample if needed to save compute budget
+        if len(df) > self.MAX_ROWS_SAMPLE:
+            df_sample = df.sample(n=self.MAX_ROWS_SAMPLE, random_state=42)
+        else:
+            df_sample = df
 
         for protected in protected_cols:
-            if protected not in df.columns:
+            if protected not in df_sample.columns:
                 continue
             for factor in valid_factor_cols:
-                if factor not in df.columns:
+                if factor not in df_sample.columns:
                     continue
 
-                corr = self._compute_correlation(df, protected, factor)
+                # 2. Cardinality Cap Check for non-numeric columns
+                if not pd.api.types.is_numeric_dtype(df_sample[factor]):
+                    if df_sample[factor].nunique() > self.MAX_CARDINALITY:
+                        continue  # Skip high cardinality (e.g., user IDs)
+                if not pd.api.types.is_numeric_dtype(df_sample[protected]):
+                    if df_sample[protected].nunique() > self.MAX_CARDINALITY:
+                        continue  # Skip high cardinality protected groups
+
+                corr = self._compute_correlation(df_sample, protected, factor)
                 if corr is None:
                     continue
 

@@ -19,9 +19,9 @@ import {
   Download,
 } from "lucide-react";
 import {
-  getAudit,
   getAuditStatus,
   verifyAuditIntegrity,
+  resolveAudit,
   type AuditFull,
   type Finding,
   type BiasMetric,
@@ -381,6 +381,12 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
   const [verifying, setVerifying] = useState(false);
   const [verificationResult, setVerificationResult] = useState<{verified: boolean, message: string} | null>(null);
 
+  // Resolution state
+  const [showResolveModal, setShowResolveModal] = useState(false);
+  const [resolveAction, setResolveAction] = useState<"approve" | "escalate">("approve");
+  const [resolveComments, setResolveComments] = useState("");
+  const [resolving, setResolving] = useState(false);
+
   // Cognitive forcing function state
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportCheck1, setExportCheck1] = useState(false);
@@ -419,6 +425,23 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
       setVerificationResult({ verified: false, message: err.message || "Verification failed" });
     } finally {
       setVerifying(false);
+    }
+  };
+
+  const handleResolve = async () => {
+    if (!resolveComments.trim()) return;
+    setResolving(true);
+    try {
+      const result = await resolveAudit(audit_id, {
+        action: resolveAction,
+        comments: resolveComments,
+      });
+      setAudit((prev) => prev ? { ...prev, resolution_status: result.resolution_status, resolution_comments: resolveComments } : prev);
+      setShowResolveModal(false);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setResolving(false);
     }
   };
 
@@ -464,12 +487,18 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
             <ArrowLeft className="w-3.5 h-3.5" />
             Back to Dashboard
           </Link>
-          <h2 className="text-2xl font-bold text-white">{audit.dataset?.filename || "Bias Audit"}</h2>
+          <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+            {audit.dataset?.filename || "Bias Audit"}
+            {audit.resolution_status && (
+              <span className={`text-xs px-2 py-1 rounded-md font-bold ${audit.resolution_status === 'approved' ? 'severity-green' : 'severity-amber'}`}>
+                {audit.resolution_status.toUpperCase()}
+              </span>
+            )}
+          </h2>
           <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>
             {audit.model_metadata?.organization_name} · {audit.model_metadata?.domain} · {new Date(audit.created_at).toLocaleString()}
           </p>
         </div>
-        {!isRunning && <ScoreGauge score={audit.overall_score} severity={audit.overall_severity} />}
         {!isRunning && <ScoreGauge score={audit.overall_score} severity={audit.overall_severity} />}
         <div className="flex items-center gap-3">
           {!isRunning && audit.overall_severity !== "GREEN" && (
@@ -481,6 +510,16 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
               <Sparkles className="w-4 h-4" />
               Remediate with AI
             </Link>
+          )}
+          {!isRunning && !audit.resolution_status && (
+            <button
+              onClick={() => setShowResolveModal(true)}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
+              style={{ background: "linear-gradient(135deg, #10B981, #059669)" }}
+            >
+              <CheckCircle className="w-4 h-4" />
+              Resolve Audit
+            </button>
           )}
           {!isRunning && (
             <button
@@ -621,6 +660,72 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
               >
                 <Download className="w-4 h-4" />
                 Download JSON Report
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Resolve Audit Modal */}
+      {showResolveModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="glass-card p-8 max-w-lg w-full">
+            <h3 className="text-xl font-bold text-white mb-4">Resolve Bias Audit</h3>
+            <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
+              As a compliance officer, your resolution will be immutably logged to BigQuery.
+            </p>
+            
+            <div className="flex gap-4 mb-6">
+              <button
+                onClick={() => setResolveAction("approve")}
+                className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all ${
+                  resolveAction === "approve"
+                    ? "bg-green-500/20 text-green-400 border border-green-500/30"
+                    : "bg-black/20 text-gray-400 border border-white/5"
+                }`}
+              >
+                Approve (Accept Risk)
+              </button>
+              <button
+                onClick={() => setResolveAction("escalate")}
+                className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all ${
+                  resolveAction === "escalate"
+                    ? "bg-red-500/20 text-red-400 border border-red-500/30"
+                    : "bg-black/20 text-gray-400 border border-white/5"
+                }`}
+              >
+                Escalate (Require Fix)
+              </button>
+            </div>
+
+            <div className="mb-6">
+              <label className="block text-xs font-medium mb-2" style={{ color: "var(--text-muted)" }}>
+                Resolution Comments (Required)
+              </label>
+              <textarea
+                value={resolveComments}
+                onChange={(e) => setResolveComments(e.target.value)}
+                className="w-full h-24 p-3 rounded-xl text-sm bg-black/30 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
+                placeholder="Detail your rationale for this decision..."
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-3">
+              <button 
+                onClick={() => setShowResolveModal(false)}
+                className="px-5 py-2.5 rounded-xl text-sm font-semibold hover:opacity-80"
+                style={{ color: "var(--text-muted)" }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleResolve}
+                disabled={resolving || !resolveComments.trim()}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 disabled:opacity-50"
+                style={{ background: resolveAction === "approve" ? "var(--severity-green)" : "var(--severity-red)" }}
+              >
+                {resolving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shield className="w-4 h-4" />}
+                {resolveAction === "approve" ? "Confirm Approval" : "Confirm Escalation"}
               </button>
             </div>
           </div>

@@ -79,6 +79,7 @@ class ProxyWarning(BaseModel):
     correlated_with: str
     correlation_coefficient: float
     severity: str  # LOW, MEDIUM, HIGH
+    explanation: Optional[str] = None
 
 
 class SchemaMap(BaseModel):
@@ -222,6 +223,7 @@ class Audit(BaseModel):
         "reporting": AgentState(),
     })
     audit_log: list[dict[str, Any]] = []
+    resolution_events: list[dict[str, Any]] = []
 
 
 # ── API Request/Response Models ────────────────────
