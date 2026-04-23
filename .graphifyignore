@@ -1,0 +1,13 @@
+node_modules/
+.next/
+__pycache__/
+.venv/
+.git/
+graphify/
+graphify-out/
+*.env
+*.env.local
+.vercel/
+storage/
+package-lock.json
+frontend/package-lock.json

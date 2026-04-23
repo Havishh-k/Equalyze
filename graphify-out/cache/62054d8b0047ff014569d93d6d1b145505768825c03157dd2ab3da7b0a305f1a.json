@@ -1,0 +1,1 @@
+{"nodes": [{"id": "gf_summary_py", "label": "_gf_summary.py", "file_type": "code", "source_file": "_gf_summary.py", "source_location": "L1"}], "edges": [{"source": "gf_summary_py", "target": "json", "relation": "imports", "confidence": "EXTRACTED", "source_file": "_gf_summary.py", "source_location": "L1", "weight": 1.0}], "raw_calls": []}

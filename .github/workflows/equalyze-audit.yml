@@ -1,0 +1,32 @@
+name: Equalyze AI Bias Audit
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main ]
+
+jobs:
+  audit-ai-model:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          
+      - name: Install Equalyze SDK
+        run: pip install requests
+        
+      - name: Run Equalyze CI/CD Gate
+        env:
+          EQUALYZE_API_KEY: ${{ secrets.EQUALYZE_API_KEY }}
+          DATASET_PATH: "data/model_predictions.csv"
+          EQUALYZE_BASE_URL: "https://api.equalyze.ai"
+        run: |
+          # Fetch the SDK script (in a real scenario, this would be pip install equalyze-sdk)
+          # Here we run the local script provided in the repo
+          python sdk/equalyze.py

@@ -15,6 +15,7 @@ from api.models.audit import (
 )
 from api.routers.datasets import get_dataset_store
 from api.services.db import get_db, get_optional_user
+from api.services.fairness_metrics import FairnessEvaluator
 from firebase_admin import firestore
 
 router = APIRouter()
@@ -78,8 +79,14 @@ async def create_audit(
     # Save running state to DB
     save_audit_to_db(audit, org_id, db)
 
-    # Run the audit pipeline in background
-    background_tasks.add_task(run_audit_pipeline, audit.id, org_id, df, request.schema_map)
+    # Run the audit pipeline via Cloud Tasks decoupling
+    from api.services.cloud_tasks import cloud_tasks
+    cloud_tasks.enqueue_audit_run(
+        audit_id=audit.id, 
+        org_id=org_id, 
+        dataset_id=request.dataset_id, 
+        schema_map=request.schema_map.model_dump() if hasattr(request.schema_map, "model_dump") else request.schema_map
+    )
 
     return AuditCreateResponse(
         audit_id=audit.id,
@@ -217,9 +224,15 @@ async def list_audits(
         return {"audits": []}
 
 
+from pydantic import BaseModel
+
+class RemediateRequest(BaseModel):
+    num_rows: int = 50
+
 @router.post("/audits/{audit_id}/remediate")
 async def remediate_audit(
     audit_id: str,
+    req: RemediateRequest,
     user: Dict[str, Any] = Depends(get_optional_user),
     db = Depends(get_db)
 ):
@@ -245,10 +258,27 @@ async def remediate_audit(
     if not audit_dict:
         raise HTTPException(status_code=404, detail="Audit not found")
     
+    # Scheduled audits cannot be remediated directly
+    if audit_dict.get("type") == "scheduled" or audit_id.startswith("sch-"):
+        raise HTTPException(status_code=400, detail="Scheduled monitor alerts cannot be remediated directly. Please run a full manual audit to generate synthetic data.")
+    
     # Get the dataset's DataFrame from cache
     dataset_id = audit_dict.get("dataset", {}).get("id")
     if not dataset_id or dataset_id not in datasets:
-        raise HTTPException(status_code=400, detail="Dataset not in cache. Re-upload to remediate.")
+        # Check if we can load it from disk
+        file_path = audit_dict.get("dataset", {}).get("file_path")
+        if file_path and __import__("os").path.exists(file_path):
+            import pandas as pd
+            try:
+                df = pd.read_csv(file_path)
+                datasets[dataset_id] = {
+                    "df": df,
+                    "metadata": {"filename": audit_dict.get("dataset", {}).get("filename", "dataset.csv")}
+                }
+            except Exception as e:
+                raise HTTPException(status_code=400, detail="Dataset not in cache and failed to load from disk. Re-upload to remediate.")
+        else:
+            raise HTTPException(status_code=400, detail="Dataset not in cache. Re-upload to remediate.")
     
     df = datasets[dataset_id]["df"]
     original_rows = len(df)
@@ -275,10 +305,20 @@ async def remediate_audit(
         schema_dict=schema_dict,
         target_group_col=target_col,
         target_group_val=minority_val,
-        num_rows=50
+        num_rows=req.num_rows
     )
     
     synthetic_rows = len(augmented_df) - original_rows
+    
+    # Validation logic
+    before_audit = FairnessEvaluator(df, schema_dict).run_full_audit()
+    before_dir = before_audit.get(target_col, {}).get("disparate_impact", {}).get("value", 1.0)
+    
+    after_audit = FairnessEvaluator(augmented_df, schema_dict).run_full_audit()
+    after_dir = after_audit.get(target_col, {}).get("disparate_impact", {}).get("value", 1.0)
+    
+    improvement_percent = round(((after_dir - before_dir) / before_dir * 100), 1) if before_dir > 0 else 0.0
+    validation_passed = after_dir >= 0.80
     
     # Save augmented CSV for download
     import tempfile, os
@@ -291,7 +331,11 @@ async def remediate_audit(
         "stats": {
             "original_rows": original_rows,
             "synthetic_rows": synthetic_rows,
-            "new_total": len(augmented_df)
+            "new_total": len(augmented_df),
+            "before_dir": before_dir,
+            "after_dir": after_dir,
+            "improvement_percent": improvement_percent,
+            "validation_passed": validation_passed
         },
         "download_url": f"/api/v1/audits/{audit_id}/remediated-download"
     }
@@ -310,3 +354,34 @@ async def download_remediated(audit_id: str):
         raise HTTPException(status_code=404, detail="No remediated file found. Generate first.")
     
     return FileResponse(files[-1], media_type="text/csv", filename="remediated_dataset.csv")
+
+@router.get("/audits/{audit_id}/verify-integrity")
+async def verify_audit_integrity(
+    audit_id: str,
+    user: Dict[str, Any] = Depends(get_optional_user),
+    db = Depends(get_db)
+):
+    """
+    Verify if the current local hash matches the append-only log hash in BigQuery.
+    """
+    from api.services.bigquery_logger import bigquery_logger
+    
+    org_id = user.get("current_org_id", "demo-org")
+    
+    doc = db.collection("organizations").document(org_id).collection("audits").document(audit_id).get()
+    if not doc.exists:
+        raise HTTPException(status_code=404, detail="Audit not found")
+        
+    audit_dict = doc.to_dict()
+    current_hash = audit_dict.get("report_hash")
+    
+    if not current_hash:
+        return {"verified": False, "message": "No hash found on this audit."}
+        
+    is_valid = bigquery_logger.verify_integrity(audit_id, current_hash)
+    
+    return {
+        "verified": is_valid,
+        "current_hash": current_hash,
+        "message": "Integrity verified." if is_valid else "Hash mismatch or missing log."
+    }

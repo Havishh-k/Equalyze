@@ -49,16 +49,27 @@ export async function uploadDataset(file: File, domain: string = "other") {
   formData.append("domain", domain);
 
   return fetchAPI<{
+    status: string;
+    job_id: string;
     dataset_id: string;
     filename: string;
-    row_count: number;
-    column_count: number;
-    column_names: string[];
-    sample_data: Record<string, unknown>[];
   }>("/datasets/upload", {
     method: "POST",
     body: formData,
   });
+}
+
+export async function getDatasetStatus(datasetId: string) {
+  return fetchAPI<{
+    status: string;
+    dataset_id: string;
+    filename: string;
+    row_count?: number;
+    column_count?: number;
+    column_names?: string[];
+    sample_data?: Record<string, unknown>[];
+    error?: string;
+  }>(`/datasets/${datasetId}/status`);
 }
 
 export async function getSchemaSuggestions(datasetId: string) {
@@ -100,6 +111,14 @@ export async function getAuditStatus(auditId: string) {
     overall_severity: string | null;
     overall_score: number | null;
   }>(`/audits/${auditId}/status`);
+}
+
+export async function verifyAuditIntegrity(auditId: string) {
+  return fetchAPI<{
+    verified: boolean;
+    current_hash: string;
+    message: string;
+  }>(`/audits/${auditId}/verify-integrity`);
 }
 
 export async function getAuditFindings(auditId: string) {

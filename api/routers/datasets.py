@@ -53,20 +53,14 @@ async def upload_dataset(
     except Exception as e:
         print(f"[Firebase Storage] Upload skipped: {e}")
 
-    # 2. Parse and profile
-    try:
-        df, profile = dataset_parser.parse(file_path)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Failed to parse file: {str(e)}")
-
-    # 3. Store metadata in Firestore (graceful fallback)
+    # 2. Store minimal metadata in Firestore (graceful fallback)
     doc_data = {
         "id": dataset_id,
         "filename": file.filename,
         "file_path": str(file_path),
         "gs_url": gs_url,
         "domain": domain,
-        "profile": profile,
+        "status": "PROCESSING",
     }
     try:
         doc_ref = db.collection("organizations").document(org_id).collection("datasets").document(dataset_id)
@@ -74,20 +68,52 @@ async def upload_dataset(
     except Exception as e:
         print(f"[Firestore] Dataset metadata save skipped: {e}")
 
-    # 4. Cache DataFrame locally
-    _datastore_cache[dataset_id] = {
-        "df": df,
-        "metadata": doc_data
+    # 3. Enqueue parsing to Cloud Tasks Worker
+    from api.services.cloud_tasks import cloud_tasks
+    cloud_tasks.enqueue_dataset_parse(
+        dataset_id=dataset_id,
+        file_path=str(file_path),
+        org_id=org_id,
+        domain=domain
+    )
+
+    return {
+        "status": "accepted",
+        "job_id": f"job-{dataset_id}",
+        "dataset_id": dataset_id,
+        "filename": file.filename
     }
 
-    return UploadResponse(
-        dataset_id=dataset_id,
-        filename=file.filename,
-        row_count=profile["row_count"],
-        column_count=profile["column_count"],
-        column_names=profile["column_names"],
-        sample_data=profile["sample_data"],
-    )
+@router.get("/datasets/{dataset_id}/status")
+async def get_dataset_status(
+    dataset_id: str,
+    user: Dict[str, Any] = Depends(get_optional_user),
+    db = Depends(get_db)
+):
+    org_id = user.get("current_org_id", "demo-org")
+    try:
+        doc_ref = db.collection("organizations").document(org_id).collection("datasets").document(dataset_id)
+        doc = doc_ref.get()
+        if doc.exists:
+            data = doc.to_dict()
+            if data.get("status") == "READY":
+                return {
+                    "status": "READY",
+                    "dataset_id": dataset_id,
+                    "filename": data["filename"],
+                    "row_count": data["profile"]["row_count"],
+                    "column_count": data["profile"]["column_count"],
+                    "column_names": data["profile"]["column_names"],
+                    "sample_data": data["profile"]["sample_data"],
+                }
+            elif data.get("status") == "FAILED":
+                return {"status": "FAILED", "error": data.get("error")}
+            else:
+                return {"status": "PROCESSING"}
+    except Exception:
+        pass
+        
+    return {"status": "PROCESSING"}
 
 @router.get("/datasets/{dataset_id}/schema-suggestions")
 async def get_schema_suggestions(

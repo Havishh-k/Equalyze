@@ -16,10 +16,12 @@ import {
   TrendingDown,
   XCircle,
   Sparkles,
+  Download,
 } from "lucide-react";
 import {
   getAudit,
   getAuditStatus,
+  verifyAuditIntegrity,
   type AuditFull,
   type Finding,
   type BiasMetric,
@@ -224,7 +226,9 @@ function TwinCard({ twin, protectedAttr }: { twin: CounterfactualTwin; protected
 
 // ── Finding Section ─────────────────────────────
 
-function FindingSection({ finding, index }: { finding: Finding; index: number }) {
+function FindingSection({ finding, index }: { finding: any; index: number }) {
+  const isScheduledFinding = !finding.metrics && finding.description;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -238,117 +242,131 @@ function FindingSection({ finding, index }: { finding: Finding; index: number })
           <span className="text-xs font-mono px-2 py-1 rounded" style={{ background: "var(--bg-elevated)", color: "var(--text-muted)" }}>
             #{index + 1}
           </span>
-          Bias in: <span className="gradient-text">{finding.protected_attribute.replace(/_/g, " ")}</span>
+          {isScheduledFinding ? (
+            <span className="gradient-text">Monitor Alert</span>
+          ) : (
+            <>Bias in: <span className="gradient-text">{(finding.protected_attribute || "unknown").replace(/_/g, " ")}</span></>
+          )}
         </h3>
         <SeverityBadge severity={finding.severity} size="md" />
       </div>
 
-      {/* Metrics grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {finding.metrics.map((m) => (
-          <MetricCard key={m.metric_name} metric={m} />
-        ))}
-      </div>
-
-      {/* Counterfactual twins */}
-      {finding.counterfactual_twins.map((twin) => (
-        <TwinCard key={twin.id} twin={twin} protectedAttr={finding.protected_attribute} />
-      ))}
-
-      {/* Legal violations */}
-      {finding.legal_violations.length > 0 && (
-        <div className="glass-card p-6">
-          <h4 className="text-sm font-bold text-white flex items-center gap-2 mb-4">
-            <Scale className="w-4 h-4" style={{ color: "var(--severity-red)" }} />
-            Legal Exposure
-          </h4>
-          <div className="space-y-3">
-            {finding.legal_violations.map((v, i) => (
-              <div key={i} className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-white">{v.regulation_name}</span>
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                    v.risk_level === "CRITICAL" || v.risk_level === "HIGH" ? "severity-red" : v.risk_level === "MEDIUM" ? "severity-amber" : "severity-green"
-                  }`}>
-                    {v.risk_level}
-                  </span>
-                </div>
-                <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>
-                  {v.jurisdiction} — {v.article}
-                </p>
-                <p className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                  {v.plain_english}
-                </p>
-              </div>
+      {isScheduledFinding ? (
+        <div className="glass-card p-5">
+          <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            {finding.description}
+          </p>
+        </div>
+      ) : (
+        <>
+          {/* Metrics grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {finding.metrics?.map((m: any) => (
+              <MetricCard key={m.metric_name} metric={m} />
             ))}
           </div>
-        </div>
-      )}
 
-      {/* Remediation strategies */}
-      {finding.remediation_strategies.length > 0 && (
-        <div className="glass-card p-6">
-          <h4 className="text-sm font-bold text-white flex items-center gap-2 mb-4">
-            <Zap className="w-4 h-4" style={{ color: "var(--severity-amber)" }} />
-            Remediation Strategies
-          </h4>
-          <div className="space-y-3">
-            {finding.remediation_strategies.map((s) => (
-              <div key={s.rank} className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "rgba(59,130,246,0.15)", color: "var(--accent-blue)" }}>
-                    {s.rank}
-                  </span>
-                  <span className="text-sm font-semibold text-white">{s.name}</span>
-                  <span className="ml-auto text-[10px] font-medium px-2 py-0.5 rounded" style={{ background: "var(--bg-elevated)", color: "var(--text-muted)" }}>
-                    {s.level} · {s.estimated_effort}
-                  </span>
-                </div>
-                <p className="text-xs leading-relaxed ml-9" style={{ color: "var(--text-secondary)" }}>
-                  {s.description}
-                </p>
-                {s.estimated_bias_reduction && (
-                  <p className="text-[10px] ml-9 mt-2 flex items-center gap-1" style={{ color: "var(--severity-green)" }}>
-                    <TrendingDown className="w-3 h-3" />
-                    {s.estimated_bias_reduction}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+          {/* Counterfactual twins */}
+          {finding.counterfactual_twins?.map((twin: any) => (
+            <TwinCard key={twin.id} twin={twin} protectedAttr={finding.protected_attribute} />
+          ))}
 
-      {/* Genealogy */}
-      {finding.genealogy_tree.length > 0 && (
-        <div className="glass-card p-6">
-          <h4 className="text-sm font-bold text-white mb-4">Bias Genealogy — Root Cause Analysis</h4>
-          <div className="space-y-3">
-            {finding.genealogy_tree.map((node) => (
-              <div key={node.level} className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
-                  style={{
-                    background: node.bias_contribution > 0.3 ? "rgba(239,68,68,0.15)" : "rgba(59,130,246,0.1)",
-                    color: node.bias_contribution > 0.3 ? "var(--severity-red)" : "var(--accent-blue)",
-                    border: `1px solid ${node.bias_contribution > 0.3 ? "rgba(239,68,68,0.25)" : "rgba(59,130,246,0.2)"}`,
-                  }}
-                >
-                  L{node.level}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-semibold text-white">{node.level_name}</span>
-                    <span className="text-[10px] font-mono" style={{ color: "var(--text-muted)" }}>
-                      ({(node.bias_contribution * 100).toFixed(0)}% contribution)
-                    </span>
+          {/* Legal violations */}
+          {(finding.legal_violations?.length || 0) > 0 && (
+            <div className="glass-card p-6">
+              <h4 className="text-sm font-bold text-white flex items-center gap-2 mb-4">
+                <Scale className="w-4 h-4" style={{ color: "var(--severity-red)" }} />
+                Legal Exposure
+              </h4>
+              <div className="space-y-3">
+                {finding.legal_violations.map((v: any, i: number) => (
+                  <div key={i} className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-semibold text-white">{v.regulation_name}</span>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                        v.risk_level === "CRITICAL" || v.risk_level === "HIGH" ? "severity-red" : v.risk_level === "MEDIUM" ? "severity-amber" : "severity-green"
+                      }`}>
+                        {v.risk_level}
+                      </span>
+                    </div>
+                    <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>
+                      {v.jurisdiction} — {v.article}
+                    </p>
+                    <p className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                      {v.plain_english}
+                    </p>
                   </div>
-                  <p className="text-xs" style={{ color: "var(--text-secondary)" }}>{node.root_cause}</p>
-                  <p className="text-[10px] mt-1" style={{ color: "var(--accent-blue)" }}>Fix: {node.fix_suggestion}</p>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          )}
+
+          {/* Remediation strategies */}
+          {(finding.remediation_strategies?.length || 0) > 0 && (
+            <div className="glass-card p-6">
+              <h4 className="text-sm font-bold text-white flex items-center gap-2 mb-4">
+                <Zap className="w-4 h-4" style={{ color: "var(--severity-amber)" }} />
+                Remediation Strategies
+              </h4>
+              <div className="space-y-3">
+                {finding.remediation_strategies.map((s: any) => (
+                  <div key={s.rank} className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "rgba(59,130,246,0.15)", color: "var(--accent-blue)" }}>
+                        {s.rank}
+                      </span>
+                      <span className="text-sm font-semibold text-white">{s.name}</span>
+                      <span className="ml-auto text-[10px] font-medium px-2 py-0.5 rounded" style={{ background: "var(--bg-elevated)", color: "var(--text-muted)" }}>
+                        {s.level} · {s.estimated_effort}
+                      </span>
+                    </div>
+                    <p className="text-xs leading-relaxed ml-9" style={{ color: "var(--text-secondary)" }}>
+                      {s.description}
+                    </p>
+                    {s.estimated_bias_reduction && (
+                      <p className="text-[10px] ml-9 mt-2 flex items-center gap-1" style={{ color: "var(--severity-green)" }}>
+                        <TrendingDown className="w-3 h-3" />
+                        {s.estimated_bias_reduction}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Genealogy */}
+          {(finding.genealogy_tree?.length || 0) > 0 && (
+            <div className="glass-card p-6">
+              <h4 className="text-sm font-bold text-white mb-4">Bias Genealogy — Root Cause Analysis</h4>
+              <div className="space-y-3">
+                {finding.genealogy_tree.map((node: any) => (
+                  <div key={node.level} className="flex items-start gap-4">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+                      style={{
+                        background: node.bias_contribution > 0.3 ? "rgba(239,68,68,0.15)" : "rgba(59,130,246,0.1)",
+                        color: node.bias_contribution > 0.3 ? "var(--severity-red)" : "var(--accent-blue)",
+                        border: `1px solid ${node.bias_contribution > 0.3 ? "rgba(239,68,68,0.25)" : "rgba(59,130,246,0.2)"}`,
+                      }}
+                    >
+                      L{node.level}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-semibold text-white">{node.level_name}</span>
+                        <span className="text-[10px] font-mono" style={{ color: "var(--text-muted)" }}>
+                          ({(node.bias_contribution * 100).toFixed(0)}% contribution)
+                        </span>
+                      </div>
+                      <p className="text-xs" style={{ color: "var(--text-secondary)" }}>{node.root_cause}</p>
+                      <p className="text-[10px] mt-1" style={{ color: "var(--accent-blue)" }}>Fix: {node.fix_suggestion}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
       )}
     </motion.div>
   );
@@ -360,6 +378,49 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
   const { audit_id } = use(params);
   const [audit, setAudit] = useState<AuditFull | null>(null);
   const [loading, setLoading] = useState(true);
+  const [verifying, setVerifying] = useState(false);
+  const [verificationResult, setVerificationResult] = useState<{verified: boolean, message: string} | null>(null);
+
+  // Cognitive forcing function state
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [exportCheck1, setExportCheck1] = useState(false);
+  const [exportCheck2, setExportCheck2] = useState(false);
+  const [exportCheck3, setExportCheck3] = useState(false);
+  const canExport = exportCheck1 && exportCheck2 && exportCheck3;
+
+  const handleExport = () => {
+    // Attach Article 14 Cognitive Forcing acknowledgments to the exported data
+    const exportData = {
+      ...audit,
+      article_14_compliance: {
+        timestamp: new Date().toISOString(),
+        acknowledgments: {
+          statistical_uncertainty_understood: exportCheck1,
+          legal_counsel_required: exportCheck2,
+          counterfactual_twins_realistic: exportCheck3
+        }
+      }
+    };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+    const a = document.createElement('a');
+    a.href = dataStr;
+    a.download = `bias_receipt_${audit_id}.json`;
+    a.click();
+    setShowExportModal(false);
+  };
+
+  const handleVerifyIntegrity = async () => {
+    setVerifying(true);
+    setVerificationResult(null);
+    try {
+      const result = await verifyAuditIntegrity(audit_id);
+      setVerificationResult(result);
+    } catch (err: any) {
+      setVerificationResult({ verified: false, message: err.message || "Verification failed" });
+    } finally {
+      setVerifying(false);
+    }
+  };
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -409,16 +470,29 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
           </p>
         </div>
         {!isRunning && <ScoreGauge score={audit.overall_score} severity={audit.overall_severity} />}
-        {!isRunning && audit.overall_severity !== "GREEN" && (
-          <Link
-            href={`/dashboard/audits/${audit_id}/remediation`}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
-            style={{ background: "linear-gradient(135deg, #8B5CF6, #06B6D4)" }}
-          >
-            <Sparkles className="w-4 h-4" />
-            Remediate with AI
-          </Link>
-        )}
+        {!isRunning && <ScoreGauge score={audit.overall_score} severity={audit.overall_severity} />}
+        <div className="flex items-center gap-3">
+          {!isRunning && audit.overall_severity !== "GREEN" && (
+            <Link
+              href={`/dashboard/audits/${audit_id}/remediation`}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
+              style={{ background: "linear-gradient(135deg, #8B5CF6, #06B6D4)" }}
+            >
+              <Sparkles className="w-4 h-4" />
+              Remediate with AI
+            </Link>
+          )}
+          {!isRunning && (
+            <button
+              onClick={() => setShowExportModal(true)}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
+              style={{ background: "var(--bg-elevated)", border: "1px solid var(--border-default)", color: "var(--text-primary)" }}
+            >
+              <Download className="w-4 h-4" />
+              Export Bias Receipt
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Agent status tracker */}
@@ -457,7 +531,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
             </div>
           ) : (
             audit.findings.map((finding, i) => (
-              <FindingSection key={finding.id} finding={finding} index={i} />
+              <FindingSection key={finding.id || i} finding={finding} index={i} />
             ))
           )}
         </div>
@@ -479,10 +553,77 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
             ))}
           </div>
           {audit.report_hash && (
-            <p className="text-[10px] font-mono mt-4 pt-3" style={{ color: "var(--text-muted)", borderTop: "1px solid var(--border-default)" }}>
-              Report Hash (SHA-256): {audit.report_hash}
-            </p>
+            <div className="mt-4 pt-3 flex flex-col gap-3" style={{ borderTop: "1px solid var(--border-default)" }}>
+              <p className="text-[10px] font-mono" style={{ color: "var(--text-muted)" }}>
+                Report Hash (SHA-256): {audit.report_hash}
+              </p>
+              
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleVerifyIntegrity}
+                  disabled={verifying}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:opacity-90 disabled:opacity-50"
+                  style={{ background: "var(--bg-elevated)", border: "1px solid var(--border-default)", color: "var(--text-primary)" }}
+                >
+                  <Shield className={`w-3.5 h-3.5 ${verifying ? "animate-pulse" : ""}`} />
+                  {verifying ? "Verifying..." : "Verify Integrity via BigQuery"}
+                </button>
+                
+                {verificationResult && (
+                  <div className={`flex items-center gap-1.5 text-xs font-semibold px-2 py-1 rounded-md ${verificationResult.verified ? "severity-green" : "severity-red"}`}>
+                    {verificationResult.verified ? <CheckCircle className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
+                    {verificationResult.message}
+                  </div>
+                )}
+              </div>
+            </div>
           )}
+        </div>
+      )}
+
+      {/* Cognitive Forcing Function Modal */}
+      {showExportModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="glass-card p-8 max-w-lg w-full">
+            <h3 className="text-xl font-bold text-white mb-4">Export Bias Receipt</h3>
+            <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
+              Under EU AI Act Article 14, active human oversight is required before certifying an AI system. Please acknowledge the following before generating the report:
+            </p>
+            
+            <div className="space-y-4 mb-8">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" checked={exportCheck1} onChange={e => setExportCheck1(e.target.checked)} className="mt-1" />
+                <span className="text-sm text-white">I have reviewed the statistical uncertainty margins and understand they represent probabilities, not absolute facts.</span>
+              </label>
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" checked={exportCheck2} onChange={e => setExportCheck2(e.target.checked)} className="mt-1" />
+                <span className="text-sm text-white">I acknowledge that this report does not replace formal legal counsel regarding regulatory compliance.</span>
+              </label>
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input type="checkbox" checked={exportCheck3} onChange={e => setExportCheck3(e.target.checked)} className="mt-1" />
+                <span className="text-sm text-white">I confirm that the identified counterfactual twins represent realistic scenarios for our user base.</span>
+              </label>
+            </div>
+
+            <div className="flex items-center justify-end gap-3">
+              <button 
+                onClick={() => setShowExportModal(false)}
+                className="px-5 py-2.5 rounded-xl text-sm font-semibold hover:opacity-80"
+                style={{ color: "var(--text-muted)" }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleExport}
+                disabled={!canExport}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 disabled:opacity-50"
+                style={{ background: "linear-gradient(135deg, #22C55E, #06B6D4)" }}
+              >
+                <Download className="w-4 h-4" />
+                Download JSON Report
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

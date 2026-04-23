@@ -14,6 +14,7 @@ from api.agents.twin_engine_agent import twin_engine_agent
 from api.agents.governance_agent import governance_agent
 from api.agents.remediation_agent import remediation_agent
 from api.utils.crypto import hash_dict
+from api.services.bigquery_logger import bigquery_logger
 
 
 class OrchestratorAgent:
@@ -108,6 +109,13 @@ class OrchestratorAgent:
 
             audit.status = AuditStatus.COMPLETE
             audit.completed_at = datetime.utcnow()
+
+            # Write to Immutable Audit Log
+            bigquery_logger.log_audit(
+                audit_id=audit.id, 
+                report_hash=audit.report_hash, 
+                payload=audit.model_dump(mode="json")
+            )
 
             self._update_agent(audit, "reporting", AgentStatus.COMPLETE)
             self._log(audit, "audit_complete", f"Audit complete: {audit.overall_severity}")

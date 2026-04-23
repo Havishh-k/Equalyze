@@ -252,8 +252,10 @@ class FairnessEvaluator:
                     "max_disparity": round(disparity, 4),
                     "severity": self._classify_severity(disparity, [0.15, 0.3]),
                     "worst_group": f"{worst_row[attr]} + {worst_row[other]}",
+                    "worst_group_values": [worst_row[attr], worst_row[other]],
                     "worst_rate": round(float(worst_row["rate"]), 4),
                     "best_group": f"{best_row[attr]} + {best_row[other]}",
+                    "best_group_values": [best_row[attr], best_row[other]],
                     "best_rate": round(float(best_row["rate"]), 4),
                     "interpretation": f"At the intersection of {attr} and {other}, "
                                      f"'{worst_row[attr]} + {worst_row[other]}' has a "

@@ -1,119 +1,61 @@
-# Roadmap — Equalyze PRD v2.0 Milestone
+# Roadmap — Equalyze Enterprise Implementation Plan
 
-## Execution Strategy (from /caveman review)
-Build from the **data layer upwards**:
-1. Legal Foundation → Deep Analytics Engine → Twin & Governance Agents → Async Remediation
-
----
-
-## Phase 1 — Legal RAG Foundation
-**Goal:** Replace hardcoded regulation prompts with a true vector search pipeline over actual statute text.
-**Requires:** MH-1
-**Touches:** `api/agents/governance_agent.py`, `api/services/` (new), `api/config.py`
-
-### Scope
-- Create `regulations/` directory with chunked markdown of EU AI Act, DPDPA 2023, ECOA, RBI Fair Practices Code, NIST AI 600-1
-- Build `api/services/legal_vector_store.py` — FAISS index loader, embed chunks with Gemini embedding API, semantic search
-- Refactor `GovernanceAgent` to query vector store instead of using hardcoded regulation text in prompts
-- Domain selector dynamically filters which regulation chunks are searched (healthcare→HIPAA/FDA, fintech→ECOA/RBI)
-- Update `api/config.py` with `REGULATIONS_DIR` path and embedding settings
-
-### UAT
-- [ ] Given a RED disparate impact finding in `fintech` domain, governance agent returns exact ECOA § 202.6 and RBI Para 3
-- [ ] Given a healthcare finding, governance agent returns HIPAA 45 CFR 164 and EU AI Act Art. 10
-- [ ] No hallucinated legal citations (every article exists in the source corpus)
+## Execution Strategy
+Build a secure, scalable B2B SaaS platform on Google Cloud across four distinct phases: Privacy, Scale, Intelligence, and Ecosystem.
 
 ---
 
-## Phase 2 — Intersectional Deep-Dive
-**Goal:** Detect and prove composite discrimination (e.g., Rural + Female) with dedicated twins.
-**Requires:** MH-2
-**Touches:** `api/agents/twin_engine_agent.py`, `api/services/fairness_metrics.py`, `api/models/audit.py`
+## Phase 6 — Privacy & Security Foundation
+**Goal:** Implement absolute data privacy and a tamper-proof audit trail.
+**Touches:** `functions/dlp_scan`, `api/services/bigquery_logger.py`
 
 ### Scope
-- Enhance `FairnessEvaluator._intersectional_analysis` to produce full `BiasMetric` objects (not just raw dicts)
-- Add `FindingType.INTERSECTIONAL` handling in `TwinEngineAgent.analyze` — when intersectional disparity > threshold, generate a dedicated `Finding` with composite twin
-- New prompt template `INTERSECTIONAL_TWIN_PROMPT` for Gemini Pro that isolates overlapping attributes
-- Update severity scoring to weight intersectional findings appropriately
-
-### UAT
-- [ ] Running audit on `healthcare_insurance_biased.csv` produces a Finding for "Rural + Female" intersection
-- [ ] The intersectional twin has a `discrimination_statement` that references both attributes
-- [ ] Intersectional findings appear in the frontend audit results page
+- **Google Cloud DLP Integration:** Create GCS buckets for raw uploads and "Safe Processing". Cloud Function triggers on upload, calls DLP API, samples first 1,000 rows to identify PII, and applies blanket mask to specific columns for cost control.
+- **BigQuery Ledger Setup:** Provision BigQuery dataset, define `audit_logs` schema, and implement backend logic for immutable logging of actions and findings.
 
 ---
 
-## Phase 3 — BigQuery Immutable Audit Log
-**Goal:** Establish tamper-evident audit trail for ISO/IEC 42001 compliance.
-**Requires:** MH-4
-**Touches:** `api/services/` (new), `api/agents/orchestrator.py`, `api/routers/audits.py`, frontend
+## Phase 7 — Asynchronous Scalability
+**Goal:** Decouple the frontend from heavy ML processing using Cloud Tasks and Cloud Run.
+**Touches:** `api/routers/audits.py`, `worker/`, frontend monitoring
 
 ### Scope
-- Create `api/services/bigquery_logger.py` — BigQuery client, table schema, append-only writes
-- After audit completion in `orchestrator.py`: serialize finding JSON → SHA-256 hash → write to BQ
-- After remediation in `audits.py`: same pattern
-- New API endpoint `GET /audits/{audit_id}/verify-integrity` — compare local hash vs BQ hash
-- Frontend: "Verify Integrity" badge/button on audit results page
-
-### UAT
-- [ ] Completing an audit creates a row in BigQuery with matching SHA-256 hash
-- [ ] "Verify Integrity" button returns ✅ for unmodified audits
-- [ ] Modifying an audit locally causes verification to return ❌ mismatch
+- **Decouple FastAPI Backend:** Refactor `POST /datasets/upload` to immediately return HTTP 202 with a `job_id`.
+- **Implement Cloud Tasks:** Configure queue with Dead-Letter Queue (DLQ) for failed jobs (e.g., malformed CSVs). Enqueue processing jobs on dataset upload.
+- **Deploy Cloud Run Workers:** Create a separate Docker container for background processing to execute Pandas/Numpy deterministic math and update Firestore.
+- **Real-Time UI Updates:** Implement WebSockets or SSE for real-time Next.js updates.
 
 ---
 
-## Phase 4 — Async Synthetic Data Validation
-**Goal:** Validate that generated synthetic data actually reduces bias, don't trust blindly.
-**Requires:** MH-3
-**Touches:** `api/agents/remediation_agent.py`, `api/routers/audits.py`, frontend remediation page
+## Phase 8 — Hardened AI & Dynamic Governance
+**Goal:** Eradicate hallucinations with LLM-as-a-Judge and dynamic RAG.
+**Touches:** `api/agents/twin_engine_agent.py`, `api/agents/governance_agent.py`, `api/services/legal_vector_store.py`
 
 ### Scope
-- After `generate_synthetic_dataset`, run `FairnessEvaluator` on the combined (original + synthetic) DataFrame
-- Compare before/after Disparate Impact Ratio
-- Return `{ before_dir, after_dir, improvement_percent, validation_passed }` in API response
-- Update `RemediationPage` frontend to display before/after DIR visual comparison (bar chart or gauge)
-- If DIR < 0.80 after remediation, flag as "Remediation Insufficient — manual review required"
-
-### UAT
-- [ ] Synthetic data generation returns both before and after DIR values
-- [ ] Frontend shows visual before/after comparison
-- [ ] If DIR doesn't improve past 0.80, the UI shows a warning
+- **The LLM-as-a-Judge Pipeline:** Refactor Twin Generator: Gemini 2.0 Pro generates twins, Gemini 1.5 Flash validates deterministically by checking against original dataset mean/std-dev (hard fail if outside 2-sigma variance).
+- **Dynamic Legal Vector Database:** Provision Vertex AI Vector Search. Automated script pulls regulatory texts weekly, embeds them, and updates the index. Update Governance Agent to query dynamically.
 
 ---
 
-## Phase 5 — Cognitive Forcing Functions & PDF Export
-**Goal:** EU AI Act Article 14 Human-in-the-Loop compliance via mandatory acknowledgment UI + Bias Receipt PDF.
-**Requires:** MH-5, MH-6
-**Touches:** frontend audit results page, new PDF generation endpoint, `api/routers/audits.py`
+## Phase 9 — Ecosystem Integration & The "Moat"
+**Goal:** Embed Equalyze into engineering culture via SDK and CI/CD.
+**Touches:** `sdk/python/equalyze`, CI/CD templates
 
 ### Scope
-- Frontend: "Export Bias Receipt" button (disabled by default)
-- Clicking opens modal with checklist:
-  - ☐ "I acknowledge that statistical metrics have confidence intervals and may not capture all forms of bias"
-  - ☐ "I have reviewed the counterfactual twin evidence and understand its limitations"
-  - ☐ "I accept responsibility as the human-in-the-loop for this audit's conclusions"
-- After all checked → enable "Generate PDF" → POST to backend
-- Backend: `api/services/pdf_generator.py` — compile findings, twins, legal violations, remediation strategies into structured PDF
-- Log operator acknowledgment timestamp + checkbox state to audit trail
-- Include SHA-256 report hash in the PDF footer
-
-### UAT
-- [ ] "Export" button is disabled until all checkboxes are checked
-- [ ] PDF contains all audit findings, twin evidence, legal mappings, and integrity hash
-- [ ] Acknowledgment timestamp is recorded in audit log
-- [ ] PDF looks professional and is EU AI Act Annex IV-structured
+- **Develop Python SDK:** Build pip-installable library with `equalyze.audit()` connecting securely to the backend. Include native exits (`sys.exit(1)`) on DIR < 0.80.
+- **CI/CD Pipeline Blockers:** Create pre-configured GitHub Actions and Jenkins templates for automated gatekeeping.
+- **Polish Cognitive Forcing UI:** Finalize Next.js Article 14 mandatory acknowledgments for exports.
 
 ---
 
 ## Phase Summary
 
-| Phase | Description | Requirements | Risk |
-|-------|-------------|--------------|------|
-| 1 | Legal RAG Foundation | MH-1 | Medium — requires chunking statute text + FAISS setup |
-| 2 | Intersectional Deep-Dive | MH-2 | Low — extending existing intersectional analysis |
-| 3 | BigQuery Immutable Audit Log | MH-4 | Medium — BQ client setup + API verification endpoint |
-| 4 | Async Synthetic Data Validation | MH-3 | Low — plugging FairnessEvaluator into existing flow |
-| 5 | Cognitive Forcing Functions & PDF | MH-5, MH-6 | Low-Medium — frontend modal + PDF rendering |
+| Phase | Description | Risk |
+|-------|-------------|------|
+| 6 | Privacy & Security Foundation | Medium — requires GCP setup |
+| 7 | Asynchronous Scalability | High — architectural refactor |
+| 8 | Hardened AI & Dynamic Governance | Medium — multi-LLM orchestration |
+| 9 | Ecosystem Integration | Low — standalone SDK |
 
 ---
-*Last updated: 2026-04-22*
+*Last updated: 2026-04-23*

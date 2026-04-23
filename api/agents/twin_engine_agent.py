@@ -66,6 +66,40 @@ OUTPUT FORMAT (strict JSON):
   "discrimination_statement": "One powerful sentence proving discrimination. Example: 'Two patients with identical health profiles were charged 69% different premiums — the only difference was their zip code.'"
 }}"""
 
+INTERSECTIONAL_TWIN_PROMPT = """You are generating a Counterfactual Twin for an AI bias audit focusing on INTERSECTIONAL bias.
+
+DOMAIN: {domain}
+
+ORIGINAL PROFILE (received NEGATIVE outcome: {outcome_label}):
+{original_profile}
+
+MATCHED PRIVILEGED PROFILE (received POSITIVE outcome):
+{privileged_profile}
+
+The intersectional protected attributes that differ: {protected_attributes}
+Original values: {original_values}
+Privileged values: {privileged_values}
+
+TASK: Generate a compelling Counterfactual Twin demonstration that proves this model discriminates specifically against the intersection of these attributes.
+
+RULES:
+1. The Twin shows what would happen if ONLY the protected attributes changed.
+2. All non-protected attributes stay IDENTICAL to the original.
+3. Write narratives in plain English — a compliance officer with NO technical background must understand the compounding discrimination.
+4. The discrimination_statement should be a single devastating sentence highlighting the combination of the traits.
+5. twin_quality_score = how perfectly you preserved all non-protected attributes (0-1).
+
+OUTPUT FORMAT (strict JSON):
+{{
+  "original_narrative": "A 2-3 sentence story about the original person and their outcome",
+  "twin_narrative": "A 2-3 sentence story about the twin and THEIR outcome",
+  "twin_profile": {{}},
+  "changed_attributes": {protected_attributes},
+  "preserved_attributes": ["list all non-protected attributes that stayed identical"],
+  "twin_quality_score": 0.95,
+  "discrimination_statement": "One powerful sentence proving the compounded discrimination."
+}}"""
+
 
 GENEALOGY_PROMPT = """You are analyzing the ROOT CAUSE of bias in an AI system.
 
@@ -149,7 +183,7 @@ class TwinEngineAgent(BaseEqualyzeAgent):
         findings = []
 
         for attr, metrics in metrics_results.items():
-            # Build finding for each protected attribute
+            # Build finding for the main protected attribute
             finding = Finding(
                 protected_attribute=attr,
                 finding_type=self._determine_finding_type(metrics),
@@ -158,6 +192,7 @@ class TwinEngineAgent(BaseEqualyzeAgent):
 
             # Populate metrics
             max_severity = Severity.GREEN
+
             for metric_name, metric_data in metrics.items():
                 if metric_name == "intersectional":
                     continue  # Handled separately
@@ -204,6 +239,47 @@ class TwinEngineAgent(BaseEqualyzeAgent):
             # Calculate severity score
             finding.severity_score = self._compute_severity_score(finding)
             findings.append(finding)
+
+            # Intersectional Deep-Dive
+            if "intersectional" in metrics:
+                for inter_metric in metrics["intersectional"]:
+                    inter_severity = inter_metric.get("severity", Severity.GREEN)
+                    if isinstance(inter_severity, str):
+                        inter_severity = Severity(inter_severity)
+                        
+                    if inter_severity in (Severity.AMBER, Severity.RED):
+                        inter_attrs = inter_metric.get("attributes", [])
+                        combo_name = " + ".join(inter_attrs)
+                        
+                        inter_finding = Finding(
+                            protected_attribute=combo_name,
+                            finding_type=FindingType.INTERSECTIONAL,
+                            severity=inter_severity,
+                            metrics=[
+                                BiasMetric(
+                                    metric_name="intersectional_disparity",
+                                    value=inter_metric.get("max_disparity", 0),
+                                    severity=inter_severity,
+                                    threshold=0.15,
+                                    interpretation=inter_metric.get("interpretation", ""),
+                                    minority_group=inter_metric.get("worst_group", ""),
+                                    majority_group=inter_metric.get("best_group", ""),
+                                    legal_flag=inter_severity == Severity.RED
+                                )
+                            ]
+                        )
+                        
+                        try:
+                            twin = await self._generate_intersectional_twin(
+                                df, schema_map, inter_attrs, inter_metric, domain
+                            )
+                            if twin:
+                                inter_finding.counterfactual_twins.append(twin)
+                        except Exception as e:
+                            print(f"Intersectional twin generation error for {combo_name}: {e}")
+                            
+                        inter_finding.severity_score = self._compute_severity_score(inter_finding)
+                        findings.append(inter_finding)
 
         return findings
 
@@ -264,14 +340,47 @@ class TwinEngineAgent(BaseEqualyzeAgent):
             privileged_value=privileged.get(protected_attr, "unknown"),
         )
 
+        # Invoke Gemini 2.0 Pro to generate the twin
         result = self.invoke_sync(prompt)
+        twin_profile = result.get("twin_profile", {})
+
+        # -- LLM-AS-A-JUDGE: Deterministic 2-Sigma Validation --
+        # Check that preserved continuous variables haven't drifted by > 2 sigma.
+        # We do this in Python as it's deterministic.
+        for factor in valid_factors:
+            orig_val = original.get(factor)
+            twin_val = twin_profile.get(factor)
+            
+            # If both are numeric, check variance
+            if isinstance(orig_val, (int, float)) and isinstance(twin_val, (int, float)):
+                if pd.api.types.is_numeric_dtype(df[factor]):
+                    std_dev = df[factor].std()
+                    if pd.isna(std_dev) or std_dev == 0:
+                        std_dev = 1.0 # fallback
+                    drift = abs(orig_val - twin_val)
+                    if drift > (2 * std_dev):
+                        print(f"[Judge] REJECTED Twin: {factor} drifted by {drift} (> 2 sigma {2*std_dev})")
+                        # Real implementation might retry; we will hard-fail the twin here
+                        return None
+
+        # Call Gemini 1.5 Flash as a secondary Judge for semantic validation
+        judge_prompt = f"""You are an LLM-as-a-Judge.
+Check if this twin profile perfectly preserves the semantic meaning of the original profile for all attributes except '{protected_attr}'.
+Original: {json.dumps(original, default=str)}
+Twin: {json.dumps(twin_profile, default=str)}
+Output JSON: {{"valid": true, "reason": "..."}}
+"""
+        judge_result = self.genealogy_model.invoke_sync(judge_prompt)
+        if not judge_result.get("valid", True):
+            print(f"[Judge] REJECTED Twin semantically: {judge_result.get('reason')}")
+            return None
 
         # Build twin object
         twin = CounterfactualTwin(
             original_profile=original,
             original_narrative=result.get("original_narrative", ""),
             original_outcome=str(original.get(outcome_col, "")),
-            twin_profile=result.get("twin_profile", {}),
+            twin_profile=twin_profile,
             twin_narrative=result.get("twin_narrative", ""),
             twin_outcome=str(privileged.get(outcome_col, "")),
             changed_attributes=result.get("changed_attributes", [protected_attr]),
@@ -362,6 +471,87 @@ class TwinEngineAgent(BaseEqualyzeAgent):
             score += weights["genealogy_depth"] * max_contrib
 
         return round(min(score, 1.0), 4)
+
+    async def _generate_intersectional_twin(
+        self,
+        df: pd.DataFrame,
+        schema_map: dict,
+        protected_attrs: list[str],
+        metric_data: dict,
+        domain: str,
+    ) -> CounterfactualTwin | None:
+        """Generate a counterfactual twin for an intersectional finding."""
+        outcome_col = schema_map["outcome"]
+        valid_factors = schema_map["valid_factors"]
+
+        minority_group_values = metric_data.get("worst_group_values")
+        majority_group_values = metric_data.get("best_group_values")
+        
+        if not minority_group_values or not majority_group_values:
+            return None
+
+        # Build query for minority and majority
+        # Using boolean masking to be safe with types
+        min_mask = pd.Series([True]*len(df), index=df.index)
+        maj_mask = pd.Series([True]*len(df), index=df.index)
+        
+        for attr, min_val, maj_val in zip(protected_attrs, minority_group_values, majority_group_values):
+            min_mask &= (df[attr] == min_val)
+            maj_mask &= (df[attr] == maj_val)
+
+        rejected = df[min_mask & (df[outcome_col] == 0)]
+        approved = df[maj_mask & (df[outcome_col] == 1)]
+
+        if rejected.empty or approved.empty:
+            # Try with numeric outcome
+            rejected = df[min_mask].nlargest(5, outcome_col)
+            approved = df[maj_mask].nsmallest(5, outcome_col)
+
+        if rejected.empty or approved.empty:
+            return None
+
+        # Pick a representative rejected instance
+        original = rejected.iloc[0].to_dict()
+        privileged = approved.iloc[0].to_dict()
+
+        # Clean for JSON
+        for d in [original, privileged]:
+            for k, v in d.items():
+                if isinstance(v, (np.integer,)):
+                    d[k] = int(v)
+                elif isinstance(v, (np.floating,)):
+                    d[k] = float(v)
+
+        prompt = INTERSECTIONAL_TWIN_PROMPT.format(
+            domain=domain,
+            outcome_label="Rejected" if original[outcome_col] == 0 else "Low Value",
+            original_profile=json.dumps(original, default=str),
+            privileged_profile=json.dumps(privileged, default=str),
+            protected_attributes=json.dumps(protected_attrs),
+            original_values=json.dumps(minority_group_values),
+            privileged_values=json.dumps(majority_group_values),
+        )
+
+        try:
+            result = await self.invoke(prompt)
+        except Exception as e:
+            print(f"Failed to invoke Gemini for intersectional twin: {e}")
+            return None
+
+        twin = CounterfactualTwin(
+            original_profile=original,
+            original_narrative=result.get("original_narrative", ""),
+            original_outcome=str(original.get(outcome_col, "")),
+            twin_profile=result.get("twin_profile", {}),
+            twin_narrative=result.get("twin_narrative", ""),
+            twin_outcome=str(privileged.get(outcome_col, "")),
+            changed_attributes=result.get("changed_attributes", protected_attrs),
+            preserved_attributes=result.get("preserved_attributes", valid_factors),
+            twin_quality_score=result.get("twin_quality_score", 0.9),
+            discrimination_statement=result.get("discrimination_statement", ""),
+        )
+
+        return twin
 
 
 twin_engine_agent = TwinEngineAgent()

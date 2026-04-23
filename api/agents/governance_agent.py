@@ -9,6 +9,7 @@ from typing import Any
 from api.agents.base_agent import BaseEqualyzeAgent
 from api.config import settings
 from api.models.audit import LegalViolation, RiskLevel, Finding, Severity
+from api.services.legal_vector_store import legal_vector_store
 
 
 GOVERNANCE_SYSTEM_PROMPT = """You are the Equalyze Legal Governance Agent — an AI compliance expert.
@@ -32,30 +33,16 @@ BIAS FINDING:
 DOMAIN: {domain}
 JURISDICTIONS: {jurisdictions}
 
-REGULATION DATABASE:
-India:
-- DPDPA 2023 (Digital Personal Data Protection Act): Section 4 (purpose limitation), Section 8 (data principal rights). Applies when automated processing of personal data leads to discriminatory outcomes.
-- RBI Fair Practices Code (Para 3): Mandates non-discriminatory lending. Lenders must not discriminate based on gender, caste, religion, or location.
-- IRDAI Guidelines: Insurance pricing must not unfairly discriminate based on non-actuarial factors.
+RETRIEVED LEGAL REGULATIONS (from Vector Search):
+{regulations_context}
 
-EU:
-- EU AI Act 2024: Article 9 (risk management for high-risk AI), Article 10 (data governance — training data bias), Article 13 (transparency), Article 15 (accuracy and robustness).
-- GDPR Article 22: Right not to be subject to solely automated decision-making with legal/significant effects.
-
-USA:
-- ECOA / Regulation B (12 CFR Part 202): Prohibits discrimination in credit based on race, color, religion, national origin, sex, marital status, age.
-- Fair Housing Act (42 U.S.C. § 3604): Prohibits discriminatory insurance/housing practices.
-- Title VII of Civil Rights Act: Employment discrimination based on protected characteristics.
-- HIPAA (45 CFR Parts 160, 164): Non-discrimination in health data processing.
-
-Global:
-- ISO/IEC 42001: AI Management Systems — best practice for bias testing and documentation.
-
-For each applicable regulation:
+For each applicable regulation from the retrieved text above:
 1. Cite the specific article/section
 2. Assess legal risk: LOW / MEDIUM / HIGH / CRITICAL
 3. Write a plain-English explanation of the potential violation
 4. State required remediation
+
+If none of the retrieved regulations strictly apply, do not hallucinate ones. Return an empty list or only the applicable ones.
 
 Output JSON:
 {{
@@ -105,6 +92,16 @@ class GovernanceAgent(BaseEqualyzeAgent):
             twin = finding.counterfactual_twins[0]
             twin_summary = twin.discrimination_statement or twin.original_narrative
 
+        # RAG: Search the legal vector store
+        query_text = f"Bias finding: {finding.finding_type} on {finding.protected_attribute} with severity {finding.severity}. Metrics: {'; '.join(metrics_summary)}"
+        retrieved_docs = legal_vector_store.search(query=query_text, domain=domain, top_k=3)
+        
+        regulations_context = "No specific regulations found."
+        if retrieved_docs:
+            regulations_context = "\n\n---\n\n".join(
+                [f"Regulation: {d['regulation_name']} (Jurisdiction: {d['jurisdiction']})\nText:\n{d['content']}" for d in retrieved_docs]
+            )
+
         prompt = LEGAL_MAPPING_PROMPT.format(
             protected_attribute=finding.protected_attribute,
             finding_type=finding.finding_type,
@@ -113,6 +110,7 @@ class GovernanceAgent(BaseEqualyzeAgent):
             twin_summary=twin_summary,
             domain=domain,
             jurisdictions=", ".join(jurisdictions),
+            regulations_context=regulations_context,
         )
 
         try:

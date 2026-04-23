@@ -36,7 +36,16 @@ export default function RemediationPage() {
   const [generating, setGenerating] = useState(false);
   const [generated, setGenerated] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-  const [stats, setStats] = useState<{ original_rows: number; synthetic_rows: number; new_total: number } | null>(null);
+  const [stats, setStats] = useState<{ 
+    original_rows: number; 
+    synthetic_rows: number; 
+    new_total: number;
+    before_dir?: number;
+    after_dir?: number;
+    improvement_percent?: number;
+    validation_passed?: boolean;
+  } | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAudit = async () => {
@@ -57,6 +66,7 @@ export default function RemediationPage() {
 
   const handleGenerate = async () => {
     setGenerating(true);
+    setError(null);
     try {
       const res = await fetch(`${API_BASE}/api/v1/audits/${audit_id}/remediate`, {
         method: "POST",
@@ -66,12 +76,19 @@ export default function RemediationPage() {
         },
         body: JSON.stringify({ num_rows: 50 }),
       });
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.detail || "Failed to generate remediation dataset");
+      }
       const data = await res.json();
+      if (data.message === "Cannot identify target column" || data.message === "No bias findings to remediate") {
+        throw new Error(data.message);
+      }
       setGenerated(true);
       setDownloadUrl(data.download_url || null);
       setStats(data.stats || null);
-    } catch {
-      // handle
+    } catch (e: any) {
+      setError(e.message || "An unexpected error occurred.");
     } finally {
       setGenerating(false);
     }
@@ -178,6 +195,16 @@ export default function RemediationPage() {
             Gemini will analyze the statistical distributions of your dataset and generate synthetic rows
             for underrepresented groups to balance the dataset.
           </p>
+          
+          {error && (
+            <div className="mb-6 p-4 rounded-xl" style={{ background: "rgba(239, 68, 68, 0.12)", border: "1px solid rgba(239, 68, 68, 0.25)" }}>
+              <p className="text-sm font-semibold flex items-center justify-center gap-2" style={{ color: "var(--severity-red)" }}>
+                <AlertTriangle className="w-4 h-4" />
+                {error}
+              </p>
+            </div>
+          )}
+
           <button
             onClick={handleGenerate}
             disabled={generating}
@@ -205,20 +232,63 @@ export default function RemediationPage() {
           </div>
 
           {stats && (
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <div className="p-4 rounded-xl text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
-                <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>Original Rows</p>
-                <p className="text-2xl font-bold text-white">{stats.original_rows}</p>
+            <>
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="p-4 rounded-xl text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
+                  <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>Original Rows</p>
+                  <p className="text-2xl font-bold text-white">{stats.original_rows}</p>
+                </div>
+                <div className="p-4 rounded-xl text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
+                  <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>Synthetic Rows Added</p>
+                  <p className="text-2xl font-bold" style={{ color: "var(--severity-green)" }}>+{stats.synthetic_rows}</p>
+                </div>
+                <div className="p-4 rounded-xl text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
+                  <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>New Total</p>
+                  <p className="text-2xl font-bold text-white">{stats.new_total}</p>
+                </div>
               </div>
-              <div className="p-4 rounded-xl text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
-                <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>Synthetic Rows Added</p>
-                <p className="text-2xl font-bold" style={{ color: "var(--severity-green)" }}>+{stats.synthetic_rows}</p>
-              </div>
-              <div className="p-4 rounded-xl text-center" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
-                <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>New Total</p>
-                <p className="text-2xl font-bold text-white">{stats.new_total}</p>
-              </div>
-            </div>
+
+              {stats.before_dir !== undefined && (
+                <div className="mb-6">
+                  <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+                    <BarChart3 className="w-4 h-4" style={{ color: "var(--accent-blue)" }} />
+                    Fairness Validation (Disparate Impact Ratio)
+                  </h4>
+                  
+                  {stats.validation_passed ? (
+                    <div className="mb-4 p-4 rounded-xl" style={{ background: "rgba(34, 197, 94, 0.12)", border: "1px solid rgba(34, 197, 94, 0.25)" }}>
+                      <p className="text-sm font-semibold flex items-center gap-2" style={{ color: "var(--severity-green)" }}>
+                        <CheckCircle2 className="w-4 h-4" />
+                        Remediation Successful: Disparate Impact Ratio {'>'} 0.80
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="mb-4 p-4 rounded-xl" style={{ background: "rgba(245, 158, 11, 0.12)", border: "1px solid rgba(245, 158, 11, 0.25)" }}>
+                      <p className="text-sm font-semibold flex items-center gap-2" style={{ color: "var(--severity-amber)" }}>
+                        <AlertTriangle className="w-4 h-4" />
+                        Remediation Insufficient: Model still exhibits bias.
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
+                      <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>Before Remediation</p>
+                      <p className="text-xl font-bold" style={{ color: "var(--severity-red)" }}>{stats.before_dir?.toFixed(3)}</p>
+                    </div>
+                    <div className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
+                      <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>After Remediation</p>
+                      <p className="text-xl font-bold flex items-center gap-2" style={{ color: stats.validation_passed ? "var(--severity-green)" : "var(--severity-amber)" }}>
+                        {stats.after_dir?.toFixed(3)}
+                        <span className="text-xs font-normal" style={{ color: "var(--severity-green)" }}>
+                          (↑ {stats.improvement_percent}%)
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
 
           {downloadUrl ? (

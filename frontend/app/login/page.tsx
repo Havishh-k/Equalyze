@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
-import { Scale, Mail, Lock, Eye, EyeOff, ArrowRight, Chrome } from "lucide-react";
+import { Scale, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -105,7 +105,6 @@ export default function LoginPage() {
                   style={{
                     background: "var(--bg-card)",
                     border: "1px solid var(--border-default)",
-                    focusRingColor: "var(--accent-blue)",
                   }}
                 />
               </div>

@@ -84,14 +84,36 @@ export default function NewAuditPage() {
     if (!file) return;
     setUploading(true);
     try {
-      const result = await uploadDataset(file, domain);
-      setUploadResult(result);
+      const uploadInit = await uploadDataset(file, domain);
+      
+      // Poll for readiness
+      let isReady = false;
+      let finalData = null;
+      while (!isReady) {
+        await new Promise(r => setTimeout(r, 2000));
+        const statusCheck = await import('@/lib/api').then(m => m.getDatasetStatus(uploadInit.dataset_id));
+        if (statusCheck.status === "READY") {
+          isReady = true;
+          finalData = statusCheck;
+        } else if (statusCheck.status === "FAILED") {
+          throw new Error(statusCheck.error || "Dataset processing failed in background");
+        }
+      }
+
+      setUploadResult({
+        dataset_id: finalData.dataset_id,
+        filename: finalData.filename,
+        row_count: finalData.row_count!,
+        column_count: finalData.column_count!,
+        column_names: finalData.column_names!,
+        sample_data: finalData.sample_data!
+      });
       
       // Auto-fetch schema suggestions
       setSchemaLoading(true);
       setStep(2);
       
-      const schemaResult = await getSchemaSuggestions(result.dataset_id);
+      const schemaResult = await getSchemaSuggestions(uploadInit.dataset_id);
       setSchemaMap(schemaResult.schema_map);
       setColumnTags(schemaResult.schema_map.column_tags || []);
       setProxyWarnings(schemaResult.schema_map.proxy_warnings || []);
