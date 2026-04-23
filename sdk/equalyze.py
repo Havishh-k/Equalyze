@@ -14,7 +14,7 @@ class EqualyzeSDK:
 
     def upload_dataset(self, file_path: str) -> str:
         """Uploads a dataset and returns the dataset_id."""
-        url = f"{self.base_url}/datasets/upload"
+        url = f"{self.base_url}/api/v1/datasets/upload"
         with open(file_path, "rb") as f:
             files = {"file": f}
             # For file uploads, we don't set Content-Type in headers so requests sets multipart/form-data
@@ -32,7 +32,7 @@ class EqualyzeSDK:
 
     def run_audit(self, dataset_id: str, protected_attributes: list, threshold: float = 0.8) -> dict:
         """Runs a fairness audit on a dataset."""
-        url = f"{self.base_url}/audits/new"
+        url = f"{self.base_url}/api/v1/audits/new"
         payload = {
             "dataset_id": dataset_id,
             "protected_attributes": protected_attributes
@@ -51,25 +51,44 @@ class EqualyzeSDK:
         return self._wait_for_audit(audit_id, threshold)
 
     def _wait_for_audit(self, audit_id: str, threshold: float, timeout_sec: int = 300) -> dict:
-        url = f"{self.base_url}/audits/{audit_id}/status"
+        url = f"{self.base_url}/api/v1/audits/{audit_id}"
         start_time = time.time()
         
         while time.time() - start_time < timeout_sec:
             response = requests.get(url, headers=self.headers)
             if response.status_code == 200:
                 data = response.json()
-                if data.get("status") == "completed":
+                status = data.get("status", "").upper()
+                if status == "COMPLETE":
                     print(f"Audit {audit_id} completed successfully.")
                     
                     # Validate fairness
-                    score = data.get("results", {}).get("fairness_score", 0)
-                    if score < threshold:
-                        print(f"CI/CD GATE FAILED: Fairness score {score} is below threshold {threshold}")
+                    overall_score = data.get("overall_score", 0)
+                    overall_severity = data.get("overall_severity", "GREEN")
+                    
+                    # Extract advanced metrics including Equalized Odds and DIR
+                    failures = []
+                    for finding in data.get("findings", []):
+                        for metric in finding.get("metrics", []):
+                            metric_name = metric.get("metric_name", "")
+                            value = metric.get("value", 0)
+                            severity = metric.get("severity", "GREEN")
+                            
+                            # Equalized Odds (TPR/FPR parities) or standard DIR
+                            if severity in ["AMBER", "RED"]:
+                                failures.append(f"Protected Attribute [{finding.get('protected_attribute')}]: {metric_name} = {value} ({severity})")
+                    
+                    if overall_score < threshold or failures:
+                        print(f"CI/CD GATE FAILED: Fairness score {overall_score} is below threshold {threshold}")
+                        if failures:
+                            print("Metric threshold breaches detected (including Equalized Odds violations):")
+                            for f in failures:
+                                print(f"  - {f}")
                         sys.exit(1)
                     else:
-                        print(f"CI/CD GATE PASSED: Fairness score {score} meets threshold {threshold}")
+                        print(f"CI/CD GATE PASSED: Fairness score {overall_score} meets threshold {threshold} with no severe metric breaches.")
                         return data
-                elif data.get("status") == "failed":
+                elif status == "FAILED":
                     print(f"Audit {audit_id} failed: {data.get('error')}")
                     sys.exit(1)
                 
@@ -89,7 +108,7 @@ def run_cicd_gate():
     
     if not os.path.exists(file_path):
         print(f"Dataset {file_path} not found.")
-        return
+        sys.exit(1)
 
     sdk = EqualyzeSDK(api_key=api_key)
     dataset_id = sdk.upload_dataset(file_path)
@@ -97,6 +116,7 @@ def run_cicd_gate():
     # Wait for dataset to be processed
     time.sleep(10) # Simple wait for dataset to parse before audit
     
+    # Running audit evaluating demographic parity, equalized odds and others automatically
     sdk.run_audit(dataset_id=dataset_id, protected_attributes=["age", "gender"], threshold=0.85)
 
 if __name__ == "__main__":

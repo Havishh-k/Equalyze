@@ -1,7 +1,7 @@
 # Graph Report - C:\DEV apps\Google solutions  (2026-04-23)
 
 ## Corpus Check
-- 53 files · ~40,552 words
+- 53 files · ~40,648 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
