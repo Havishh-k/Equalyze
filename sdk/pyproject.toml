@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "equalyze"
+version = "0.1.0"
+description = "AI Fairness & Compliance SDK — CI/CD pipeline gate for EU AI Act compliance, bias auditing, and Equalized Odds evaluation."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "Equalyze", email = "hello@equalyze.dev"}
+]
+keywords = ["fairness", "bias", "ai-compliance", "eu-ai-act", "equalized-odds", "cicd", "mlops"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = [
+    "requests>=2.25.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Havishh-k/Equalyze"
+Repository = "https://github.com/Havishh-k/Equalyze"
+Issues = "https://github.com/Havishh-k/Equalyze/issues"
+
+[project.scripts]
+equalyze-audit-gate = "equalyze:run_cicd_gate"
