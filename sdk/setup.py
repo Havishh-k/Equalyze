@@ -5,7 +5,7 @@ setup(
     version="0.1.0",
     description="Python SDK for Equalyze Platform CI/CD integration",
     author="Equalyze",
-    packages=find_packages(),
+    py_modules=["equalyze"],
     install_requires=[
         "requests>=2.25.0",
     ],
