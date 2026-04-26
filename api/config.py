@@ -16,7 +16,7 @@ class Settings:
 
     # Gemini
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
-    GEMINI_PRO_MODEL: str = "gemini-2.0-pro"
+    GEMINI_PRO_MODEL: str = "gemini-2.0-flash"
     GEMINI_FLASH_MODEL: str = "gemini-2.0-flash"
 
     # Server

@@ -118,6 +118,25 @@ export default function RemediationPage() {
     );
   }
 
+  if ((audit_id as string).startsWith("sch-") || audit.type === "scheduled") {
+    return (
+      <div className="text-center py-20 space-y-4" style={{ color: "var(--text-muted)" }}>
+        <AlertTriangle className="w-10 h-10 mx-auto" style={{ color: "var(--severity-amber)" }} />
+        <p className="text-lg font-medium text-white">Scheduled Monitor Alerts Cannot Be Remediated Directly</p>
+        <p className="max-w-md mx-auto text-sm">
+          This is a lightweight monitor alert designed to detect model drift. To generate a synthetic remediation dataset, please run a full manual audit against this dataset.
+        </p>
+        <Link
+          href={`/dashboard/audits/${audit_id}`}
+          className="inline-flex items-center gap-2 mt-4 text-sm hover:underline"
+          style={{ color: "var(--accent-blue)" }}
+        >
+          <ArrowLeft className="w-4 h-4" /> Go Back to Audit
+        </Link>
+      </div>
+    );
+  }
+
   const sevStyle = getSeverityStyle(audit.overall_severity);
   const biasedFindings = audit.findings?.filter((f: any) =>
     ["AMBER", "RED"].includes(f.severity?.toUpperCase())

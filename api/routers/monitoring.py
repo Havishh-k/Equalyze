@@ -44,7 +44,7 @@ async def run_scheduled_audit(
         "status": "complete",
         "created_at": datetime.datetime.utcnow().isoformat(),
         "overall_severity": "AMBER",
-        "overall_score": 65.0, # A slight drift down in score
+        "overall_score": 0.65, # A slight drift down in score
         "model_metadata": {
             "model_name": "Scheduled Monitor",
             "domain": "healthcare"

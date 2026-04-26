@@ -19,6 +19,7 @@ import {
   Download,
 } from "lucide-react";
 import {
+  getAudit,
   getAuditStatus,
   verifyAuditIntegrity,
   resolveAudit,
@@ -49,7 +50,7 @@ function SeverityBadge({ severity, size = "md" }: { severity: string; size?: "sm
 
 function ScoreGauge({ score, severity }: { score: number; severity: string }) {
   const color = severity === "RED" ? "#EF4444" : severity === "AMBER" ? "#F59E0B" : "#22C55E";
-  const pct = Math.round(score * 100);
+  const pct = score > 1 ? Math.round(score) : Math.round(score * 100);
   return (
     <div className="flex items-center gap-4">
       <div className="relative w-20 h-20">
@@ -378,6 +379,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
   const { audit_id } = use(params);
   const [audit, setAudit] = useState<AuditFull | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [verifying, setVerifying] = useState(false);
   const [verificationResult, setVerificationResult] = useState<{verified: boolean, message: string} | null>(null);
 
@@ -447,25 +449,60 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
+    let stopped = false;
 
     const fetchAudit = async () => {
       try {
         const data = await getAudit(audit_id);
+        if (stopped) return;
+        setError(null);
+        
+        // Detect stale "running" audits (older than 10 min) — they'll never complete
+        if (data.status === "running" && data.created_at) {
+          const createdStr = data.created_at.endsWith("Z") ? data.created_at : data.created_at + "Z";
+          const ageMs = Date.now() - new Date(createdStr).getTime();
+          if (ageMs > 10 * 60 * 1000) {
+            data.status = "failed";
+            data.audit_log = data.audit_log || [];
+            data.audit_log.push({
+              event: "timeout",
+              details: "Audit timed out — pipeline worker was unreachable. Please re-run.",
+              timestamp: new Date().toISOString(),
+            });
+          }
+        }
+
         setAudit(data);
+        setLoading(false);
         if (data.status === "complete" || data.status === "failed") {
-          setLoading(false);
           clearInterval(interval);
         }
-      } catch {
+      } catch (err: any) {
+        if (stopped) return;
         setLoading(false);
+        setError(err.message || "Failed to load audit");
+        clearInterval(interval);
       }
     };
 
     fetchAudit();
-    interval = setInterval(fetchAudit, 3000); // Poll every 3s while running
+    interval = setInterval(fetchAudit, 3000);
 
-    return () => clearInterval(interval);
+    return () => { stopped = true; clearInterval(interval); };
   }, [audit_id]);
+
+  if (error) {
+    return (
+      <div className="text-center py-20">
+        <XCircle className="w-10 h-10 mx-auto mb-4" style={{ color: "var(--severity-red)" }} />
+        <p className="text-lg font-semibold text-white mb-2">Audit Not Found</p>
+        <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>{error}</p>
+        <Link href="/dashboard/audits" className="text-sm font-medium hover:underline" style={{ color: "var(--accent-blue)" }}>
+          ← Back to Audits
+        </Link>
+      </div>
+    );
+  }
 
   if (!audit) {
     return (
@@ -501,7 +538,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
         </div>
         {!isRunning && <ScoreGauge score={audit.overall_score} severity={audit.overall_severity} />}
         <div className="flex items-center gap-3">
-          {!isRunning && audit.overall_severity !== "GREEN" && (
+          {!isRunning && audit.overall_severity !== "GREEN" && !(audit_id as string).startsWith("sch-") && (
             <Link
               href={`/dashboard/audits/${audit_id}/remediation`}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"

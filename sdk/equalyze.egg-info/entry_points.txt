@@ -1,0 +1,2 @@
+[console_scripts]
+equalyze-audit-gate = equalyze:run_cicd_gate

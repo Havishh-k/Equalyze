@@ -33,3 +33,10 @@ htmlcov/
 .pytest_cache/
 
 *firebase-adminsdk*.json
+
+# ML Models & Training
+*.joblib
+*.pkl
+*.h5
+trained_models/
+datasets_cache/

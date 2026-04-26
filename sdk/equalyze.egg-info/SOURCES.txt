@@ -1,0 +1,11 @@
+LICENSE
+README.md
+equalyze.py
+pyproject.toml
+setup.py
+equalyze.egg-info/PKG-INFO
+equalyze.egg-info/SOURCES.txt
+equalyze.egg-info/dependency_links.txt
+equalyze.egg-info/entry_points.txt
+equalyze.egg-info/requires.txt
+equalyze.egg-info/top_level.txt

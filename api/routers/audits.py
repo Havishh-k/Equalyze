@@ -79,14 +79,8 @@ async def create_audit(
     # Save running state to DB
     save_audit_to_db(audit, org_id, db)
 
-    # Run the audit pipeline via Cloud Tasks decoupling
-    from api.services.cloud_tasks import cloud_tasks
-    cloud_tasks.enqueue_audit_run(
-        audit_id=audit.id, 
-        org_id=org_id, 
-        dataset_id=request.dataset_id, 
-        schema_map=request.schema_map.model_dump() if hasattr(request.schema_map, "model_dump") else request.schema_map
-    )
+    # Run the audit pipeline in background (inline for local dev)
+    background_tasks.add_task(run_audit_pipeline, audit.id, org_id, df, request.schema_map)
 
     return AuditCreateResponse(
         audit_id=audit.id,
@@ -132,10 +126,16 @@ async def get_audit(
         return _active_audits[audit_id].model_dump(mode="json")
         
     doc = db.collection("organizations").document(org_id).collection("audits").document(audit_id).get()
-    if not doc.exists:
-        raise HTTPException(status_code=404, detail="Audit not found")
-        
-    return doc.to_dict()
+    if doc.exists:
+        return doc.to_dict()
+    
+    # Fallback: scheduled audits are stored under "demo-org"
+    if org_id != "demo-org":
+        doc = db.collection("organizations").document("demo-org").collection("audits").document(audit_id).get()
+        if doc.exists:
+            return doc.to_dict()
+    
+    raise HTTPException(status_code=404, detail="Audit not found")
 
 
 @router.get("/audits/{audit_id}/status", response_model=AuditStatusResponse)
@@ -150,6 +150,8 @@ async def get_audit_status(
         audit_dict = _active_audits[audit_id].model_dump(mode="json")
     else:
         doc = db.collection("organizations").document(org_id).collection("audits").document(audit_id).get()
+        if not doc.exists and org_id != "demo-org":
+            doc = db.collection("organizations").document("demo-org").collection("audits").document(audit_id).get()
         if not doc.exists:
             raise HTTPException(status_code=404, detail="Audit not found")
         audit_dict = doc.to_dict()
@@ -181,6 +183,8 @@ async def get_audit_findings(
         audit_dict = _active_audits[audit_id].model_dump(mode="json")
     else:
         doc = db.collection("organizations").document(org_id).collection("audits").document(audit_id).get()
+        if not doc.exists and org_id != "demo-org":
+            doc = db.collection("organizations").document("demo-org").collection("audits").document(audit_id).get()
         if not doc.exists:
             raise HTTPException(status_code=404, detail="Audit not found")
         audit_dict = doc.to_dict()

@@ -86,17 +86,23 @@ export default function NewAuditPage() {
     try {
       const uploadInit = await uploadDataset(file, domain);
       
-      // Poll for readiness
-      let isReady = false;
-      let finalData = null;
-      while (!isReady) {
-        await new Promise(r => setTimeout(r, 2000));
-        const statusCheck = await import('@/lib/api').then(m => m.getDatasetStatus(uploadInit.dataset_id));
-        if (statusCheck.status === "READY") {
-          isReady = true;
-          finalData = statusCheck;
-        } else if (statusCheck.status === "FAILED") {
-          throw new Error(statusCheck.error || "Dataset processing failed in background");
+      let finalData: any;
+
+      // If the server parsed inline, data is already available
+      if (uploadInit.row_count && uploadInit.column_names) {
+        finalData = uploadInit;
+      } else {
+        // Fallback: poll for readiness (async Cloud Tasks mode)
+        let isReady = false;
+        while (!isReady) {
+          await new Promise(r => setTimeout(r, 2000));
+          const statusCheck = await import('@/lib/api').then(m => m.getDatasetStatus(uploadInit.dataset_id));
+          if (statusCheck.status === "READY") {
+            isReady = true;
+            finalData = statusCheck;
+          } else if (statusCheck.status === "FAILED") {
+            throw new Error(statusCheck.error || "Dataset processing failed in background");
+          }
         }
       }
 
@@ -315,6 +321,32 @@ export default function NewAuditPage() {
                 </span>
               )}
             </button>
+
+            {/* Upload progress indicator */}
+            {uploading && (
+              <div className="space-y-2 mt-2">
+                <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: "var(--bg-elevated)" }}>
+                  <div
+                    className="h-full rounded-full"
+                    style={{
+                      background: "linear-gradient(90deg, #3B82F6, #8B5CF6, #06B6D4)",
+                      animation: "uploadProgress 2s ease-in-out infinite",
+                      width: "60%",
+                    }}
+                  />
+                </div>
+                <p className="text-xs text-center" style={{ color: "var(--text-muted)" }}>
+                  Parsing and profiling your dataset...
+                </p>
+                <style jsx>{`
+                  @keyframes uploadProgress {
+                    0% { width: 10%; margin-left: 0; }
+                    50% { width: 60%; margin-left: 20%; }
+                    100% { width: 10%; margin-left: 90%; }
+                  }
+                `}</style>
+              </div>
+            )}
           </motion.div>
         )}
 

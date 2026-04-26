@@ -34,7 +34,7 @@ async def upload_dataset(
     dataset_id = str(uuid.uuid4())
     org_id = user.get("current_org_id", "demo-org")
     
-    # 1. Save locally for Pandas runtime caching
+    # 1. Save locally
     save_dir = settings.DATASETS_DIR / dataset_id
     save_dir.mkdir(parents=True, exist_ok=True)
     file_path = save_dir / file.filename
@@ -43,7 +43,7 @@ async def upload_dataset(
         content = await file.read()
         f.write(content)
 
-    # Upload to Firebase Storage (graceful fallback if not configured)
+    # Upload to Firebase Storage (graceful fallback)
     gs_url = ""
     try:
         bucket = storage.bucket()
@@ -53,14 +53,35 @@ async def upload_dataset(
     except Exception as e:
         print(f"[Firebase Storage] Upload skipped: {e}")
 
-    # 2. Store minimal metadata in Firestore (graceful fallback)
+    # 2. Parse dataset inline (no Cloud Tasks dependency for local dev)
+    try:
+        df, profile = dataset_parser.parse(str(file_path))
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Failed to parse file: {str(e)}")
+
+    # 3. Cache DataFrame for downstream use (schema suggestions, audits)
+    _datastore_cache[dataset_id] = {
+        "df": df,
+        "metadata": {
+            "id": dataset_id,
+            "filename": file.filename,
+            "file_path": str(file_path),
+            "gs_url": gs_url,
+            "domain": domain,
+            "status": "READY",
+            "profile": profile,
+        }
+    }
+
+    # 4. Store metadata in Firestore (graceful fallback)
     doc_data = {
         "id": dataset_id,
         "filename": file.filename,
         "file_path": str(file_path),
         "gs_url": gs_url,
         "domain": domain,
-        "status": "PROCESSING",
+        "status": "READY",
+        "profile": profile,
     }
     try:
         doc_ref = db.collection("organizations").document(org_id).collection("datasets").document(dataset_id)
@@ -68,20 +89,14 @@ async def upload_dataset(
     except Exception as e:
         print(f"[Firestore] Dataset metadata save skipped: {e}")
 
-    # 3. Enqueue parsing to Cloud Tasks Worker
-    from api.services.cloud_tasks import cloud_tasks
-    cloud_tasks.enqueue_dataset_parse(
-        dataset_id=dataset_id,
-        file_path=str(file_path),
-        org_id=org_id,
-        domain=domain
-    )
-
     return {
-        "status": "accepted",
-        "job_id": f"job-{dataset_id}",
+        "status": "ready",
         "dataset_id": dataset_id,
-        "filename": file.filename
+        "filename": file.filename,
+        "row_count": profile["row_count"],
+        "column_count": profile["column_count"],
+        "column_names": profile["column_names"],
+        "sample_data": profile["sample_data"],
     }
 
 @router.get("/datasets/{dataset_id}/status")

@@ -231,10 +231,12 @@ class Audit(BaseModel):
 class UploadResponse(BaseModel):
     dataset_id: str
     filename: str
-    row_count: int
-    column_count: int
-    column_names: list[str]
-    sample_data: list[dict[str, Any]]
+    status: str = "accepted"
+    job_id: Optional[str] = None
+    row_count: Optional[int] = None
+    column_count: Optional[int] = None
+    column_names: Optional[list[str]] = None
+    sample_data: Optional[list[dict[str, Any]]] = None
 
 
 class SchemaConfirmRequest(BaseModel):

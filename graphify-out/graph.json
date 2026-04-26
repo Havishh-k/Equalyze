@@ -36,30 +36,201 @@
   },
   "nodes": [
     {
+      "label": "train_all_datasets.py",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L1",
+      "id": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "community": 7,
+      "norm_label": "train_all_datasets.py"
+    },
+    {
+      "label": "save_model()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L33",
+      "id": "train_all_datasets_save_model",
+      "community": 7,
+      "norm_label": "save_model()"
+    },
+    {
+      "label": "log_result()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L40",
+      "id": "train_all_datasets_log_result",
+      "community": 7,
+      "norm_label": "log_result()"
+    },
+    {
+      "label": "build_pipeline()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L51",
+      "id": "train_all_datasets_build_pipeline",
+      "community": 7,
+      "norm_label": "build_pipeline()"
+    },
+    {
+      "label": "train_and_evaluate()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L70",
+      "id": "train_all_datasets_train_and_evaluate",
+      "community": 7,
+      "norm_label": "train_and_evaluate()"
+    },
+    {
+      "label": "phase1_maternal_health()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L98",
+      "id": "train_all_datasets_phase1_maternal_health",
+      "community": 7,
+      "norm_label": "phase1_maternal_health()"
+    },
+    {
+      "label": "phase2a_german_credit()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L133",
+      "id": "train_all_datasets_phase2a_german_credit",
+      "community": 7,
+      "norm_label": "phase2a_german_credit()"
+    },
+    {
+      "label": "phase2b_taiwan_credit()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L176",
+      "id": "train_all_datasets_phase2b_taiwan_credit",
+      "community": 7,
+      "norm_label": "phase2b_taiwan_credit()"
+    },
+    {
+      "label": "phase2c_sba_loans()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L212",
+      "id": "train_all_datasets_phase2c_sba_loans",
+      "community": 7,
+      "norm_label": "phase2c_sba_loans()"
+    },
+    {
+      "label": "phase2d_lending_club()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L270",
+      "id": "train_all_datasets_phase2d_lending_club",
+      "community": 7,
+      "norm_label": "phase2d_lending_club()"
+    },
+    {
+      "label": "phase3a_medical_cost()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L323",
+      "id": "train_all_datasets_phase3a_medical_cost",
+      "community": 7,
+      "norm_label": "phase3a_medical_cost()"
+    },
+    {
+      "label": "phase4a_ibm_hr()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L357",
+      "id": "train_all_datasets_phase4a_ibm_hr",
+      "community": 7,
+      "norm_label": "phase4a_ibm_hr()"
+    },
+    {
+      "label": "phase4b_adult_census()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L388",
+      "id": "train_all_datasets_phase4b_adult_census",
+      "community": 7,
+      "norm_label": "phase4b_adult_census()"
+    },
+    {
+      "label": "phase4c_campus_recruitment()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L427",
+      "id": "train_all_datasets_phase4c_campus_recruitment",
+      "community": 7,
+      "norm_label": "phase4c_campus_recruitment()"
+    },
+    {
+      "label": "=============================================================================  M",
+      "file_type": "rationale",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L1",
+      "community": 7,
+      "norm_label": "=============================================================================  m",
+      "id": "train_all_datasets_rationale_1"
+    },
+    {
+      "label": "Build a standard sklearn preprocessing + classifier pipeline.",
+      "file_type": "rationale",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L52",
+      "community": 7,
+      "norm_label": "build a standard sklearn preprocessing + classifier pipeline.",
+      "id": "train_all_datasets_rationale_52"
+    },
+    {
+      "label": "Standard train/test split, fit, evaluate, and save.",
+      "file_type": "rationale",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L71",
+      "community": 7,
+      "norm_label": "standard train/test split, fit, evaluate, and save.",
+      "id": "train_all_datasets_rationale_71"
+    },
+    {
+      "label": "train_incremental.py",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_incremental.py",
+      "source_location": "L1",
+      "id": "c_dev_apps_google_solutions_train_incremental_py",
+      "community": 20,
+      "norm_label": "train_incremental.py"
+    },
+    {
+      "label": "train_loan_model.py",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_loan_model.py",
+      "source_location": "L1",
+      "id": "c_dev_apps_google_solutions_train_loan_model_py",
+      "community": 21,
+      "norm_label": "train_loan_model.py"
+    },
+    {
       "label": "config.py",
       "file_type": "code",
-      "source_file": "api\\config.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\config.py",
       "source_location": "L1",
-      "id": "api_config_py",
-      "community": 13,
+      "id": "c_dev_apps_google_solutions_api_config_py",
+      "community": 14,
       "norm_label": "config.py"
     },
     {
       "label": "Settings",
       "file_type": "code",
-      "source_file": "api\\config.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\config.py",
       "source_location": "L14",
       "id": "config_settings",
-      "community": 13,
+      "community": 14,
       "norm_label": "settings"
     },
     {
       "label": "init_dirs()",
       "file_type": "code",
-      "source_file": "api\\config.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\config.py",
       "source_location": "L37",
       "id": "config_init_dirs",
-      "community": 13,
+      "community": 14,
       "norm_label": "init_dirs()"
     },
     {
@@ -67,7 +238,7 @@
       "file_type": "rationale",
       "source_file": "api\\config.py",
       "source_location": "L1",
-      "community": 13,
+      "community": 14,
       "norm_label": "equalyze \u2014 configuration",
       "id": "config_rationale_1"
     },
@@ -76,7 +247,7 @@
       "file_type": "rationale",
       "source_file": "api\\config.py",
       "source_location": "L15",
-      "community": 13,
+      "community": 14,
       "norm_label": "application settings loaded from environment variables.",
       "id": "config_rationale_15"
     },
@@ -86,7 +257,7 @@
       "source_file": "api\\main.py",
       "source_location": "L1",
       "id": "api_main_py",
-      "community": 9,
+      "community": 11,
       "norm_label": "main.py"
     },
     {
@@ -95,7 +266,7 @@
       "source_file": "api\\main.py",
       "source_location": "L17",
       "id": "main_lifespan",
-      "community": 9,
+      "community": 11,
       "norm_label": "lifespan()"
     },
     {
@@ -104,7 +275,7 @@
       "source_file": "api\\main.py",
       "source_location": "L32",
       "id": "main_validation_exception_handler",
-      "community": 9,
+      "community": 11,
       "norm_label": "validation_exception_handler()"
     },
     {
@@ -113,7 +284,7 @@
       "source_file": "api\\main.py",
       "source_location": "L57",
       "id": "main_health_check",
-      "community": 9,
+      "community": 11,
       "norm_label": "health_check()"
     },
     {
@@ -121,7 +292,7 @@
       "file_type": "rationale",
       "source_file": "api\\main.py",
       "source_location": "L1",
-      "community": 9,
+      "community": 11,
       "norm_label": "equalyze \u2014 fastapi application entry point",
       "id": "main_rationale_1"
     },
@@ -266,7 +437,7 @@
       "source_file": "",
       "source_location": "",
       "id": "baseequalyzeagent",
-      "community": 2,
+      "community": 1,
       "norm_label": "baseequalyzeagent"
     },
     {
@@ -338,7 +509,7 @@
       "source_file": "api\\agents\\ingestion_agent.py",
       "source_location": "L1",
       "id": "api_agents_ingestion_agent_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "ingestion_agent.py"
     },
     {
@@ -347,7 +518,7 @@
       "source_file": "api\\agents\\ingestion_agent.py",
       "source_location": "L67",
       "id": "ingestion_agent_ingestionagent",
-      "community": 3,
+      "community": 1,
       "norm_label": "ingestionagent"
     },
     {
@@ -356,7 +527,7 @@
       "source_file": "api\\agents\\ingestion_agent.py",
       "source_location": "L73",
       "id": "ingestion_agent_ingestionagent_init",
-      "community": 3,
+      "community": 1,
       "norm_label": ".__init__()"
     },
     {
@@ -365,7 +536,7 @@
       "source_file": "api\\agents\\ingestion_agent.py",
       "source_location": "L80",
       "id": "ingestion_agent_ingestionagent_suggest_schema",
-      "community": 3,
+      "community": 1,
       "norm_label": ".suggest_schema()"
     },
     {
@@ -374,7 +545,7 @@
       "source_file": "api\\agents\\ingestion_agent.py",
       "source_location": "L112",
       "id": "ingestion_agent_ingestionagent_parse_schema_result",
-      "community": 3,
+      "community": 1,
       "norm_label": "._parse_schema_result()"
     },
     {
@@ -383,7 +554,7 @@
       "source_file": "api\\agents\\ingestion_agent.py",
       "source_location": "L163",
       "id": "ingestion_agent_ingestionagent_heuristic_schema",
-      "community": 3,
+      "community": 1,
       "norm_label": "._heuristic_schema()"
     },
     {
@@ -391,7 +562,7 @@
       "file_type": "rationale",
       "source_file": "api\\agents\\ingestion_agent.py",
       "source_location": "L1",
-      "community": 3,
+      "community": 1,
       "norm_label": "equalyze \u2014 ingestion agent parses datasets, auto-tags schema, detects proxy vari",
       "id": "ingestion_agent_rationale_1"
     },
@@ -400,7 +571,7 @@
       "file_type": "rationale",
       "source_file": "api\\agents\\ingestion_agent.py",
       "source_location": "L68",
-      "community": 3,
+      "community": 1,
       "norm_label": "ingestion agent \u2014 first stage of the audit pipeline.     parses dataset, auto-ta",
       "id": "ingestion_agent_rationale_68"
     },
@@ -409,7 +580,7 @@
       "file_type": "rationale",
       "source_file": "api\\agents\\ingestion_agent.py",
       "source_location": "L87",
-      "community": 3,
+      "community": 1,
       "norm_label": "use gemini to auto-suggest column classifications.         returns a schemamap w",
       "id": "ingestion_agent_rationale_87"
     },
@@ -418,7 +589,7 @@
       "file_type": "rationale",
       "source_file": "api\\agents\\ingestion_agent.py",
       "source_location": "L113",
-      "community": 3,
+      "community": 1,
       "norm_label": "parse gemini's classification into a schemamap.",
       "id": "ingestion_agent_rationale_113"
     },
@@ -427,7 +598,7 @@
       "file_type": "rationale",
       "source_file": "api\\agents\\ingestion_agent.py",
       "source_location": "L164",
-      "community": 3,
+      "community": 1,
       "norm_label": "fallback heuristic classification when gemini fails.",
       "id": "ingestion_agent_rationale_164"
     },
@@ -437,7 +608,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\orchestrator.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_api_agents_orchestrator_py",
-      "community": 0,
+      "community": 8,
       "norm_label": "orchestrator.py"
     },
     {
@@ -446,7 +617,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\orchestrator.py",
       "source_location": "L20",
       "id": "orchestrator_orchestratoragent",
-      "community": 0,
+      "community": 8,
       "norm_label": "orchestratoragent"
     },
     {
@@ -455,7 +626,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\orchestrator.py",
       "source_location": "L31",
       "id": "orchestrator_orchestratoragent_run_audit",
-      "community": 0,
+      "community": 8,
       "norm_label": ".run_audit()"
     },
     {
@@ -464,7 +635,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\orchestrator.py",
       "source_location": "L127",
       "id": "orchestrator_orchestratoragent_update_agent",
-      "community": 0,
+      "community": 8,
       "norm_label": "._update_agent()"
     },
     {
@@ -473,7 +644,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\orchestrator.py",
       "source_location": "L139",
       "id": "orchestrator_orchestratoragent_log",
-      "community": 0,
+      "community": 8,
       "norm_label": "._log()"
     },
     {
@@ -481,7 +652,7 @@
       "file_type": "rationale",
       "source_file": "api\\agents\\orchestrator.py",
       "source_location": "L1",
-      "community": 0,
+      "community": 4,
       "norm_label": "equalyze \u2014 orchestrator agent master coordinator that runs the full audit pipeli",
       "id": "orchestrator_rationale_1"
     },
@@ -490,7 +661,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\orchestrator.py",
       "source_location": "L21",
-      "community": 0,
+      "community": 4,
       "norm_label": "orchestrator \u2014 coordinates the full bias audit pipeline.          flow:     1",
       "id": "orchestrator_rationale_21"
     },
@@ -499,7 +670,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\orchestrator.py",
       "source_location": "L32",
-      "community": 0,
+      "community": 4,
       "norm_label": "execute the complete audit pipeline.",
       "id": "orchestrator_rationale_32"
     },
@@ -508,7 +679,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\orchestrator.py",
       "source_location": "L128",
-      "community": 0,
+      "community": 4,
       "norm_label": "update an agent's status.",
       "id": "orchestrator_rationale_128"
     },
@@ -518,7 +689,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\proxy_agent.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_api_agents_proxy_agent_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "proxy_agent.py"
     },
     {
@@ -527,7 +698,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\proxy_agent.py",
       "source_location": "L27",
       "id": "proxy_agent_proxyagent",
-      "community": 3,
+      "community": 1,
       "norm_label": "proxyagent"
     },
     {
@@ -536,7 +707,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\proxy_agent.py",
       "source_location": "L32",
       "id": "proxy_agent_proxyagent_init",
-      "community": 3,
+      "community": 1,
       "norm_label": ".__init__()"
     },
     {
@@ -545,7 +716,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\proxy_agent.py",
       "source_location": "L39",
       "id": "proxy_agent_proxyagent_explain_proxies",
-      "community": 3,
+      "community": 1,
       "norm_label": ".explain_proxies()"
     },
     {
@@ -553,7 +724,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\proxy_agent.py",
       "source_location": "L28",
-      "community": 3,
+      "community": 1,
       "norm_label": "agent that provides semantic explanations for mathematically identified proxy va",
       "id": "proxy_agent_rationale_28"
     },
@@ -562,7 +733,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\proxy_agent.py",
       "source_location": "L40",
-      "community": 3,
+      "community": 1,
       "norm_label": "takes a list of proxy warnings and uses gemini to add a semantic explanation.",
       "id": "proxy_agent_rationale_40"
     },
@@ -671,7 +842,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\agents\\twin_engine_agent.py",
       "source_location": "L155",
       "id": "twin_engine_agent_twinengineagent_init",
-      "community": 2,
+      "community": 1,
       "norm_label": ".__init__()"
     },
     {
@@ -806,7 +977,7 @@
       "source_file": "api\\agents\\__init__.py",
       "source_location": "L1",
       "id": "api_agents_init_py",
-      "community": 19,
+      "community": 22,
       "norm_label": "__init__.py"
     },
     {
@@ -815,7 +986,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_api_models_audit_py",
-      "community": 4,
+      "community": 2,
       "norm_label": "audit.py"
     },
     {
@@ -833,7 +1004,7 @@
       "source_file": "",
       "source_location": "",
       "id": "str",
-      "community": 1,
+      "community": 0,
       "norm_label": "str"
     },
     {
@@ -869,7 +1040,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
       "source_location": "L37",
       "id": "audit_agentstatus",
-      "community": 0,
+      "community": 4,
       "norm_label": "agentstatus"
     },
     {
@@ -905,7 +1076,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
       "source_location": "L69",
       "id": "audit_columntag",
-      "community": 3,
+      "community": 1,
       "norm_label": "columntag"
     },
     {
@@ -923,7 +1094,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
       "source_location": "L77",
       "id": "audit_proxywarning",
-      "community": 3,
+      "community": 1,
       "norm_label": "proxywarning"
     },
     {
@@ -932,7 +1103,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
       "source_location": "L85",
       "id": "audit_schemamap",
-      "community": 3,
+      "community": 1,
       "norm_label": "schemamap"
     },
     {
@@ -986,7 +1157,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
       "source_location": "L159",
       "id": "audit_finding",
-      "community": 0,
+      "community": 4,
       "norm_label": "finding"
     },
     {
@@ -995,7 +1166,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
       "source_location": "L174",
       "id": "audit_agentstate",
-      "community": 0,
+      "community": 4,
       "norm_label": "agentstate"
     },
     {
@@ -1031,14 +1202,14 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
       "source_location": "L231",
       "id": "audit_uploadresponse",
-      "community": 4,
+      "community": 6,
       "norm_label": "uploadresponse"
     },
     {
       "label": "SchemaConfirmRequest",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
-      "source_location": "L240",
+      "source_location": "L242",
       "id": "audit_schemaconfirmrequest",
       "community": 4,
       "norm_label": "schemaconfirmrequest"
@@ -1047,7 +1218,7 @@
       "label": "AuditCreateResponse",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
-      "source_location": "L246",
+      "source_location": "L248",
       "id": "audit_auditcreateresponse",
       "community": 4,
       "norm_label": "auditcreateresponse"
@@ -1056,7 +1227,7 @@
       "label": "AuditStatusResponse",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
-      "source_location": "L252",
+      "source_location": "L254",
       "id": "audit_auditstatusresponse",
       "community": 4,
       "norm_label": "auditstatusresponse"
@@ -1066,7 +1237,7 @@
       "file_type": "rationale",
       "source_file": "api\\models\\audit.py",
       "source_location": "L1",
-      "community": 4,
+      "community": 2,
       "norm_label": "equalyze \u2014 pydantic data models all core data structures for audits, findings, t",
       "id": "audit_rationale_1"
     },
@@ -1076,7 +1247,7 @@
       "source_file": "api\\models\\__init__.py",
       "source_location": "L1",
       "id": "api_models_init_py",
-      "community": 20,
+      "community": 23,
       "norm_label": "__init__.py"
     },
     {
@@ -1085,7 +1256,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_api_routers_audits_py",
-      "community": 4,
+      "community": 3,
       "norm_label": "audits.py"
     },
     {
@@ -1094,7 +1265,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
       "source_location": "L26",
       "id": "audits_save_audit_to_db",
-      "community": 4,
+      "community": 3,
       "norm_label": "save_audit_to_db()"
     },
     {
@@ -1103,25 +1274,25 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
       "source_location": "L35",
       "id": "audits_create_audit",
-      "community": 4,
+      "community": 3,
       "norm_label": "create_audit()"
     },
     {
       "label": "run_audit_pipeline()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L98",
+      "source_location": "L92",
       "id": "audits_run_audit_pipeline",
-      "community": 1,
+      "community": 3,
       "norm_label": "run_audit_pipeline()"
     },
     {
       "label": "get_audit()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L125",
+      "source_location": "L119",
       "id": "audits_get_audit",
-      "community": 4,
+      "community": 3,
       "norm_label": "get_audit()"
     },
     {
@@ -1130,32 +1301,32 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
       "source_location": "L142",
       "id": "audits_get_audit_status",
-      "community": 4,
+      "community": 3,
       "norm_label": "get_audit_status()"
     },
     {
       "label": "get_audit_findings()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L173",
+      "source_location": "L175",
       "id": "audits_get_audit_findings",
-      "community": 4,
+      "community": 3,
       "norm_label": "get_audit_findings()"
     },
     {
       "label": "list_audits()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L198",
+      "source_location": "L202",
       "id": "audits_list_audits",
-      "community": 4,
+      "community": 3,
       "norm_label": "list_audits()"
     },
     {
       "label": "RemediateRequest",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L229",
+      "source_location": "L233",
       "id": "audits_remediaterequest",
       "community": 4,
       "norm_label": "remediaterequest"
@@ -1164,34 +1335,34 @@
       "label": "remediate_audit()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L233",
+      "source_location": "L237",
       "id": "audits_remediate_audit",
-      "community": 6,
+      "community": 3,
       "norm_label": "remediate_audit()"
     },
     {
       "label": "download_remediated()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L350",
+      "source_location": "L354",
       "id": "audits_download_remediated",
-      "community": 4,
+      "community": 3,
       "norm_label": "download_remediated()"
     },
     {
       "label": "verify_audit_integrity()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L364",
+      "source_location": "L368",
       "id": "audits_verify_audit_integrity",
-      "community": 4,
+      "community": 3,
       "norm_label": "verify_audit_integrity()"
     },
     {
       "label": "ResolutionRequest",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L394",
+      "source_location": "L398",
       "id": "audits_resolutionrequest",
       "community": 4,
       "norm_label": "resolutionrequest"
@@ -1200,9 +1371,9 @@
       "label": "resolve_audit()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L399",
+      "source_location": "L403",
       "id": "audits_resolve_audit",
-      "community": 4,
+      "community": 12,
       "norm_label": "resolve_audit()"
     },
     {
@@ -1227,37 +1398,37 @@
       "label": "Generate synthetic data to remediate bias found in this audit.     Uses Gemini",
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L239",
+      "source_location": "L243",
       "community": 4,
       "norm_label": "generate synthetic data to remediate bias found in this audit.     uses gemini",
-      "id": "audits_rationale_239"
+      "id": "audits_rationale_243"
     },
     {
       "label": "Serve the remediated CSV file.",
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L351",
+      "source_location": "L355",
       "community": 4,
       "norm_label": "serve the remediated csv file.",
-      "id": "audits_rationale_351"
+      "id": "audits_rationale_355"
     },
     {
       "label": "Verify if the current local hash matches the append-only log hash in BigQuery.",
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L369",
+      "source_location": "L373",
       "community": 4,
       "norm_label": "verify if the current local hash matches the append-only log hash in bigquery.",
-      "id": "audits_rationale_369"
+      "id": "audits_rationale_373"
     },
     {
       "label": "Two-Factor Judgment CQRS Endpoint.     Writes approval to Firestore for instant",
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L405",
+      "source_location": "L409",
       "community": 4,
       "norm_label": "two-factor judgment cqrs endpoint.     writes approval to firestore for instant",
-      "id": "audits_rationale_405"
+      "id": "audits_rationale_409"
     },
     {
       "label": "datasets.py",
@@ -1265,7 +1436,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\datasets.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_api_routers_datasets_py",
-      "community": 1,
+      "community": 6,
       "norm_label": "datasets.py"
     },
     {
@@ -1274,34 +1445,34 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\datasets.py",
       "source_location": "L24",
       "id": "datasets_upload_dataset",
-      "community": 1,
+      "community": 6,
       "norm_label": "upload_dataset()"
     },
     {
       "label": "get_dataset_status()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\datasets.py",
-      "source_location": "L88",
+      "source_location": "L103",
       "id": "datasets_get_dataset_status",
-      "community": 1,
+      "community": 6,
       "norm_label": "get_dataset_status()"
     },
     {
       "label": "get_schema_suggestions()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\datasets.py",
-      "source_location": "L119",
+      "source_location": "L134",
       "id": "datasets_get_schema_suggestions",
-      "community": 3,
+      "community": 1,
       "norm_label": "get_schema_suggestions()"
     },
     {
       "label": "get_dataset_store()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\datasets.py",
-      "source_location": "L178",
+      "source_location": "L193",
       "id": "datasets_get_dataset_store",
-      "community": 1,
+      "community": 3,
       "norm_label": "get_dataset_store()"
     },
     {
@@ -1309,35 +1480,35 @@
       "file_type": "rationale",
       "source_file": "api\\routers\\datasets.py",
       "source_location": "L1",
-      "community": 1,
+      "community": 6,
       "norm_label": "equalyze \u2014 dataset api routes upload, parse, and get schema suggestions for data",
       "id": "datasets_rationale_1"
     },
     {
       "label": "monitoring.py",
       "file_type": "code",
-      "source_file": "api\\routers\\monitoring.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\monitoring.py",
       "source_location": "L1",
-      "id": "api_routers_monitoring_py",
-      "community": 1,
+      "id": "c_dev_apps_google_solutions_api_routers_monitoring_py",
+      "community": 3,
       "norm_label": "monitoring.py"
     },
     {
       "label": "run_scheduled_audit()",
       "file_type": "code",
-      "source_file": "api\\routers\\monitoring.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\monitoring.py",
       "source_location": "L10",
       "id": "monitoring_run_scheduled_audit",
-      "community": 1,
+      "community": 3,
       "norm_label": "run_scheduled_audit()"
     },
     {
       "label": "get_drift_metrics()",
       "file_type": "code",
-      "source_file": "api\\routers\\monitoring.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\monitoring.py",
       "source_location": "L66",
       "id": "monitoring_get_drift_metrics",
-      "community": 1,
+      "community": 3,
       "norm_label": "get_drift_metrics()"
     },
     {
@@ -1345,7 +1516,7 @@
       "file_type": "rationale",
       "source_file": "api\\routers\\monitoring.py",
       "source_location": "L14",
-      "community": 1,
+      "community": 3,
       "norm_label": "webhook target for cloud scheduler.     triggers a background \"drift\" audit on t",
       "id": "monitoring_rationale_14"
     },
@@ -1354,7 +1525,7 @@
       "file_type": "rationale",
       "source_file": "api\\routers\\monitoring.py",
       "source_location": "L67",
-      "community": 1,
+      "community": 3,
       "norm_label": "fetch historical audits to plot drift over time.",
       "id": "monitoring_rationale_67"
     },
@@ -1364,7 +1535,7 @@
       "source_file": "api\\routers\\organizations.py",
       "source_location": "L1",
       "id": "api_routers_organizations_py",
-      "community": 14,
+      "community": 15,
       "norm_label": "organizations.py"
     },
     {
@@ -1373,7 +1544,7 @@
       "source_file": "api\\routers\\organizations.py",
       "source_location": "L8",
       "id": "organizations_organizationcreate",
-      "community": 14,
+      "community": 15,
       "norm_label": "organizationcreate"
     },
     {
@@ -1382,7 +1553,7 @@
       "source_file": "api\\routers\\organizations.py",
       "source_location": "L12",
       "id": "organizations_create_organization",
-      "community": 14,
+      "community": 15,
       "norm_label": "create_organization()"
     },
     {
@@ -1391,7 +1562,7 @@
       "source_file": "api\\routers\\organizations.py",
       "source_location": "L37",
       "id": "organizations_get_my_organizations",
-      "community": 14,
+      "community": 15,
       "norm_label": "get_my_organizations()"
     },
     {
@@ -1400,7 +1571,7 @@
       "source_file": "api\\routers\\__init__.py",
       "source_location": "L1",
       "id": "api_routers_init_py",
-      "community": 21,
+      "community": 24,
       "norm_label": "__init__.py"
     },
     {
@@ -1481,7 +1652,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\cloud_tasks.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_api_services_cloud_tasks_py",
-      "community": 11,
+      "community": 6,
       "norm_label": "cloud_tasks.py"
     },
     {
@@ -1490,7 +1661,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\cloud_tasks.py",
       "source_location": "L9",
       "id": "cloud_tasks_cloudtasksclient",
-      "community": 11,
+      "community": 6,
       "norm_label": "cloudtasksclient"
     },
     {
@@ -1499,7 +1670,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\cloud_tasks.py",
       "source_location": "L10",
       "id": "cloud_tasks_cloudtasksclient_init",
-      "community": 11,
+      "community": 6,
       "norm_label": ".__init__()"
     },
     {
@@ -1508,7 +1679,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\cloud_tasks.py",
       "source_location": "L13",
       "id": "cloud_tasks_cloudtasksclient_enqueue_dataset_parse",
-      "community": 11,
+      "community": 6,
       "norm_label": ".enqueue_dataset_parse()"
     },
     {
@@ -1517,7 +1688,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\cloud_tasks.py",
       "source_location": "L24",
       "id": "cloud_tasks_cloudtasksclient_enqueue_audit_run",
-      "community": 11,
+      "community": 6,
       "norm_label": ".enqueue_audit_run()"
     },
     {
@@ -1526,7 +1697,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\cloud_tasks.py",
       "source_location": "L35",
       "id": "cloud_tasks_cloudtasksclient_push_task",
-      "community": 11,
+      "community": 6,
       "norm_label": "._push_task()"
     },
     {
@@ -1534,7 +1705,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\cloud_tasks.py",
       "source_location": "L14",
-      "community": 11,
+      "community": 6,
       "norm_label": "enqueue task to parse dataset and generate schema.",
       "id": "cloud_tasks_rationale_14"
     },
@@ -1543,7 +1714,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\cloud_tasks.py",
       "source_location": "L25",
-      "community": 11,
+      "community": 6,
       "norm_label": "enqueue task to run the heavy ml audit pipeline.",
       "id": "cloud_tasks_rationale_25"
     },
@@ -1553,7 +1724,7 @@
       "source_file": "api\\services\\dataset_parser.py",
       "source_location": "L1",
       "id": "api_services_dataset_parser_py",
-      "community": 1,
+      "community": 6,
       "norm_label": "dataset_parser.py"
     },
     {
@@ -1562,7 +1733,7 @@
       "source_file": "api\\services\\dataset_parser.py",
       "source_location": "L13",
       "id": "dataset_parser_datasetparser",
-      "community": 1,
+      "community": 6,
       "norm_label": "datasetparser"
     },
     {
@@ -1571,7 +1742,7 @@
       "source_file": "api\\services\\dataset_parser.py",
       "source_location": "L18",
       "id": "dataset_parser_datasetparser_parse",
-      "community": 1,
+      "community": 6,
       "norm_label": ".parse()"
     },
     {
@@ -1580,7 +1751,7 @@
       "source_file": "api\\services\\dataset_parser.py",
       "source_location": "L37",
       "id": "dataset_parser_datasetparser_profile_dataset",
-      "community": 1,
+      "community": 6,
       "norm_label": "._profile_dataset()"
     },
     {
@@ -1588,7 +1759,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\dataset_parser.py",
       "source_location": "L1",
-      "community": 1,
+      "community": 6,
       "norm_label": "equalyze \u2014 dataset parser service parses csv/xlsx/json files into profiled dataf",
       "id": "dataset_parser_rationale_1"
     },
@@ -1597,7 +1768,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\dataset_parser.py",
       "source_location": "L14",
-      "community": 1,
+      "community": 6,
       "norm_label": "parse and profile uploaded datasets.",
       "id": "dataset_parser_rationale_14"
     },
@@ -1606,7 +1777,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\dataset_parser.py",
       "source_location": "L19",
-      "community": 1,
+      "community": 6,
       "norm_label": "parse a dataset file and return (dataframe, profile).",
       "id": "dataset_parser_rationale_19"
     },
@@ -1615,7 +1786,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\dataset_parser.py",
       "source_location": "L38",
-      "community": 1,
+      "community": 6,
       "norm_label": "generate a statistical profile of the dataset.",
       "id": "dataset_parser_rationale_38"
     },
@@ -1625,7 +1796,7 @@
       "source_file": "api\\services\\db.py",
       "source_location": "L1",
       "id": "api_services_db_py",
-      "community": 1,
+      "community": 3,
       "norm_label": "db.py"
     },
     {
@@ -1634,7 +1805,7 @@
       "source_file": "api\\services\\db.py",
       "source_location": "L11",
       "id": "db_initialize_firebase",
-      "community": 1,
+      "community": 3,
       "norm_label": "initialize_firebase()"
     },
     {
@@ -1643,7 +1814,7 @@
       "source_file": "api\\services\\db.py",
       "source_location": "L24",
       "id": "db_get_db",
-      "community": 1,
+      "community": 3,
       "norm_label": "get_db()"
     },
     {
@@ -1652,7 +1823,7 @@
       "source_file": "api\\services\\db.py",
       "source_location": "L29",
       "id": "db_get_current_user",
-      "community": 1,
+      "community": 3,
       "norm_label": "get_current_user()"
     },
     {
@@ -1661,7 +1832,7 @@
       "source_file": "api\\services\\db.py",
       "source_location": "L40",
       "id": "db_get_optional_user",
-      "community": 1,
+      "community": 3,
       "norm_label": "get_optional_user()"
     },
     {
@@ -1670,7 +1841,7 @@
       "source_file": "api\\services\\demo_datasets.py",
       "source_location": "L1",
       "id": "api_services_demo_datasets_py",
-      "community": 1,
+      "community": 13,
       "norm_label": "demo_datasets.py"
     },
     {
@@ -1679,7 +1850,7 @@
       "source_file": "api\\services\\demo_datasets.py",
       "source_location": "L11",
       "id": "demo_datasets_generate_healthcare_insurance_dataset",
-      "community": 1,
+      "community": 13,
       "norm_label": "generate_healthcare_insurance_dataset()"
     },
     {
@@ -1688,7 +1859,7 @@
       "source_file": "api\\services\\demo_datasets.py",
       "source_location": "L108",
       "id": "demo_datasets_generate_msme_lending_dataset",
-      "community": 1,
+      "community": 13,
       "norm_label": "generate_msme_lending_dataset()"
     },
     {
@@ -1697,7 +1868,7 @@
       "source_file": "api\\services\\demo_datasets.py",
       "source_location": "L191",
       "id": "demo_datasets_generate_clean_healthcare_dataset",
-      "community": 1,
+      "community": 13,
       "norm_label": "generate_clean_healthcare_dataset()"
     },
     {
@@ -1705,7 +1876,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\demo_datasets.py",
       "source_location": "L1",
-      "community": 1,
+      "community": 13,
       "norm_label": "equalyze \u2014 demo dataset generator generates the two core demo datasets with know",
       "id": "demo_datasets_rationale_1"
     },
@@ -1714,7 +1885,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\demo_datasets.py",
       "source_location": "L12",
-      "community": 1,
+      "community": 13,
       "norm_label": "healthcare/insurance dataset with zip code proxy bias.          known bias: rura",
       "id": "demo_datasets_rationale_12"
     },
@@ -1723,7 +1894,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\demo_datasets.py",
       "source_location": "L109",
-      "community": 1,
+      "community": 13,
       "norm_label": "msme lending dataset with gender + geography bias.          known bias: female b",
       "id": "demo_datasets_rationale_109"
     },
@@ -1732,7 +1903,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\demo_datasets.py",
       "source_location": "L192",
-      "community": 1,
+      "community": 13,
       "norm_label": "clean/unbiased healthcare dataset \u2014 should produce green results.     used to va",
       "id": "demo_datasets_rationale_192"
     },
@@ -1769,7 +1940,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L27",
       "id": "fairness_metrics_fairnessevaluator_run_full_audit",
-      "community": 6,
+      "community": 0,
       "norm_label": ".run_full_audit()"
     },
     {
@@ -1778,7 +1949,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L43",
       "id": "fairness_metrics_fairnessevaluator_demographic_parity",
-      "community": 6,
+      "community": 0,
       "norm_label": "._demographic_parity()"
     },
     {
@@ -1787,7 +1958,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L68",
       "id": "fairness_metrics_fairnessevaluator_disparate_impact",
-      "community": 6,
+      "community": 0,
       "norm_label": "._disparate_impact()"
     },
     {
@@ -1796,7 +1967,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L104",
       "id": "fairness_metrics_fairnessevaluator_get_y_true_proxy",
-      "community": 6,
+      "community": 0,
       "norm_label": "._get_y_true_proxy()"
     },
     {
@@ -1805,7 +1976,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L144",
       "id": "fairness_metrics_fairnessevaluator_equalized_odds",
-      "community": 6,
+      "community": 0,
       "norm_label": "._equalized_odds()"
     },
     {
@@ -1814,7 +1985,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L185",
       "id": "fairness_metrics_fairnessevaluator_fpr_parity",
-      "community": 6,
+      "community": 0,
       "norm_label": "._fpr_parity()"
     },
     {
@@ -1823,7 +1994,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L225",
       "id": "fairness_metrics_fairnessevaluator_individual_fairness",
-      "community": 6,
+      "community": 0,
       "norm_label": "._individual_fairness()"
     },
     {
@@ -1832,7 +2003,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L291",
       "id": "fairness_metrics_fairnessevaluator_intersectional_analysis",
-      "community": 6,
+      "community": 0,
       "norm_label": "._intersectional_analysis()"
     },
     {
@@ -1841,7 +2012,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L339",
       "id": "fairness_metrics_fairnessevaluator_classify_severity",
-      "community": 6,
+      "community": 0,
       "norm_label": "._classify_severity()"
     },
     {
@@ -1850,7 +2021,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L346",
       "id": "fairness_metrics_fairnessevaluator_no_data_result",
-      "community": 6,
+      "community": 0,
       "norm_label": "._no_data_result()"
     },
     {
@@ -1859,7 +2030,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L355",
       "id": "fairness_metrics_fairnessevaluator_error_result",
-      "community": 6,
+      "community": 0,
       "norm_label": "._error_result()"
     },
     {
@@ -1885,7 +2056,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\fairness_metrics.py",
       "source_location": "L28",
-      "community": 6,
+      "community": 0,
       "norm_label": "run all fairness metrics for every protected attribute.",
       "id": "fairness_metrics_rationale_28"
     },
@@ -1894,7 +2065,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\fairness_metrics.py",
       "source_location": "L44",
-      "community": 6,
+      "community": 0,
       "norm_label": "demographic parity difference: |p(y=1|a=0) - p(y=1|a=1)|         measures if pos",
       "id": "fairness_metrics_rationale_44"
     },
@@ -1903,7 +2074,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\fairness_metrics.py",
       "source_location": "L69",
-      "community": 6,
+      "community": 0,
       "norm_label": "disparate impact ratio: p(y=1|minority) / p(y=1|majority)         the legal 4/5t",
       "id": "fairness_metrics_rationale_69"
     },
@@ -1912,7 +2083,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\fairness_metrics.py",
       "source_location": "L105",
-      "community": 6,
+      "community": 0,
       "norm_label": "equalized odds: |tpr(a=0) - tpr(a=1)|         measures if true positive rates ar",
       "id": "fairness_metrics_rationale_105"
     },
@@ -1921,7 +2092,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L145",
-      "community": 6,
+      "community": 0,
       "norm_label": "equalized odds: |tpr(a=0) - tpr(a=1)|         measures if true positive rates a",
       "id": "fairness_metrics_rationale_145"
     },
@@ -1930,7 +2101,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L186",
-      "community": 6,
+      "community": 0,
       "norm_label": "false positive rate parity: |fpr(a=0) - fpr(a=1)|         uses a ridge regressi",
       "id": "fairness_metrics_rationale_186"
     },
@@ -1939,7 +2110,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L226",
-      "community": 6,
+      "community": 0,
       "norm_label": "individual fairness: are similar individuals treated similarly?         uses pu",
       "id": "fairness_metrics_rationale_226"
     },
@@ -1948,7 +2119,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\fairness_metrics.py",
       "source_location": "L292",
-      "community": 6,
+      "community": 0,
       "norm_label": "intersectional analysis: bias at the intersection of two attributes.         e.",
       "id": "fairness_metrics_rationale_292"
     },
@@ -1958,7 +2129,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\legal_vector_store.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_api_services_legal_vector_store_py",
-      "community": 8,
+      "community": 10,
       "norm_label": "legal_vector_store.py"
     },
     {
@@ -1967,7 +2138,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\legal_vector_store.py",
       "source_location": "L13",
       "id": "legal_vector_store_legalvectorstore",
-      "community": 8,
+      "community": 10,
       "norm_label": "legalvectorstore"
     },
     {
@@ -1976,7 +2147,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\legal_vector_store.py",
       "source_location": "L14",
       "id": "legal_vector_store_legalvectorstore_init",
-      "community": 8,
+      "community": 10,
       "norm_label": ".__init__()"
     },
     {
@@ -1985,7 +2156,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\legal_vector_store.py",
       "source_location": "L23",
       "id": "legal_vector_store_legalvectorstore_initialize",
-      "community": 8,
+      "community": 10,
       "norm_label": ".initialize()"
     },
     {
@@ -1994,7 +2165,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\legal_vector_store.py",
       "source_location": "L38",
       "id": "legal_vector_store_legalvectorstore_get_query_embedding",
-      "community": 8,
+      "community": 10,
       "norm_label": "._get_query_embedding()"
     },
     {
@@ -2003,7 +2174,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\legal_vector_store.py",
       "source_location": "L43",
       "id": "legal_vector_store_legalvectorstore_search",
-      "community": 8,
+      "community": 10,
       "norm_label": ".search()"
     },
     {
@@ -2011,7 +2182,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\legal_vector_store.py",
       "source_location": "L1",
-      "community": 8,
+      "community": 10,
       "norm_label": "equalyze \u2014 legal vector store vertex ai vector search-based retrieval-augmented",
       "id": "legal_vector_store_rationale_1"
     },
@@ -2020,7 +2191,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\legal_vector_store.py",
       "source_location": "L24",
-      "community": 8,
+      "community": 10,
       "norm_label": "initialize vertex ai vector search endpoint.",
       "id": "legal_vector_store_rationale_24"
     },
@@ -2029,7 +2200,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\legal_vector_store.py",
       "source_location": "L44",
-      "community": 8,
+      "community": 10,
       "norm_label": "search the index for relevant legal clauses, optionally filtering/boosting by do",
       "id": "legal_vector_store_rationale_44"
     },
@@ -2039,7 +2210,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\privacy_metrics.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_api_services_privacy_metrics_py",
-      "community": 6,
+      "community": 3,
       "norm_label": "privacy_metrics.py"
     },
     {
@@ -2048,7 +2219,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\privacy_metrics.py",
       "source_location": "L4",
       "id": "privacy_metrics_privacymetrics",
-      "community": 6,
+      "community": 3,
       "norm_label": "privacymetrics"
     },
     {
@@ -2057,7 +2228,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\privacy_metrics.py",
       "source_location": "L12",
       "id": "privacy_metrics_calculate_epsilon",
-      "community": 6,
+      "community": 3,
       "norm_label": "calculate_epsilon()"
     },
     {
@@ -2065,7 +2236,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\privacy_metrics.py",
       "source_location": "L5",
-      "community": 6,
+      "community": 3,
       "norm_label": "differential privacy evaluation module.     integrates google's dp-accounting li",
       "id": "privacy_metrics_rationale_5"
     },
@@ -2074,7 +2245,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\privacy_metrics.py",
       "source_location": "L13",
-      "community": 22,
+      "community": 25,
       "norm_label": "calculates the privacy budget parameter (\u03b5) for the synthetic generation.",
       "id": "privacy_metrics_rationale_13"
     },
@@ -2084,7 +2255,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\proxy_detector.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_api_services_proxy_detector_py",
-      "community": 3,
+      "community": 1,
       "norm_label": "proxy_detector.py"
     },
     {
@@ -2093,7 +2264,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\proxy_detector.py",
       "source_location": "L14",
       "id": "proxy_detector_proxydetector",
-      "community": 3,
+      "community": 1,
       "norm_label": "proxydetector"
     },
     {
@@ -2102,7 +2273,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\proxy_detector.py",
       "source_location": "L22",
       "id": "proxy_detector_proxydetector_detect_proxies",
-      "community": 3,
+      "community": 1,
       "norm_label": ".detect_proxies()"
     },
     {
@@ -2111,7 +2282,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\proxy_detector.py",
       "source_location": "L72",
       "id": "proxy_detector_proxydetector_compute_correlation",
-      "community": 3,
+      "community": 1,
       "norm_label": "._compute_correlation()"
     },
     {
@@ -2120,7 +2291,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\proxy_detector.py",
       "source_location": "L92",
       "id": "proxy_detector_proxydetector_cramers_v",
-      "community": 3,
+      "community": 1,
       "norm_label": "._cramers_v()"
     },
     {
@@ -2128,7 +2299,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\proxy_detector.py",
       "source_location": "L1",
-      "community": 3,
+      "community": 1,
       "norm_label": "equalyze \u2014 proxy variable detector detects when \"valid\" decision factors are sta",
       "id": "proxy_detector_rationale_1"
     },
@@ -2137,7 +2308,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\proxy_detector.py",
       "source_location": "L15",
-      "community": 3,
+      "community": 1,
       "norm_label": "detect proxy variables that correlate with protected attributes.",
       "id": "proxy_detector_rationale_15"
     },
@@ -2146,7 +2317,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\proxy_detector.py",
       "source_location": "L28",
-      "community": 3,
+      "community": 1,
       "norm_label": "detect proxy variables by computing correlations between         valid factors a",
       "id": "proxy_detector_rationale_28"
     },
@@ -2155,7 +2326,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\proxy_detector.py",
       "source_location": "L75",
-      "community": 3,
+      "community": 1,
       "norm_label": "compute correlation between two columns.         handles numeric-numeric (pearso",
       "id": "proxy_detector_rationale_75"
     },
@@ -2164,7 +2335,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\proxy_detector.py",
       "source_location": "L93",
-      "community": 3,
+      "community": 1,
       "norm_label": "compute cramer's v using pure numpy chi-squared (no scipy needed).",
       "id": "proxy_detector_rationale_93"
     },
@@ -2174,7 +2345,7 @@
       "source_file": "api\\services\\scheduler.py",
       "source_location": "L1",
       "id": "api_services_scheduler_py",
-      "community": 9,
+      "community": 11,
       "norm_label": "scheduler.py"
     },
     {
@@ -2183,7 +2354,7 @@
       "source_file": "api\\services\\scheduler.py",
       "source_location": "L5",
       "id": "scheduler_trigger_cloud_scheduler_mock",
-      "community": 9,
+      "community": 11,
       "norm_label": "trigger_cloud_scheduler_mock()"
     },
     {
@@ -2192,7 +2363,7 @@
       "source_file": "api\\services\\scheduler.py",
       "source_location": "L21",
       "id": "scheduler_start_scheduler",
-      "community": 9,
+      "community": 11,
       "norm_label": "start_scheduler()"
     },
     {
@@ -2200,7 +2371,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\scheduler.py",
       "source_location": "L6",
-      "community": 9,
+      "community": 11,
       "norm_label": "mocks google cloud scheduler triggering the webhook.",
       "id": "scheduler_rationale_6"
     },
@@ -2210,7 +2381,7 @@
       "source_file": "api\\services\\__init__.py",
       "source_location": "L1",
       "id": "api_services_init_py",
-      "community": 23,
+      "community": 26,
       "norm_label": "__init__.py"
     },
     {
@@ -2219,7 +2390,7 @@
       "source_file": "api\\utils\\crypto.py",
       "source_location": "L1",
       "id": "api_utils_crypto_py",
-      "community": 10,
+      "community": 8,
       "norm_label": "crypto.py"
     },
     {
@@ -2228,7 +2399,7 @@
       "source_file": "api\\utils\\crypto.py",
       "source_location": "L9",
       "id": "crypto_hash_file",
-      "community": 10,
+      "community": 8,
       "norm_label": "hash_file()"
     },
     {
@@ -2237,7 +2408,7 @@
       "source_file": "api\\utils\\crypto.py",
       "source_location": "L18",
       "id": "crypto_hash_dict",
-      "community": 10,
+      "community": 8,
       "norm_label": "hash_dict()"
     },
     {
@@ -2246,7 +2417,7 @@
       "source_file": "api\\utils\\crypto.py",
       "source_location": "L24",
       "id": "crypto_hash_string",
-      "community": 10,
+      "community": 8,
       "norm_label": "hash_string()"
     },
     {
@@ -2254,7 +2425,7 @@
       "file_type": "rationale",
       "source_file": "api\\utils\\crypto.py",
       "source_location": "L1",
-      "community": 10,
+      "community": 8,
       "norm_label": "equalyze \u2014 sha-256 hashing utilities",
       "id": "crypto_rationale_1"
     },
@@ -2263,7 +2434,7 @@
       "file_type": "rationale",
       "source_file": "api\\utils\\crypto.py",
       "source_location": "L10",
-      "community": 10,
+      "community": 8,
       "norm_label": "compute sha-256 hash of a file.",
       "id": "crypto_rationale_10"
     },
@@ -2272,7 +2443,7 @@
       "file_type": "rationale",
       "source_file": "api\\utils\\crypto.py",
       "source_location": "L19",
-      "community": 10,
+      "community": 8,
       "norm_label": "compute sha-256 hash of a json-serializable dictionary.",
       "id": "crypto_rationale_19"
     },
@@ -2281,7 +2452,7 @@
       "file_type": "rationale",
       "source_file": "api\\utils\\crypto.py",
       "source_location": "L25",
-      "community": 10,
+      "community": 8,
       "norm_label": "compute sha-256 hash of a string.",
       "id": "crypto_rationale_25"
     },
@@ -2291,7 +2462,7 @@
       "source_file": "api\\utils\\__init__.py",
       "source_location": "L1",
       "id": "api_utils_init_py",
-      "community": 24,
+      "community": 27,
       "norm_label": "__init__.py"
     },
     {
@@ -2300,7 +2471,7 @@
       "source_file": "frontend\\eslint.config.mjs",
       "source_location": "L1",
       "id": "frontend_eslint_config_mjs",
-      "community": 25,
+      "community": 28,
       "norm_label": "eslint.config.mjs"
     },
     {
@@ -2309,7 +2480,7 @@
       "source_file": "frontend\\next-env.d.ts",
       "source_location": "L1",
       "id": "frontend_next_env_d_ts",
-      "community": 26,
+      "community": 29,
       "norm_label": "next-env.d.ts"
     },
     {
@@ -2318,7 +2489,7 @@
       "source_file": "frontend\\next.config.ts",
       "source_location": "L1",
       "id": "frontend_next_config_ts",
-      "community": 27,
+      "community": 30,
       "norm_label": "next.config.ts"
     },
     {
@@ -2327,7 +2498,7 @@
       "source_file": "frontend\\postcss.config.mjs",
       "source_location": "L1",
       "id": "frontend_postcss_config_mjs",
-      "community": 28,
+      "community": 31,
       "norm_label": "postcss.config.mjs"
     },
     {
@@ -2336,7 +2507,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\layout.tsx",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_frontend_app_layout_tsx",
-      "community": 18,
+      "community": 19,
       "norm_label": "layout.tsx"
     },
     {
@@ -2345,7 +2516,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\layout.tsx",
       "source_location": "L18",
       "id": "layout_rootlayout",
-      "community": 18,
+      "community": 19,
       "norm_label": "rootlayout()"
     },
     {
@@ -2354,7 +2525,7 @@
       "source_file": "frontend\\app\\page.tsx",
       "source_location": "L1",
       "id": "frontend_app_page_tsx",
-      "community": 29,
+      "community": 32,
       "norm_label": "page.tsx"
     },
     {
@@ -2363,7 +2534,7 @@
       "source_file": "frontend\\app\\dashboard\\layout.tsx",
       "source_location": "L1",
       "id": "frontend_app_dashboard_layout_tsx",
-      "community": 30,
+      "community": 33,
       "norm_label": "layout.tsx"
     },
     {
@@ -2372,7 +2543,7 @@
       "source_file": "frontend\\app\\dashboard\\page.tsx",
       "source_location": "L1",
       "id": "frontend_app_dashboard_page_tsx",
-      "community": 31,
+      "community": 34,
       "norm_label": "page.tsx"
     },
     {
@@ -2381,7 +2552,7 @@
       "source_file": "frontend\\app\\dashboard\\audits\\page.tsx",
       "source_location": "L1",
       "id": "frontend_app_dashboard_audits_page_tsx",
-      "community": 32,
+      "community": 35,
       "norm_label": "page.tsx"
     },
     {
@@ -2415,7 +2586,7 @@
       "label": "toggleColumnTag()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\new\\page.tsx",
-      "source_location": "L129",
+      "source_location": "L135",
       "id": "page_togglecolumntag",
       "community": 5,
       "norm_label": "togglecolumntag()"
@@ -2424,7 +2595,7 @@
       "label": "getColumnCategory()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\new\\page.tsx",
-      "source_location": "L146",
+      "source_location": "L152",
       "id": "page_getcolumncategory",
       "community": 5,
       "norm_label": "getcolumncategory()"
@@ -2433,7 +2604,7 @@
       "label": "handleLaunch()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\new\\page.tsx",
-      "source_location": "L156",
+      "source_location": "L162",
       "id": "page_handlelaunch",
       "community": 5,
       "norm_label": "handlelaunch()"
@@ -2451,7 +2622,7 @@
       "label": "ScoreGauge()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\[audit_id]\\page.tsx",
-      "source_location": "L50",
+      "source_location": "L51",
       "id": "page_scoregauge",
       "community": 5,
       "norm_label": "scoregauge()"
@@ -2460,7 +2631,7 @@
       "label": "handleExport()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\[audit_id]\\page.tsx",
-      "source_location": "L397",
+      "source_location": "L399",
       "id": "page_handleexport",
       "community": 5,
       "norm_label": "handleexport()"
@@ -2469,7 +2640,7 @@
       "label": "handleVerifyIntegrity()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\[audit_id]\\page.tsx",
-      "source_location": "L418",
+      "source_location": "L420",
       "id": "page_handleverifyintegrity",
       "community": 5,
       "norm_label": "handleverifyintegrity()"
@@ -2478,7 +2649,7 @@
       "label": "handleResolve()",
       "file_type": "code",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\[audit_id]\\page.tsx",
-      "source_location": "L431",
+      "source_location": "L433",
       "id": "page_handleresolve",
       "community": 5,
       "norm_label": "handleresolve()"
@@ -2525,7 +2696,7 @@
       "source_file": "frontend\\app\\dashboard\\monitoring\\page.tsx",
       "source_location": "L1",
       "id": "frontend_app_dashboard_monitoring_page_tsx",
-      "community": 15,
+      "community": 16,
       "norm_label": "page.tsx"
     },
     {
@@ -2534,7 +2705,7 @@
       "source_file": "frontend\\app\\dashboard\\monitoring\\page.tsx",
       "source_location": "L31",
       "id": "page_fetchdrift",
-      "community": 15,
+      "community": 16,
       "norm_label": "fetchdrift()"
     },
     {
@@ -2543,7 +2714,7 @@
       "source_file": "frontend\\app\\dashboard\\monitoring\\page.tsx",
       "source_location": "L53",
       "id": "page_triggeraudit",
-      "community": 15,
+      "community": 16,
       "norm_label": "triggeraudit()"
     },
     {
@@ -2552,7 +2723,7 @@
       "source_file": "frontend\\app\\dashboard\\monitoring\\page.tsx",
       "source_location": "L76",
       "id": "page_getseveritycolor",
-      "community": 15,
+      "community": 16,
       "norm_label": "getseveritycolor()"
     },
     {
@@ -2561,7 +2732,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\login\\page.tsx",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_frontend_app_login_page_tsx",
-      "community": 16,
+      "community": 17,
       "norm_label": "page.tsx"
     },
     {
@@ -2570,7 +2741,7 @@
       "source_file": "frontend\\app\\register\\page.tsx",
       "source_location": "L19",
       "id": "page_handlesubmit",
-      "community": 16,
+      "community": 17,
       "norm_label": "handlesubmit()"
     },
     {
@@ -2579,7 +2750,7 @@
       "source_file": "frontend\\app\\register\\page.tsx",
       "source_location": "L47",
       "id": "page_handlegoogle",
-      "community": 16,
+      "community": 17,
       "norm_label": "handlegoogle()"
     },
     {
@@ -2588,7 +2759,7 @@
       "source_file": "frontend\\app\\register\\page.tsx",
       "source_location": "L1",
       "id": "frontend_app_register_page_tsx",
-      "community": 16,
+      "community": 17,
       "norm_label": "page.tsx"
     },
     {
@@ -2705,7 +2876,7 @@
       "source_file": "frontend\\lib\\auth-context.tsx",
       "source_location": "L1",
       "id": "frontend_lib_auth_context_tsx",
-      "community": 7,
+      "community": 9,
       "norm_label": "auth-context.tsx"
     },
     {
@@ -2714,7 +2885,7 @@
       "source_file": "frontend\\lib\\auth-context.tsx",
       "source_location": "L35",
       "id": "auth_context_authprovider",
-      "community": 7,
+      "community": 9,
       "norm_label": "authprovider()"
     },
     {
@@ -2723,7 +2894,7 @@
       "source_file": "frontend\\lib\\auth-context.tsx",
       "source_location": "L78",
       "id": "auth_context_useauth",
-      "community": 7,
+      "community": 9,
       "norm_label": "useauth()"
     },
     {
@@ -2732,7 +2903,7 @@
       "source_file": "frontend\\lib\\firebase.ts",
       "source_location": "L1",
       "id": "frontend_lib_firebase_ts",
-      "community": 33,
+      "community": 36,
       "norm_label": "firebase.ts"
     },
     {
@@ -2741,7 +2912,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\functions\\dlp_scan\\main.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_functions_dlp_scan_main_py",
-      "community": 17,
+      "community": 18,
       "norm_label": "main.py"
     },
     {
@@ -2750,7 +2921,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\functions\\dlp_scan\\main.py",
       "source_location": "L14",
       "id": "main_analyze_and_mask_csv",
-      "community": 17,
+      "community": 18,
       "norm_label": "analyze_and_mask_csv()"
     },
     {
@@ -2758,9 +2929,18 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\functions\\dlp_scan\\main.py",
       "source_location": "L15",
-      "community": 17,
+      "community": 18,
       "norm_label": "triggered by a change to a cloud storage bucket.     reads a csv, samples first",
       "id": "main_rationale_15"
+    },
+    {
+      "label": "test_audit.py",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\scratch\\test_audit.py",
+      "source_location": "L1",
+      "id": "c_dev_apps_google_solutions_scratch_test_audit_py",
+      "community": 37,
+      "norm_label": "test_audit.py"
     },
     {
       "label": "test_intersectional.py",
@@ -2768,7 +2948,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\scratch\\test_intersectional.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_scratch_test_intersectional_py",
-      "community": 6,
+      "community": 0,
       "norm_label": "test_intersectional.py"
     },
     {
@@ -2777,8 +2957,26 @@
       "source_file": "C:\\DEV apps\\Google solutions\\scratch\\test_intersectional.py",
       "source_location": "L11",
       "id": "test_intersectional_main",
-      "community": 6,
+      "community": 0,
       "norm_label": "main()"
+    },
+    {
+      "label": "test_pipeline_direct.py",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\scratch\\test_pipeline_direct.py",
+      "source_location": "L1",
+      "id": "c_dev_apps_google_solutions_scratch_test_pipeline_direct_py",
+      "community": 3,
+      "norm_label": "test_pipeline_direct.py"
+    },
+    {
+      "label": "test_pipeline()",
+      "file_type": "code",
+      "source_file": "C:\\DEV apps\\Google solutions\\scratch\\test_pipeline_direct.py",
+      "source_location": "L8",
+      "id": "test_pipeline_direct_test_pipeline",
+      "community": 3,
+      "norm_label": "test_pipeline()"
     },
     {
       "label": "equalyze.py",
@@ -2786,7 +2984,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\sdk\\equalyze.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_sdk_equalyze_py",
-      "community": 1,
+      "community": 3,
       "norm_label": "equalyze.py"
     },
     {
@@ -2795,7 +2993,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\sdk\\equalyze.py",
       "source_location": "L6",
       "id": "equalyze_equalyzesdk",
-      "community": 1,
+      "community": 3,
       "norm_label": "equalyzesdk"
     },
     {
@@ -2804,7 +3002,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\sdk\\equalyze.py",
       "source_location": "L7",
       "id": "equalyze_equalyzesdk_init",
-      "community": 1,
+      "community": 3,
       "norm_label": ".__init__()"
     },
     {
@@ -2813,7 +3011,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\sdk\\equalyze.py",
       "source_location": "L15",
       "id": "equalyze_equalyzesdk_upload_dataset",
-      "community": 1,
+      "community": 3,
       "norm_label": ".upload_dataset()"
     },
     {
@@ -2822,7 +3020,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\sdk\\equalyze.py",
       "source_location": "L33",
       "id": "equalyze_equalyzesdk_run_audit",
-      "community": 1,
+      "community": 3,
       "norm_label": ".run_audit()"
     },
     {
@@ -2831,7 +3029,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\sdk\\equalyze.py",
       "source_location": "L53",
       "id": "equalyze_equalyzesdk_wait_for_audit",
-      "community": 1,
+      "community": 3,
       "norm_label": "._wait_for_audit()"
     },
     {
@@ -2840,7 +3038,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\sdk\\equalyze.py",
       "source_location": "L104",
       "id": "equalyze_run_cicd_gate",
-      "community": 1,
+      "community": 3,
       "norm_label": "run_cicd_gate()"
     },
     {
@@ -2848,7 +3046,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\sdk\\equalyze.py",
       "source_location": "L16",
-      "community": 1,
+      "community": 3,
       "norm_label": "uploads a dataset and returns the dataset_id.",
       "id": "equalyze_rationale_16"
     },
@@ -2857,7 +3055,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\sdk\\equalyze.py",
       "source_location": "L34",
-      "community": 1,
+      "community": 3,
       "norm_label": "runs a fairness audit on a dataset.",
       "id": "equalyze_rationale_34"
     },
@@ -2867,7 +3065,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\sdk\\setup.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_sdk_setup_py",
-      "community": 34,
+      "community": 38,
       "norm_label": "setup.py"
     },
     {
@@ -2876,7 +3074,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\worker\\main.py",
       "source_location": "L1",
       "id": "c_dev_apps_google_solutions_worker_main_py",
-      "community": 1,
+      "community": 3,
       "norm_label": "main.py"
     },
     {
@@ -2894,7 +3092,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\worker\\main.py",
       "source_location": "L22",
       "id": "main_process_task",
-      "community": 1,
+      "community": 3,
       "norm_label": "process_task()"
     },
     {
@@ -2903,7 +3101,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\worker\\main.py",
       "source_location": "L36",
       "id": "main_handle_task_logic",
-      "community": 1,
+      "community": 3,
       "norm_label": "handle_task_logic()"
     },
     {
@@ -2912,7 +3110,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\worker\\main.py",
       "source_location": "L44",
       "id": "main_run_dataset_parse",
-      "community": 1,
+      "community": 3,
       "norm_label": "run_dataset_parse()"
     },
     {
@@ -2921,7 +3119,7 @@
       "source_file": "C:\\DEV apps\\Google solutions\\worker\\main.py",
       "source_location": "L74",
       "id": "main_run_audit_pipeline",
-      "community": 1,
+      "community": 3,
       "norm_label": "run_audit_pipeline()"
     },
     {
@@ -2929,9 +3127,81 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\worker\\main.py",
       "source_location": "L23",
-      "community": 4,
+      "community": 3,
       "norm_label": "http endpoint simulating cloud run receiving a cloud task webhook.     must ret",
       "id": "main_rationale_23"
+    },
+    {
+      "label": "Generate synthetic data to remediate bias found in this audit.     Uses Gemini",
+      "file_type": "rationale",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L239",
+      "community": 4,
+      "norm_label": "generate synthetic data to remediate bias found in this audit.     uses gemini",
+      "id": "audits_rationale_239"
+    },
+    {
+      "label": "Serve the remediated CSV file.",
+      "file_type": "rationale",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L351",
+      "community": 4,
+      "norm_label": "serve the remediated csv file.",
+      "id": "audits_rationale_351"
+    },
+    {
+      "label": "Verify if the current local hash matches the append-only log hash in BigQuery.",
+      "file_type": "rationale",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L369",
+      "community": 4,
+      "norm_label": "verify if the current local hash matches the append-only log hash in bigquery.",
+      "id": "audits_rationale_369"
+    },
+    {
+      "label": "Two-Factor Judgment CQRS Endpoint.     Writes approval to Firestore for instant",
+      "file_type": "rationale",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L405",
+      "community": 4,
+      "norm_label": "two-factor judgment cqrs endpoint.     writes approval to firestore for instant",
+      "id": "audits_rationale_405"
+    },
+    {
+      "label": "Generate synthetic data to remediate bias found in this audit.     Uses Gemini",
+      "file_type": "rationale",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L233",
+      "community": 4,
+      "norm_label": "generate synthetic data to remediate bias found in this audit.     uses gemini",
+      "id": "audits_rationale_233"
+    },
+    {
+      "label": "Serve the remediated CSV file.",
+      "file_type": "rationale",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L345",
+      "community": 4,
+      "norm_label": "serve the remediated csv file.",
+      "id": "audits_rationale_345"
+    },
+    {
+      "label": "Verify if the current local hash matches the append-only log hash in BigQuery.",
+      "file_type": "rationale",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L363",
+      "community": 4,
+      "norm_label": "verify if the current local hash matches the append-only log hash in bigquery.",
+      "id": "audits_rationale_363"
+    },
+    {
+      "label": "Two-Factor Judgment CQRS Endpoint.     Writes approval to Firestore for instant",
+      "file_type": "rationale",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L399",
+      "community": 4,
+      "norm_label": "two-factor judgment cqrs endpoint.     writes approval to firestore for instant",
+      "id": "audits_rationale_399"
     },
     {
       "label": "Serve the remediated CSV file.",
@@ -2992,7 +3262,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\bigquery_logger.py",
       "source_location": "L31",
-      "community": 35,
+      "community": 39,
       "norm_label": "ensures the dataset and table exist for immutable audit logging.",
       "id": "bigquery_logger_rationale_31"
     },
@@ -3001,7 +3271,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\bigquery_logger.py",
       "source_location": "L68",
-      "community": 36,
+      "community": 40,
       "norm_label": "appends a new immutable record to the bigquery ledger.",
       "id": "bigquery_logger_rationale_68"
     },
@@ -3010,7 +3280,7 @@
       "file_type": "rationale",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\services\\bigquery_logger.py",
       "source_location": "L62",
-      "community": 37,
+      "community": 41,
       "norm_label": "appends a new immutable record to the bigquery ledger.",
       "id": "bigquery_logger_rationale_62"
     },
@@ -3046,7 +3316,7 @@
       "file_type": "rationale",
       "source_file": "api\\agents\\orchestrator.py",
       "source_location": "L20",
-      "community": 0,
+      "community": 4,
       "norm_label": "orchestrator \u2014 coordinates the full bias audit pipeline.          flow:     1. t",
       "id": "orchestrator_rationale_20"
     },
@@ -3055,7 +3325,7 @@
       "file_type": "rationale",
       "source_file": "api\\agents\\orchestrator.py",
       "source_location": "L31",
-      "community": 0,
+      "community": 4,
       "norm_label": "execute the complete audit pipeline.",
       "id": "orchestrator_rationale_31"
     },
@@ -3064,7 +3334,7 @@
       "file_type": "rationale",
       "source_file": "api\\agents\\orchestrator.py",
       "source_location": "L120",
-      "community": 0,
+      "community": 4,
       "norm_label": "update an agent's status.",
       "id": "orchestrator_rationale_120"
     },
@@ -3154,7 +3424,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\proxy_detector.py",
       "source_location": "L26",
-      "community": 3,
+      "community": 1,
       "norm_label": "detect proxy variables by computing correlations between         valid factors a",
       "id": "proxy_detector_rationale_26"
     },
@@ -3163,7 +3433,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\proxy_detector.py",
       "source_location": "L58",
-      "community": 3,
+      "community": 1,
       "norm_label": "compute correlation between two columns.         handles numeric-numeric (pearso",
       "id": "proxy_detector_rationale_58"
     },
@@ -3172,7 +3442,7 @@
       "file_type": "rationale",
       "source_file": "api\\services\\proxy_detector.py",
       "source_location": "L76",
-      "community": 3,
+      "community": 1,
       "norm_label": "compute cramer's v using pure numpy chi-squared (no scipy needed).",
       "id": "proxy_detector_rationale_76"
     },
@@ -3185,7 +3455,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 3,
+      "community": 1,
       "norm_label": "equalyze ai bias audit platform",
       "id": "prd_equalyze_platform"
     },
@@ -3198,7 +3468,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 3,
+      "community": 1,
       "norm_label": "bias detection system",
       "id": "prd_bias_detection"
     },
@@ -3211,7 +3481,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 3,
+      "community": 1,
       "norm_label": "counterfactual twin testing",
       "id": "prd_counterfactual_twins"
     },
@@ -3250,7 +3520,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 3,
+      "community": 1,
       "norm_label": "multi-agent orchestration pipeline",
       "id": "prd_multi_agent_pipeline"
     },
@@ -3263,7 +3533,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 3,
+      "community": 1,
       "norm_label": "proxy variable detection",
       "id": "prd_proxy_detection"
     },
@@ -3276,7 +3546,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 3,
+      "community": 1,
       "norm_label": "statistical fairness metrics",
       "id": "prd_fairness_metrics"
     },
@@ -3302,7 +3572,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "system architecture design",
       "id": "trd_system_architecture"
     },
@@ -3315,7 +3585,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "google gemini ai integration",
       "id": "trd_gemini_integration"
     },
@@ -3328,7 +3598,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "fastapi backend design",
       "id": "trd_fastapi_backend"
     },
@@ -3341,7 +3611,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "next.js frontend design",
       "id": "trd_nextjs_frontend"
     },
@@ -3354,7 +3624,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "firebase authentication",
       "id": "trd_firebase_auth"
     },
@@ -3367,7 +3637,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "data processing pipeline",
       "id": "trd_data_pipeline"
     },
@@ -3380,7 +3650,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 7,
+      "community": 9,
       "norm_label": "rest api design",
       "id": "trd_api_design"
     },
@@ -3393,7 +3663,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 3,
+      "community": 1,
       "norm_label": "updated product vision",
       "id": "prd_updated_vision"
     },
@@ -3406,7 +3676,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 38,
+      "community": 42,
       "norm_label": "continuous monitoring system",
       "id": "prd_updated_monitoring"
     },
@@ -3419,7 +3689,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 39,
+      "community": 43,
       "norm_label": "audit reporting dashboard",
       "id": "prd_updated_reporting"
     }
@@ -3428,43 +3698,475 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "api\\config.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_save_model",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_save_model",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_log_result",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_log_result",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L51",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_build_pipeline",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_build_pipeline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_train_and_evaluate",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_train_and_evaluate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L98",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_phase1_maternal_health",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_phase1_maternal_health",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L133",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_phase2a_german_credit",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_phase2a_german_credit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L176",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_phase2b_taiwan_credit",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_phase2b_taiwan_credit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L212",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_phase2c_sba_loans",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_phase2c_sba_loans",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L270",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_phase2d_lending_club",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_phase2d_lending_club",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L323",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_phase3a_medical_cost",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_phase3a_medical_cost",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L357",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_phase4a_ibm_hr",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_phase4a_ibm_hr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L388",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_phase4b_adult_census",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_phase4b_adult_census",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L427",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "_tgt": "train_all_datasets_phase4c_campus_recruitment",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_phase4c_campus_recruitment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_src": "train_all_datasets_rationale_1",
+      "_tgt": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "source": "c_dev_apps_google_solutions_train_all_datasets_py",
+      "target": "train_all_datasets_rationale_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_src": "train_all_datasets_train_and_evaluate",
+      "_tgt": "train_all_datasets_save_model",
+      "source": "train_all_datasets_save_model",
+      "target": "train_all_datasets_train_and_evaluate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L312",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase2d_lending_club",
+      "_tgt": "train_all_datasets_save_model",
+      "source": "train_all_datasets_save_model",
+      "target": "train_all_datasets_phase2d_lending_club",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L92",
+      "weight": 1.0,
+      "_src": "train_all_datasets_train_and_evaluate",
+      "_tgt": "train_all_datasets_log_result",
+      "source": "train_all_datasets_log_result",
+      "target": "train_all_datasets_train_and_evaluate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L314",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase2d_lending_club",
+      "_tgt": "train_all_datasets_log_result",
+      "source": "train_all_datasets_log_result",
+      "target": "train_all_datasets_phase2d_lending_club",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L123",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase1_maternal_health",
+      "_tgt": "train_all_datasets_build_pipeline",
+      "source": "train_all_datasets_build_pipeline",
+      "target": "train_all_datasets_phase1_maternal_health",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L169",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase2a_german_credit",
+      "_tgt": "train_all_datasets_build_pipeline",
+      "source": "train_all_datasets_build_pipeline",
+      "target": "train_all_datasets_phase2a_german_credit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L205",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase2b_taiwan_credit",
+      "_tgt": "train_all_datasets_build_pipeline",
+      "source": "train_all_datasets_build_pipeline",
+      "target": "train_all_datasets_phase2b_taiwan_credit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L262",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase2c_sba_loans",
+      "_tgt": "train_all_datasets_build_pipeline",
+      "source": "train_all_datasets_build_pipeline",
+      "target": "train_all_datasets_phase2c_sba_loans",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L347",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase3a_medical_cost",
+      "_tgt": "train_all_datasets_build_pipeline",
+      "source": "train_all_datasets_build_pipeline",
+      "target": "train_all_datasets_phase3a_medical_cost",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L381",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase4a_ibm_hr",
+      "_tgt": "train_all_datasets_build_pipeline",
+      "source": "train_all_datasets_build_pipeline",
+      "target": "train_all_datasets_phase4a_ibm_hr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L420",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase4b_adult_census",
+      "_tgt": "train_all_datasets_build_pipeline",
+      "source": "train_all_datasets_build_pipeline",
+      "target": "train_all_datasets_phase4b_adult_census",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L458",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase4c_campus_recruitment",
+      "_tgt": "train_all_datasets_build_pipeline",
+      "source": "train_all_datasets_build_pipeline",
+      "target": "train_all_datasets_phase4c_campus_recruitment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_src": "train_all_datasets_rationale_52",
+      "_tgt": "train_all_datasets_build_pipeline",
+      "source": "train_all_datasets_build_pipeline",
+      "target": "train_all_datasets_rationale_52",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L124",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase1_maternal_health",
+      "_tgt": "train_all_datasets_train_and_evaluate",
+      "source": "train_all_datasets_train_and_evaluate",
+      "target": "train_all_datasets_phase1_maternal_health",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L170",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase2a_german_credit",
+      "_tgt": "train_all_datasets_train_and_evaluate",
+      "source": "train_all_datasets_train_and_evaluate",
+      "target": "train_all_datasets_phase2a_german_credit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L206",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase2b_taiwan_credit",
+      "_tgt": "train_all_datasets_train_and_evaluate",
+      "source": "train_all_datasets_train_and_evaluate",
+      "target": "train_all_datasets_phase2b_taiwan_credit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L264",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase2c_sba_loans",
+      "_tgt": "train_all_datasets_train_and_evaluate",
+      "source": "train_all_datasets_train_and_evaluate",
+      "target": "train_all_datasets_phase2c_sba_loans",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L348",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase3a_medical_cost",
+      "_tgt": "train_all_datasets_train_and_evaluate",
+      "source": "train_all_datasets_train_and_evaluate",
+      "target": "train_all_datasets_phase3a_medical_cost",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L382",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase4a_ibm_hr",
+      "_tgt": "train_all_datasets_train_and_evaluate",
+      "source": "train_all_datasets_train_and_evaluate",
+      "target": "train_all_datasets_phase4a_ibm_hr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L421",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase4b_adult_census",
+      "_tgt": "train_all_datasets_train_and_evaluate",
+      "source": "train_all_datasets_train_and_evaluate",
+      "target": "train_all_datasets_phase4b_adult_census",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L459",
+      "weight": 1.0,
+      "_src": "train_all_datasets_phase4c_campus_recruitment",
+      "_tgt": "train_all_datasets_train_and_evaluate",
+      "source": "train_all_datasets_train_and_evaluate",
+      "target": "train_all_datasets_phase4c_campus_recruitment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\train_all_datasets.py",
+      "source_location": "L71",
+      "weight": 1.0,
+      "_src": "train_all_datasets_rationale_71",
+      "_tgt": "train_all_datasets_train_and_evaluate",
+      "source": "train_all_datasets_train_and_evaluate",
+      "target": "train_all_datasets_rationale_71",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\config.py",
       "source_location": "L14",
       "weight": 1.0,
-      "_src": "api_config_py",
+      "_src": "c_dev_apps_google_solutions_api_config_py",
       "_tgt": "config_settings",
-      "source": "api_config_py",
+      "source": "c_dev_apps_google_solutions_api_config_py",
       "target": "config_settings",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "api\\config.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\config.py",
       "source_location": "L37",
       "weight": 1.0,
-      "_src": "api_config_py",
+      "_src": "c_dev_apps_google_solutions_api_config_py",
       "_tgt": "config_init_dirs",
-      "source": "api_config_py",
+      "source": "c_dev_apps_google_solutions_api_config_py",
       "target": "config_init_dirs",
       "confidence_score": 1.0
     },
     {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
-      "source_file": "api\\config.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\config.py",
       "source_location": "L1",
       "weight": 1.0,
       "_src": "config_rationale_1",
-      "_tgt": "api_config_py",
-      "source": "api_config_py",
+      "_tgt": "c_dev_apps_google_solutions_api_config_py",
+      "source": "c_dev_apps_google_solutions_api_config_py",
       "target": "config_rationale_1",
       "confidence_score": 1.0
     },
     {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
-      "source_file": "api\\config.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\config.py",
       "source_location": "L15",
       "weight": 1.0,
       "_src": "config_rationale_15",
@@ -7821,7 +8523,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
-      "source_location": "L240",
+      "source_location": "L242",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_models_audit_py",
       "_tgt": "audit_schemaconfirmrequest",
@@ -7833,7 +8535,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
-      "source_location": "L246",
+      "source_location": "L248",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_models_audit_py",
       "_tgt": "audit_auditcreateresponse",
@@ -7845,7 +8547,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
-      "source_location": "L252",
+      "source_location": "L254",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_models_audit_py",
       "_tgt": "audit_auditstatusresponse",
@@ -7944,10 +8646,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_severity",
-      "_tgt": "audits_rationale_239",
+      "_tgt": "audits_rationale_243",
       "confidence_score": 0.5,
       "source": "audit_severity",
-      "target": "audits_rationale_239"
+      "target": "audits_rationale_243"
     },
     {
       "relation": "uses",
@@ -7956,10 +8658,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_severity",
-      "_tgt": "audits_rationale_351",
+      "_tgt": "audits_rationale_355",
       "confidence_score": 0.5,
       "source": "audit_severity",
-      "target": "audits_rationale_351"
+      "target": "audits_rationale_355"
     },
     {
       "relation": "uses",
@@ -7968,10 +8670,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_severity",
-      "_tgt": "audits_rationale_369",
+      "_tgt": "audits_rationale_373",
       "confidence_score": 0.5,
       "source": "audit_severity",
-      "target": "audits_rationale_369"
+      "target": "audits_rationale_373"
     },
     {
       "relation": "uses",
@@ -7980,10 +8682,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_severity",
-      "_tgt": "audits_rationale_405",
+      "_tgt": "audits_rationale_409",
       "confidence_score": 0.5,
       "source": "audit_severity",
-      "target": "audits_rationale_405"
+      "target": "audits_rationale_409"
     },
     {
       "relation": "uses",
@@ -8116,6 +8818,102 @@
       "confidence_score": 0.5,
       "source": "audit_severity",
       "target": "fairness_metrics_rationale_292"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_severity",
+      "_tgt": "audits_rationale_239",
+      "confidence_score": 0.5,
+      "source": "audit_severity",
+      "target": "audits_rationale_239"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_severity",
+      "_tgt": "audits_rationale_351",
+      "confidence_score": 0.5,
+      "source": "audit_severity",
+      "target": "audits_rationale_351"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_severity",
+      "_tgt": "audits_rationale_369",
+      "confidence_score": 0.5,
+      "source": "audit_severity",
+      "target": "audits_rationale_369"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_severity",
+      "_tgt": "audits_rationale_405",
+      "confidence_score": 0.5,
+      "source": "audit_severity",
+      "target": "audits_rationale_405"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_severity",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
+      "source": "audit_severity",
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_severity",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "audit_severity",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_severity",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "audit_severity",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_severity",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "audit_severity",
+      "target": "audits_rationale_399"
     },
     {
       "relation": "uses",
@@ -8808,6 +9606,78 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_auditstatus",
+      "_tgt": "audits_rationale_243",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatus",
+      "target": "audits_rationale_243"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatus",
+      "_tgt": "audits_rationale_355",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatus",
+      "target": "audits_rationale_355"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatus",
+      "_tgt": "audits_rationale_373",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatus",
+      "target": "audits_rationale_373"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatus",
+      "_tgt": "audits_rationale_409",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatus",
+      "target": "audits_rationale_409"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\worker\\main.py",
+      "source_location": "L78",
+      "weight": 0.8,
+      "_src": "audit_auditstatus",
+      "_tgt": "main_taskpayload",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatus",
+      "target": "main_taskpayload"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\worker\\main.py",
+      "source_location": "L78",
+      "weight": 0.8,
+      "_src": "audit_auditstatus",
+      "_tgt": "main_rationale_23",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatus",
+      "target": "main_rationale_23"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatus",
       "_tgt": "audits_rationale_239",
       "confidence_score": 0.5,
       "source": "audit_auditstatus",
@@ -8852,26 +9722,50 @@
     {
       "relation": "uses",
       "confidence": "INFERRED",
-      "source_file": "C:\\DEV apps\\Google solutions\\worker\\main.py",
-      "source_location": "L78",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_auditstatus",
-      "_tgt": "main_taskpayload",
+      "_tgt": "audits_rationale_233",
       "confidence_score": 0.5,
       "source": "audit_auditstatus",
-      "target": "main_taskpayload"
+      "target": "audits_rationale_233"
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
-      "source_file": "C:\\DEV apps\\Google solutions\\worker\\main.py",
-      "source_location": "L78",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_auditstatus",
-      "_tgt": "main_rationale_23",
+      "_tgt": "audits_rationale_345",
       "confidence_score": 0.5,
       "source": "audit_auditstatus",
-      "target": "main_rationale_23"
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatus",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatus",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatus",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatus",
+      "target": "audits_rationale_399"
     },
     {
       "relation": "uses",
@@ -9036,6 +9930,54 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_agentstatus",
+      "_tgt": "audits_rationale_243",
+      "confidence_score": 0.5,
+      "source": "audit_agentstatus",
+      "target": "audits_rationale_243"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstatus",
+      "_tgt": "audits_rationale_355",
+      "confidence_score": 0.5,
+      "source": "audit_agentstatus",
+      "target": "audits_rationale_355"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstatus",
+      "_tgt": "audits_rationale_373",
+      "confidence_score": 0.5,
+      "source": "audit_agentstatus",
+      "target": "audits_rationale_373"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstatus",
+      "_tgt": "audits_rationale_409",
+      "confidence_score": 0.5,
+      "source": "audit_agentstatus",
+      "target": "audits_rationale_409"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstatus",
       "_tgt": "audits_rationale_239",
       "confidence_score": 0.5,
       "source": "audit_agentstatus",
@@ -9076,6 +10018,54 @@
       "confidence_score": 0.5,
       "source": "audit_agentstatus",
       "target": "audits_rationale_405"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstatus",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
+      "source": "audit_agentstatus",
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstatus",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "audit_agentstatus",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstatus",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "audit_agentstatus",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstatus",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "audit_agentstatus",
+      "target": "audits_rationale_399"
     },
     {
       "relation": "uses",
@@ -9501,7 +10491,7 @@
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
-      "source_location": "L240",
+      "source_location": "L242",
       "weight": 1.0,
       "_src": "audit_schemaconfirmrequest",
       "_tgt": "basemodel",
@@ -9513,7 +10503,7 @@
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
-      "source_location": "L246",
+      "source_location": "L248",
       "weight": 1.0,
       "_src": "audit_auditcreateresponse",
       "_tgt": "basemodel",
@@ -9525,7 +10515,7 @@
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\models\\audit.py",
-      "source_location": "L252",
+      "source_location": "L254",
       "weight": 1.0,
       "_src": "audit_auditstatusresponse",
       "_tgt": "basemodel",
@@ -9537,7 +10527,7 @@
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L229",
+      "source_location": "L233",
       "weight": 1.0,
       "_src": "audits_remediaterequest",
       "_tgt": "basemodel",
@@ -9549,7 +10539,7 @@
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L394",
+      "source_location": "L398",
       "weight": 1.0,
       "_src": "audits_resolutionrequest",
       "_tgt": "basemodel",
@@ -10188,6 +11178,54 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_finding",
+      "_tgt": "audits_rationale_243",
+      "confidence_score": 0.5,
+      "source": "audit_finding",
+      "target": "audits_rationale_243"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_finding",
+      "_tgt": "audits_rationale_355",
+      "confidence_score": 0.5,
+      "source": "audit_finding",
+      "target": "audits_rationale_355"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_finding",
+      "_tgt": "audits_rationale_373",
+      "confidence_score": 0.5,
+      "source": "audit_finding",
+      "target": "audits_rationale_373"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_finding",
+      "_tgt": "audits_rationale_409",
+      "confidence_score": 0.5,
+      "source": "audit_finding",
+      "target": "audits_rationale_409"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_finding",
       "_tgt": "audits_rationale_239",
       "confidence_score": 0.5,
       "source": "audit_finding",
@@ -10228,6 +11266,54 @@
       "confidence_score": 0.5,
       "source": "audit_finding",
       "target": "audits_rationale_405"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_finding",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
+      "source": "audit_finding",
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_finding",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "audit_finding",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_finding",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "audit_finding",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_finding",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "audit_finding",
+      "target": "audits_rationale_399"
     },
     {
       "relation": "uses",
@@ -10500,6 +11586,54 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_agentstate",
+      "_tgt": "audits_rationale_243",
+      "confidence_score": 0.5,
+      "source": "audit_agentstate",
+      "target": "audits_rationale_243"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstate",
+      "_tgt": "audits_rationale_355",
+      "confidence_score": 0.5,
+      "source": "audit_agentstate",
+      "target": "audits_rationale_355"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstate",
+      "_tgt": "audits_rationale_373",
+      "confidence_score": 0.5,
+      "source": "audit_agentstate",
+      "target": "audits_rationale_373"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstate",
+      "_tgt": "audits_rationale_409",
+      "confidence_score": 0.5,
+      "source": "audit_agentstate",
+      "target": "audits_rationale_409"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstate",
       "_tgt": "audits_rationale_239",
       "confidence_score": 0.5,
       "source": "audit_agentstate",
@@ -10540,6 +11674,54 @@
       "confidence_score": 0.5,
       "source": "audit_agentstate",
       "target": "audits_rationale_405"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstate",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
+      "source": "audit_agentstate",
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstate",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "audit_agentstate",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstate",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "audit_agentstate",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_agentstate",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "audit_agentstate",
+      "target": "audits_rationale_399"
     },
     {
       "relation": "uses",
@@ -10776,10 +11958,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_datasetinfo",
-      "_tgt": "audits_rationale_239",
+      "_tgt": "audits_rationale_243",
       "confidence_score": 0.5,
       "source": "audit_datasetinfo",
-      "target": "audits_rationale_239"
+      "target": "audits_rationale_243"
     },
     {
       "relation": "uses",
@@ -10788,10 +11970,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_datasetinfo",
-      "_tgt": "audits_rationale_351",
+      "_tgt": "audits_rationale_355",
       "confidence_score": 0.5,
       "source": "audit_datasetinfo",
-      "target": "audits_rationale_351"
+      "target": "audits_rationale_355"
     },
     {
       "relation": "uses",
@@ -10800,10 +11982,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_datasetinfo",
-      "_tgt": "audits_rationale_369",
+      "_tgt": "audits_rationale_373",
       "confidence_score": 0.5,
       "source": "audit_datasetinfo",
-      "target": "audits_rationale_369"
+      "target": "audits_rationale_373"
     },
     {
       "relation": "uses",
@@ -10812,10 +11994,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_datasetinfo",
-      "_tgt": "audits_rationale_405",
+      "_tgt": "audits_rationale_409",
       "confidence_score": 0.5,
       "source": "audit_datasetinfo",
-      "target": "audits_rationale_405"
+      "target": "audits_rationale_409"
     },
     {
       "relation": "calls",
@@ -10836,6 +12018,102 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_datasetinfo",
+      "_tgt": "audits_rationale_239",
+      "confidence_score": 0.5,
+      "source": "audit_datasetinfo",
+      "target": "audits_rationale_239"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_datasetinfo",
+      "_tgt": "audits_rationale_351",
+      "confidence_score": 0.5,
+      "source": "audit_datasetinfo",
+      "target": "audits_rationale_351"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_datasetinfo",
+      "_tgt": "audits_rationale_369",
+      "confidence_score": 0.5,
+      "source": "audit_datasetinfo",
+      "target": "audits_rationale_369"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_datasetinfo",
+      "_tgt": "audits_rationale_405",
+      "confidence_score": 0.5,
+      "source": "audit_datasetinfo",
+      "target": "audits_rationale_405"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_datasetinfo",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
+      "source": "audit_datasetinfo",
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_datasetinfo",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "audit_datasetinfo",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_datasetinfo",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "audit_datasetinfo",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_datasetinfo",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "audit_datasetinfo",
+      "target": "audits_rationale_399"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_datasetinfo",
       "_tgt": "audits_rationale_346",
       "confidence_score": 0.5,
       "source": "audit_datasetinfo",
@@ -10956,6 +12234,54 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_modelmetadata",
+      "_tgt": "audits_rationale_243",
+      "confidence_score": 0.5,
+      "source": "audit_modelmetadata",
+      "target": "audits_rationale_243"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_modelmetadata",
+      "_tgt": "audits_rationale_355",
+      "confidence_score": 0.5,
+      "source": "audit_modelmetadata",
+      "target": "audits_rationale_355"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_modelmetadata",
+      "_tgt": "audits_rationale_373",
+      "confidence_score": 0.5,
+      "source": "audit_modelmetadata",
+      "target": "audits_rationale_373"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_modelmetadata",
+      "_tgt": "audits_rationale_409",
+      "confidence_score": 0.5,
+      "source": "audit_modelmetadata",
+      "target": "audits_rationale_409"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_modelmetadata",
       "_tgt": "audits_rationale_239",
       "confidence_score": 0.5,
       "source": "audit_modelmetadata",
@@ -10996,6 +12322,54 @@
       "confidence_score": 0.5,
       "source": "audit_modelmetadata",
       "target": "audits_rationale_405"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_modelmetadata",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
+      "source": "audit_modelmetadata",
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_modelmetadata",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "audit_modelmetadata",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_modelmetadata",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "audit_modelmetadata",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_modelmetadata",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "audit_modelmetadata",
+      "target": "audits_rationale_399"
     },
     {
       "relation": "uses",
@@ -11124,10 +12498,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_audit",
-      "_tgt": "audits_rationale_239",
+      "_tgt": "audits_rationale_243",
       "confidence_score": 0.5,
       "source": "audit_audit",
-      "target": "audits_rationale_239"
+      "target": "audits_rationale_243"
     },
     {
       "relation": "uses",
@@ -11136,10 +12510,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_audit",
-      "_tgt": "audits_rationale_351",
+      "_tgt": "audits_rationale_355",
       "confidence_score": 0.5,
       "source": "audit_audit",
-      "target": "audits_rationale_351"
+      "target": "audits_rationale_355"
     },
     {
       "relation": "uses",
@@ -11148,10 +12522,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_audit",
-      "_tgt": "audits_rationale_369",
+      "_tgt": "audits_rationale_373",
       "confidence_score": 0.5,
       "source": "audit_audit",
-      "target": "audits_rationale_369"
+      "target": "audits_rationale_373"
     },
     {
       "relation": "uses",
@@ -11160,10 +12534,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_audit",
-      "_tgt": "audits_rationale_405",
+      "_tgt": "audits_rationale_409",
       "confidence_score": 0.5,
       "source": "audit_audit",
-      "target": "audits_rationale_405"
+      "target": "audits_rationale_409"
     },
     {
       "relation": "uses",
@@ -11205,6 +12579,18 @@
       "relation": "calls",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
+      "source_file": "C:\\DEV apps\\Google solutions\\scratch\\test_pipeline_direct.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "audit_audit",
+      "_tgt": "test_pipeline_direct_test_pipeline",
+      "source": "audit_audit",
+      "target": "test_pipeline_direct_test_pipeline"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
       "source_file": "C:\\DEV apps\\Google solutions\\worker\\main.py",
       "source_location": "L100",
       "weight": 1.0,
@@ -11212,6 +12598,102 @@
       "_tgt": "main_run_audit_pipeline",
       "source": "audit_audit",
       "target": "main_run_audit_pipeline"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_audit",
+      "_tgt": "audits_rationale_239",
+      "confidence_score": 0.5,
+      "source": "audit_audit",
+      "target": "audits_rationale_239"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_audit",
+      "_tgt": "audits_rationale_351",
+      "confidence_score": 0.5,
+      "source": "audit_audit",
+      "target": "audits_rationale_351"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_audit",
+      "_tgt": "audits_rationale_369",
+      "confidence_score": 0.5,
+      "source": "audit_audit",
+      "target": "audits_rationale_369"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_audit",
+      "_tgt": "audits_rationale_405",
+      "confidence_score": 0.5,
+      "source": "audit_audit",
+      "target": "audits_rationale_405"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_audit",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
+      "source": "audit_audit",
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_audit",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "audit_audit",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_audit",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "audit_audit",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_audit",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "audit_audit",
+      "target": "audits_rationale_399"
     },
     {
       "relation": "uses",
@@ -11400,6 +12882,54 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_schemaconfirmrequest",
+      "_tgt": "audits_rationale_243",
+      "confidence_score": 0.5,
+      "source": "audit_schemaconfirmrequest",
+      "target": "audits_rationale_243"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_schemaconfirmrequest",
+      "_tgt": "audits_rationale_355",
+      "confidence_score": 0.5,
+      "source": "audit_schemaconfirmrequest",
+      "target": "audits_rationale_355"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_schemaconfirmrequest",
+      "_tgt": "audits_rationale_373",
+      "confidence_score": 0.5,
+      "source": "audit_schemaconfirmrequest",
+      "target": "audits_rationale_373"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_schemaconfirmrequest",
+      "_tgt": "audits_rationale_409",
+      "confidence_score": 0.5,
+      "source": "audit_schemaconfirmrequest",
+      "target": "audits_rationale_409"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_schemaconfirmrequest",
       "_tgt": "audits_rationale_239",
       "confidence_score": 0.5,
       "source": "audit_schemaconfirmrequest",
@@ -11440,6 +12970,54 @@
       "confidence_score": 0.5,
       "source": "audit_schemaconfirmrequest",
       "target": "audits_rationale_405"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_schemaconfirmrequest",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
+      "source": "audit_schemaconfirmrequest",
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_schemaconfirmrequest",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "audit_schemaconfirmrequest",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_schemaconfirmrequest",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "audit_schemaconfirmrequest",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_schemaconfirmrequest",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "audit_schemaconfirmrequest",
+      "target": "audits_rationale_399"
     },
     {
       "relation": "uses",
@@ -11568,10 +13146,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_auditcreateresponse",
-      "_tgt": "audits_rationale_239",
+      "_tgt": "audits_rationale_243",
       "confidence_score": 0.5,
       "source": "audit_auditcreateresponse",
-      "target": "audits_rationale_239"
+      "target": "audits_rationale_243"
     },
     {
       "relation": "uses",
@@ -11580,10 +13158,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_auditcreateresponse",
-      "_tgt": "audits_rationale_351",
+      "_tgt": "audits_rationale_355",
       "confidence_score": 0.5,
       "source": "audit_auditcreateresponse",
-      "target": "audits_rationale_351"
+      "target": "audits_rationale_355"
     },
     {
       "relation": "uses",
@@ -11592,10 +13170,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_auditcreateresponse",
-      "_tgt": "audits_rationale_369",
+      "_tgt": "audits_rationale_373",
       "confidence_score": 0.5,
       "source": "audit_auditcreateresponse",
-      "target": "audits_rationale_369"
+      "target": "audits_rationale_373"
     },
     {
       "relation": "uses",
@@ -11604,10 +13182,10 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_auditcreateresponse",
-      "_tgt": "audits_rationale_405",
+      "_tgt": "audits_rationale_409",
       "confidence_score": 0.5,
       "source": "audit_auditcreateresponse",
-      "target": "audits_rationale_405"
+      "target": "audits_rationale_409"
     },
     {
       "relation": "calls",
@@ -11628,6 +13206,102 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_auditcreateresponse",
+      "_tgt": "audits_rationale_239",
+      "confidence_score": 0.5,
+      "source": "audit_auditcreateresponse",
+      "target": "audits_rationale_239"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditcreateresponse",
+      "_tgt": "audits_rationale_351",
+      "confidence_score": 0.5,
+      "source": "audit_auditcreateresponse",
+      "target": "audits_rationale_351"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditcreateresponse",
+      "_tgt": "audits_rationale_369",
+      "confidence_score": 0.5,
+      "source": "audit_auditcreateresponse",
+      "target": "audits_rationale_369"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditcreateresponse",
+      "_tgt": "audits_rationale_405",
+      "confidence_score": 0.5,
+      "source": "audit_auditcreateresponse",
+      "target": "audits_rationale_405"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditcreateresponse",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
+      "source": "audit_auditcreateresponse",
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditcreateresponse",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "audit_auditcreateresponse",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditcreateresponse",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "audit_auditcreateresponse",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditcreateresponse",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "audit_auditcreateresponse",
+      "target": "audits_rationale_399"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditcreateresponse",
       "_tgt": "audits_rationale_346",
       "confidence_score": 0.5,
       "source": "audit_auditcreateresponse",
@@ -11748,6 +13422,66 @@
       "source_location": "L11",
       "weight": 0.8,
       "_src": "audit_auditstatusresponse",
+      "_tgt": "audits_rationale_243",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatusresponse",
+      "target": "audits_rationale_243"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatusresponse",
+      "_tgt": "audits_rationale_355",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatusresponse",
+      "target": "audits_rationale_355"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatusresponse",
+      "_tgt": "audits_rationale_373",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatusresponse",
+      "target": "audits_rationale_373"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatusresponse",
+      "_tgt": "audits_rationale_409",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatusresponse",
+      "target": "audits_rationale_409"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "api\\routers\\audits.py",
+      "source_location": "L155",
+      "weight": 1.0,
+      "_src": "audit_auditstatusresponse",
+      "_tgt": "audits_get_audit_status",
+      "source": "audit_auditstatusresponse",
+      "target": "audits_get_audit_status"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatusresponse",
       "_tgt": "audits_rationale_239",
       "confidence_score": 0.5,
       "source": "audit_auditstatusresponse",
@@ -11790,16 +13524,52 @@
       "target": "audits_rationale_405"
     },
     {
-      "relation": "calls",
+      "relation": "uses",
       "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "api\\routers\\audits.py",
-      "source_location": "L155",
-      "weight": 1.0,
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
       "_src": "audit_auditstatusresponse",
-      "_tgt": "audits_get_audit_status",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
       "source": "audit_auditstatusresponse",
-      "target": "audits_get_audit_status"
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatusresponse",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatusresponse",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatusresponse",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatusresponse",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L11",
+      "weight": 0.8,
+      "_src": "audit_auditstatusresponse",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "audit_auditstatusresponse",
+      "target": "audits_rationale_399"
     },
     {
       "relation": "uses",
@@ -11901,7 +13671,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L98",
+      "source_location": "L92",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_audits_py",
       "_tgt": "audits_run_audit_pipeline",
@@ -11913,7 +13683,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L125",
+      "source_location": "L119",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_audits_py",
       "_tgt": "audits_get_audit",
@@ -11937,7 +13707,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L173",
+      "source_location": "L175",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_audits_py",
       "_tgt": "audits_get_audit_findings",
@@ -11949,7 +13719,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L198",
+      "source_location": "L202",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_audits_py",
       "_tgt": "audits_list_audits",
@@ -11961,7 +13731,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L229",
+      "source_location": "L233",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_audits_py",
       "_tgt": "audits_remediaterequest",
@@ -11973,7 +13743,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L233",
+      "source_location": "L237",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_audits_py",
       "_tgt": "audits_remediate_audit",
@@ -11985,7 +13755,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L350",
+      "source_location": "L354",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_audits_py",
       "_tgt": "audits_download_remediated",
@@ -11997,7 +13767,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L364",
+      "source_location": "L368",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_audits_py",
       "_tgt": "audits_verify_audit_integrity",
@@ -12009,7 +13779,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L394",
+      "source_location": "L398",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_audits_py",
       "_tgt": "audits_resolutionrequest",
@@ -12021,7 +13791,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L399",
+      "source_location": "L403",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_audits_py",
       "_tgt": "audits_resolve_audit",
@@ -12057,7 +13827,7 @@
       "relation": "calls",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L119",
+      "source_location": "L113",
       "weight": 1.0,
       "_src": "audits_run_audit_pipeline",
       "_tgt": "audits_save_audit_to_db",
@@ -12165,12 +13935,12 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L239",
+      "source_location": "L243",
       "weight": 1.0,
-      "_src": "audits_rationale_239",
+      "_src": "audits_rationale_243",
       "_tgt": "audits_remediate_audit",
       "source": "audits_remediate_audit",
-      "target": "audits_rationale_239",
+      "target": "audits_rationale_243",
       "confidence_score": 1.0
     },
     {
@@ -12225,24 +13995,24 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L351",
+      "source_location": "L355",
       "weight": 1.0,
-      "_src": "audits_rationale_351",
+      "_src": "audits_rationale_355",
       "_tgt": "audits_download_remediated",
       "source": "audits_download_remediated",
-      "target": "audits_rationale_351",
+      "target": "audits_rationale_355",
       "confidence_score": 1.0
     },
     {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L369",
+      "source_location": "L373",
       "weight": 1.0,
-      "_src": "audits_rationale_369",
+      "_src": "audits_rationale_373",
       "_tgt": "audits_verify_audit_integrity",
       "source": "audits_verify_audit_integrity",
-      "target": "audits_rationale_369",
+      "target": "audits_rationale_373",
       "confidence_score": 1.0
     },
     {
@@ -12273,12 +14043,12 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L405",
+      "source_location": "L409",
       "weight": 1.0,
-      "_src": "audits_rationale_405",
+      "_src": "audits_rationale_409",
       "_tgt": "audits_resolve_audit",
       "source": "audits_resolve_audit",
-      "target": "audits_rationale_405",
+      "target": "audits_rationale_409",
       "confidence_score": 1.0
     },
     {
@@ -12359,22 +14129,22 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
       "source_location": "L18",
       "weight": 0.8,
-      "_src": "audits_rationale_239",
+      "_src": "audits_rationale_243",
       "_tgt": "fairness_metrics_fairnessevaluator",
       "confidence_score": 0.5,
-      "source": "audits_rationale_239",
+      "source": "audits_rationale_243",
       "target": "fairness_metrics_fairnessevaluator"
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L433",
+      "source_location": "L442",
       "weight": 0.8,
-      "_src": "audits_rationale_239",
+      "_src": "audits_rationale_243",
       "_tgt": "bigquery_logger_auditlogentry",
       "confidence_score": 0.5,
-      "source": "audits_rationale_239",
+      "source": "audits_rationale_243",
       "target": "bigquery_logger_auditlogentry"
     },
     {
@@ -12383,22 +14153,22 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
       "source_location": "L18",
       "weight": 0.8,
-      "_src": "audits_rationale_351",
+      "_src": "audits_rationale_355",
       "_tgt": "fairness_metrics_fairnessevaluator",
       "confidence_score": 0.5,
-      "source": "audits_rationale_351",
+      "source": "audits_rationale_355",
       "target": "fairness_metrics_fairnessevaluator"
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L438",
+      "source_location": "L442",
       "weight": 0.8,
-      "_src": "audits_rationale_351",
+      "_src": "audits_rationale_355",
       "_tgt": "bigquery_logger_auditlogentry",
       "confidence_score": 0.5,
-      "source": "audits_rationale_351",
+      "source": "audits_rationale_355",
       "target": "bigquery_logger_auditlogentry"
     },
     {
@@ -12407,22 +14177,22 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
       "source_location": "L18",
       "weight": 0.8,
-      "_src": "audits_rationale_369",
+      "_src": "audits_rationale_373",
       "_tgt": "fairness_metrics_fairnessevaluator",
       "confidence_score": 0.5,
-      "source": "audits_rationale_369",
+      "source": "audits_rationale_373",
       "target": "fairness_metrics_fairnessevaluator"
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L438",
+      "source_location": "L442",
       "weight": 0.8,
-      "_src": "audits_rationale_369",
+      "_src": "audits_rationale_373",
       "_tgt": "bigquery_logger_auditlogentry",
       "confidence_score": 0.5,
-      "source": "audits_rationale_369",
+      "source": "audits_rationale_373",
       "target": "bigquery_logger_auditlogentry"
     },
     {
@@ -12431,22 +14201,22 @@
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
       "source_location": "L18",
       "weight": 0.8,
-      "_src": "audits_rationale_405",
+      "_src": "audits_rationale_409",
       "_tgt": "fairness_metrics_fairnessevaluator",
       "confidence_score": 0.5,
-      "source": "audits_rationale_405",
+      "source": "audits_rationale_409",
       "target": "fairness_metrics_fairnessevaluator"
     },
     {
       "relation": "uses",
       "confidence": "INFERRED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
-      "source_location": "L438",
+      "source_location": "L442",
       "weight": 0.8,
-      "_src": "audits_rationale_405",
+      "_src": "audits_rationale_409",
       "_tgt": "bigquery_logger_auditlogentry",
       "confidence_score": 0.5,
-      "source": "audits_rationale_405",
+      "source": "audits_rationale_409",
       "target": "bigquery_logger_auditlogentry"
     },
     {
@@ -12465,7 +14235,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\datasets.py",
-      "source_location": "L88",
+      "source_location": "L103",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_datasets_py",
       "_tgt": "datasets_get_dataset_status",
@@ -12477,7 +14247,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\datasets.py",
-      "source_location": "L119",
+      "source_location": "L134",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_datasets_py",
       "_tgt": "datasets_get_schema_suggestions",
@@ -12489,7 +14259,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\datasets.py",
-      "source_location": "L178",
+      "source_location": "L193",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_api_routers_datasets_py",
       "_tgt": "datasets_get_dataset_store",
@@ -12513,18 +14283,6 @@
       "relation": "calls",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
-      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\datasets.py",
-      "source_location": "L73",
-      "weight": 1.0,
-      "_src": "datasets_upload_dataset",
-      "_tgt": "cloud_tasks_cloudtasksclient_enqueue_dataset_parse",
-      "source": "datasets_upload_dataset",
-      "target": "cloud_tasks_cloudtasksclient_enqueue_dataset_parse"
-    },
-    {
-      "relation": "calls",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
       "source_file": "api\\routers\\datasets.py",
       "source_location": "L58",
       "weight": 1.0,
@@ -12532,6 +14290,18 @@
       "_tgt": "dataset_parser_datasetparser_parse",
       "source": "datasets_upload_dataset",
       "target": "dataset_parser_datasetparser_parse"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\datasets.py",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_src": "datasets_upload_dataset",
+      "_tgt": "cloud_tasks_cloudtasksclient_enqueue_dataset_parse",
+      "source": "datasets_upload_dataset",
+      "target": "cloud_tasks_cloudtasksclient_enqueue_dataset_parse"
     },
     {
       "relation": "semantically_similar_to",
@@ -12572,31 +14342,31 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "api\\routers\\monitoring.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\monitoring.py",
       "source_location": "L10",
       "weight": 1.0,
-      "_src": "api_routers_monitoring_py",
+      "_src": "c_dev_apps_google_solutions_api_routers_monitoring_py",
       "_tgt": "monitoring_run_scheduled_audit",
-      "source": "api_routers_monitoring_py",
+      "source": "c_dev_apps_google_solutions_api_routers_monitoring_py",
       "target": "monitoring_run_scheduled_audit",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "api\\routers\\monitoring.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\monitoring.py",
       "source_location": "L66",
       "weight": 1.0,
-      "_src": "api_routers_monitoring_py",
+      "_src": "c_dev_apps_google_solutions_api_routers_monitoring_py",
       "_tgt": "monitoring_get_drift_metrics",
-      "source": "api_routers_monitoring_py",
+      "source": "c_dev_apps_google_solutions_api_routers_monitoring_py",
       "target": "monitoring_get_drift_metrics",
       "confidence_score": 1.0
     },
     {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
-      "source_file": "api\\routers\\monitoring.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\monitoring.py",
       "source_location": "L14",
       "weight": 1.0,
       "_src": "monitoring_rationale_14",
@@ -12620,7 +14390,7 @@
     {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
-      "source_file": "api\\routers\\monitoring.py",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\monitoring.py",
       "source_location": "L67",
       "weight": 1.0,
       "_src": "monitoring_rationale_67",
@@ -12688,6 +14458,102 @@
       "source": "c_dev_apps_google_solutions_api_services_bigquery_logger_py",
       "target": "bigquery_logger_bigquerylogger",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L433",
+      "weight": 0.8,
+      "_src": "bigquery_logger_auditlogentry",
+      "_tgt": "audits_rationale_239",
+      "confidence_score": 0.5,
+      "source": "bigquery_logger_auditlogentry",
+      "target": "audits_rationale_239"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L438",
+      "weight": 0.8,
+      "_src": "bigquery_logger_auditlogentry",
+      "_tgt": "audits_rationale_351",
+      "confidence_score": 0.5,
+      "source": "bigquery_logger_auditlogentry",
+      "target": "audits_rationale_351"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L438",
+      "weight": 0.8,
+      "_src": "bigquery_logger_auditlogentry",
+      "_tgt": "audits_rationale_369",
+      "confidence_score": 0.5,
+      "source": "bigquery_logger_auditlogentry",
+      "target": "audits_rationale_369"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L438",
+      "weight": 0.8,
+      "_src": "bigquery_logger_auditlogentry",
+      "_tgt": "audits_rationale_405",
+      "confidence_score": 0.5,
+      "source": "bigquery_logger_auditlogentry",
+      "target": "audits_rationale_405"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L432",
+      "weight": 0.8,
+      "_src": "bigquery_logger_auditlogentry",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
+      "source": "bigquery_logger_auditlogentry",
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L432",
+      "weight": 0.8,
+      "_src": "bigquery_logger_auditlogentry",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "bigquery_logger_auditlogentry",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L432",
+      "weight": 0.8,
+      "_src": "bigquery_logger_auditlogentry",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "bigquery_logger_auditlogentry",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L432",
+      "weight": 0.8,
+      "_src": "bigquery_logger_auditlogentry",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "bigquery_logger_auditlogentry",
+      "target": "audits_rationale_399"
     },
     {
       "relation": "uses",
@@ -13372,6 +15238,102 @@
       "_tgt": "test_intersectional_main",
       "source": "fairness_metrics_fairnessevaluator",
       "target": "test_intersectional_main"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L18",
+      "weight": 0.8,
+      "_src": "fairness_metrics_fairnessevaluator",
+      "_tgt": "audits_rationale_239",
+      "confidence_score": 0.5,
+      "source": "fairness_metrics_fairnessevaluator",
+      "target": "audits_rationale_239"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L18",
+      "weight": 0.8,
+      "_src": "fairness_metrics_fairnessevaluator",
+      "_tgt": "audits_rationale_351",
+      "confidence_score": 0.5,
+      "source": "fairness_metrics_fairnessevaluator",
+      "target": "audits_rationale_351"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L18",
+      "weight": 0.8,
+      "_src": "fairness_metrics_fairnessevaluator",
+      "_tgt": "audits_rationale_369",
+      "confidence_score": 0.5,
+      "source": "fairness_metrics_fairnessevaluator",
+      "target": "audits_rationale_369"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L18",
+      "weight": 0.8,
+      "_src": "fairness_metrics_fairnessevaluator",
+      "_tgt": "audits_rationale_405",
+      "confidence_score": 0.5,
+      "source": "fairness_metrics_fairnessevaluator",
+      "target": "audits_rationale_405"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L18",
+      "weight": 0.8,
+      "_src": "fairness_metrics_fairnessevaluator",
+      "_tgt": "audits_rationale_233",
+      "confidence_score": 0.5,
+      "source": "fairness_metrics_fairnessevaluator",
+      "target": "audits_rationale_233"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L18",
+      "weight": 0.8,
+      "_src": "fairness_metrics_fairnessevaluator",
+      "_tgt": "audits_rationale_345",
+      "confidence_score": 0.5,
+      "source": "fairness_metrics_fairnessevaluator",
+      "target": "audits_rationale_345"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L18",
+      "weight": 0.8,
+      "_src": "fairness_metrics_fairnessevaluator",
+      "_tgt": "audits_rationale_363",
+      "confidence_score": 0.5,
+      "source": "fairness_metrics_fairnessevaluator",
+      "target": "audits_rationale_363"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "C:\\DEV apps\\Google solutions\\api\\routers\\audits.py",
+      "source_location": "L18",
+      "weight": 0.8,
+      "_src": "fairness_metrics_fairnessevaluator",
+      "_tgt": "audits_rationale_399",
+      "confidence_score": 0.5,
+      "source": "fairness_metrics_fairnessevaluator",
+      "target": "audits_rationale_399"
     },
     {
       "relation": "uses",
@@ -14313,7 +16275,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\new\\page.tsx",
-      "source_location": "L129",
+      "source_location": "L135",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_frontend_app_dashboard_audits_new_page_tsx",
       "_tgt": "page_togglecolumntag",
@@ -14325,7 +16287,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\new\\page.tsx",
-      "source_location": "L146",
+      "source_location": "L152",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_frontend_app_dashboard_audits_new_page_tsx",
       "_tgt": "page_getcolumncategory",
@@ -14337,7 +16299,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\new\\page.tsx",
-      "source_location": "L156",
+      "source_location": "L162",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_frontend_app_dashboard_audits_new_page_tsx",
       "_tgt": "page_handlelaunch",
@@ -14385,7 +16347,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\[audit_id]\\page.tsx",
-      "source_location": "L50",
+      "source_location": "L51",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_frontend_app_dashboard_audits_audit_id_page_tsx",
       "_tgt": "page_scoregauge",
@@ -14397,7 +16359,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\[audit_id]\\page.tsx",
-      "source_location": "L397",
+      "source_location": "L399",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_frontend_app_dashboard_audits_audit_id_page_tsx",
       "_tgt": "page_handleexport",
@@ -14409,7 +16371,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\[audit_id]\\page.tsx",
-      "source_location": "L418",
+      "source_location": "L420",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_frontend_app_dashboard_audits_audit_id_page_tsx",
       "_tgt": "page_handleverifyintegrity",
@@ -14421,7 +16383,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\[audit_id]\\page.tsx",
-      "source_location": "L431",
+      "source_location": "L433",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_frontend_app_dashboard_audits_audit_id_page_tsx",
       "_tgt": "page_handleresolve",
@@ -14433,7 +16395,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "C:\\DEV apps\\Google solutions\\frontend\\app\\dashboard\\audits\\[audit_id]\\page.tsx",
-      "source_location": "L451",
+      "source_location": "L454",
       "weight": 1.0,
       "_src": "c_dev_apps_google_solutions_frontend_app_dashboard_audits_audit_id_page_tsx",
       "_tgt": "page_fetchaudit",
@@ -14920,6 +16882,30 @@
       "source": "c_dev_apps_google_solutions_scratch_test_intersectional_py",
       "target": "test_intersectional_main",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "C:\\DEV apps\\Google solutions\\scratch\\test_pipeline_direct.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "c_dev_apps_google_solutions_scratch_test_pipeline_direct_py",
+      "_tgt": "test_pipeline_direct_test_pipeline",
+      "source": "c_dev_apps_google_solutions_scratch_test_pipeline_direct_py",
+      "target": "test_pipeline_direct_test_pipeline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "C:\\DEV apps\\Google solutions\\scratch\\test_pipeline_direct.py",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_src": "test_pipeline_direct_test_pipeline",
+      "_tgt": "main_run_audit_pipeline",
+      "source": "test_pipeline_direct_test_pipeline",
+      "target": "main_run_audit_pipeline"
     },
     {
       "relation": "contains",
