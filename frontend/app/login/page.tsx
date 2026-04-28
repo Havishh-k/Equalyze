@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
-import { Scale, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -42,100 +42,143 @@ export default function LoginPage() {
     }
   };
 
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    padding: "10px 12px 10px 40px",
+    borderRadius: "var(--radius-md)",
+    border: "1px solid var(--border-default)",
+    background: "var(--surface-card)",
+    color: "var(--text-primary)",
+    fontSize: 14,
+    outline: "none",
+    transition: "border-color var(--transition-fast)",
+    fontFamily: "var(--font-body)",
+  };
+
   return (
     <div
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
-      style={{ background: "var(--bg-primary)" }}
+      className="min-h-screen flex"
+      style={{ background: "var(--surface-base)" }}
     >
-      {/* Background effects */}
-      <div
-        className="absolute top-1/4 -left-32 w-96 h-96 rounded-full opacity-20 blur-3xl"
-        style={{ background: "radial-gradient(circle, #3B82F6, transparent)" }}
-      />
-      <div
-        className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full opacity-15 blur-3xl"
-        style={{ background: "radial-gradient(circle, #8B5CF6, transparent)" }}
-      />
-
-      <div className="w-full max-w-md mx-4 animate-slide-up">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-3 mb-4">
-            <div
-              className="w-12 h-12 rounded-2xl flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg, #3B82F6, #8B5CF6)" }}
+      {/* ── Left: Form ──────────────────────── */}
+      <div className="flex-1 flex items-center justify-center px-8">
+        <div className="w-full max-w-sm animate-fade-in">
+          {/* Wordmark */}
+          <div style={{ marginBottom: "var(--space-10)" }}>
+            <h1
+              style={{
+                fontFamily: "var(--font-body)",
+                fontWeight: 700,
+                fontSize: 22,
+                color: "var(--text-primary)",
+                marginBottom: 4,
+              }}
             >
-              <Scale className="w-7 h-7 text-white" />
-            </div>
-            <span className="text-3xl font-bold text-white">Equalyze</span>
+              Equalyze
+            </h1>
+            <p style={{ fontSize: 14, color: "var(--text-secondary)" }}>
+              AI Bias Detection & Governance Platform
+            </p>
           </div>
-          <p style={{ color: "var(--text-secondary)" }} className="text-sm">
-            AI Bias Detection & Governance Platform
-          </p>
-        </div>
 
-        {/* Card */}
-        <div className="glass-card p-8">
-          <h2 className="text-xl font-semibold text-white mb-6">Sign in to your account</h2>
+          {/* Title */}
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: 28,
+              fontWeight: 400,
+              color: "var(--text-primary)",
+              marginBottom: "var(--space-8)",
+              lineHeight: 1.2,
+            }}
+          >
+            Sign in to your account
+          </h2>
 
+          {/* Error */}
           {error && (
             <div
-              className="mb-4 px-4 py-3 rounded-xl text-sm"
-              style={{ background: "rgba(239, 68, 68, 0.12)", border: "1px solid rgba(239, 68, 68, 0.25)", color: "var(--severity-red)" }}
+              style={{
+                marginBottom: "var(--space-4)",
+                padding: "10px 14px",
+                borderRadius: "var(--radius-md)",
+                background: "var(--severity-red-bg)",
+                border: "1px solid var(--severity-red-border)",
+                color: "var(--severity-red-text)",
+                fontSize: 13,
+              }}
             >
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit}>
             {/* Email */}
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+            <div style={{ marginBottom: "var(--space-4)" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: "var(--text-primary)",
+                  marginBottom: 6,
+                }}
+              >
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "var(--text-muted)" }} />
+                <Mail
+                  className="absolute top-1/2 -translate-y-1/2"
+                  style={{ left: 12, width: 16, height: 16, color: "var(--text-tertiary)" }}
+                />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@company.com"
                   required
-                  className="w-full pl-10 pr-4 py-3 rounded-xl text-sm text-white placeholder:text-gray-500 outline-none focus:ring-2 transition-all"
-                  style={{
-                    background: "var(--bg-card)",
-                    border: "1px solid var(--border-default)",
-                  }}
+                  style={inputStyle}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = "var(--brand-400)")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border-default)")}
                 />
               </div>
             </div>
 
             {/* Password */}
-            <div>
-              <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+            <div style={{ marginBottom: "var(--space-6)" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: "var(--text-primary)",
+                  marginBottom: 6,
+                }}
+              >
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: "var(--text-muted)" }} />
+                <Lock
+                  className="absolute top-1/2 -translate-y-1/2"
+                  style={{ left: 12, width: 16, height: 16, color: "var(--text-tertiary)" }}
+                />
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   required
-                  className="w-full pl-10 pr-12 py-3 rounded-xl text-sm text-white placeholder:text-gray-500 outline-none focus:ring-2 transition-all"
-                  style={{
-                    background: "var(--bg-card)",
-                    border: "1px solid var(--border-default)",
-                  }}
+                  style={{ ...inputStyle, paddingRight: 40 }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = "var(--brand-400)")}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border-default)")}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
-                  style={{ color: "var(--text-muted)" }}
+                  className="absolute top-1/2 -translate-y-1/2"
+                  style={{ right: 12, color: "var(--text-tertiary)", background: "none", border: "none", cursor: "pointer" }}
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? <EyeOff style={{ width: 16, height: 16 }} /> : <Eye style={{ width: 16, height: 16 }} />}
                 </button>
               </div>
             </div>
@@ -144,27 +187,27 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl text-sm font-semibold text-white flex items-center justify-center gap-2 transition-all hover:opacity-90 disabled:opacity-50"
-              style={{ background: "linear-gradient(135deg, #3B82F6, #8B5CF6)" }}
+              className="btn btn-primary w-full"
+              style={{ height: 42, fontSize: 14 }}
             >
-              {loading ? "Signing in..." : "Sign In"}
-              {!loading && <ArrowRight className="w-4 h-4" />}
+              {loading ? "Signing in…" : "Sign In"}
+              {!loading && <ArrowRight style={{ width: 16, height: 16 }} />}
             </button>
           </form>
 
           {/* Divider */}
-          <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px" style={{ background: "var(--border-default)" }} />
-            <span className="text-xs" style={{ color: "var(--text-muted)" }}>or continue with</span>
-            <div className="flex-1 h-px" style={{ background: "var(--border-default)" }} />
+          <div className="flex items-center gap-3" style={{ margin: "var(--space-6) 0" }}>
+            <div className="flex-1" style={{ height: 1, background: "var(--border-default)" }} />
+            <span style={{ fontSize: 12, color: "var(--text-tertiary)" }}>or continue with</span>
+            <div className="flex-1" style={{ height: 1, background: "var(--border-default)" }} />
           </div>
 
           {/* Google */}
           <button
             onClick={handleGoogle}
             disabled={loading}
-            className="w-full py-3 rounded-xl text-sm font-medium text-white flex items-center justify-center gap-2 transition-all hover:opacity-80 disabled:opacity-50"
-            style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}
+            className="btn btn-secondary w-full"
+            style={{ height: 42 }}
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -176,12 +219,75 @@ export default function LoginPage() {
           </button>
 
           {/* Footer */}
-          <p className="text-center mt-6 text-sm" style={{ color: "var(--text-muted)" }}>
+          <p className="text-center" style={{ marginTop: "var(--space-6)", fontSize: 14, color: "var(--text-secondary)" }}>
             Don&apos;t have an account?{" "}
-            <Link href="/register" className="font-medium" style={{ color: "var(--accent-blue)" }}>
+            <Link href="/register" style={{ fontWeight: 500, color: "var(--text-link)" }}>
               Create one
             </Link>
           </p>
+        </div>
+      </div>
+
+      {/* ── Right: Brand Panel ──────────────── */}
+      <div
+        className="hidden lg:flex flex-col justify-center items-center px-12"
+        style={{
+          width: "45%",
+          background: "var(--brand-700)",
+          color: "var(--neutral-0)",
+        }}
+      >
+        <div style={{ maxWidth: 360 }}>
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontStyle: "italic",
+              fontSize: 36,
+              lineHeight: 1.25,
+              marginBottom: "var(--space-6)",
+            }}
+          >
+            Make the invisible, visible.
+          </p>
+          <p
+            style={{
+              fontSize: 15,
+              lineHeight: 1.7,
+              opacity: 0.8,
+              marginBottom: "var(--space-10)",
+            }}
+          >
+            Detect, prove, and fix algorithmic discrimination before it costs a life or a livelihood.
+          </p>
+
+          {/* Stat callouts */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-5)" }}>
+            {[
+              { value: "63M", label: "MSMEs denied credit by biased models annually" },
+              { value: "1 in 8", label: "Healthcare AI models show racial bias in diagnosis" },
+              { value: "€30M", label: "Maximum EU AI Act fine for non-compliance" },
+            ].map((stat) => (
+              <div
+                key={stat.value}
+                style={{
+                  paddingLeft: "var(--space-4)",
+                  borderLeft: "2px solid rgba(255,255,255,0.25)",
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontWeight: 600,
+                    fontSize: 18,
+                    marginBottom: 2,
+                  }}
+                >
+                  {stat.value}
+                </p>
+                <p style={{ fontSize: 13, opacity: 0.7 }}>{stat.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

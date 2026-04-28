@@ -14,7 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
 interface DriftPoint {
   date: string;
@@ -31,7 +31,7 @@ export default function MonitoringPage() {
   const fetchDrift = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/v1/monitoring/drift`, {
+      const res = await fetch(`${API_BASE}/monitoring/drift`, {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
       const data = await res.json();
@@ -53,7 +53,7 @@ export default function MonitoringPage() {
   const triggerAudit = async () => {
     setTriggering(true);
     try {
-      await fetch(`${API_BASE}/api/v1/monitoring/run-scheduled-audit`, {
+      await fetch(`${API_BASE}/monitoring/run-scheduled-audit`, {
         method: "POST",
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
@@ -86,7 +86,7 @@ export default function MonitoringPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h2 className="text-2xl font-bold flex items-center gap-3">
             <Activity className="w-6 h-6" style={{ color: "var(--accent-cyan)" }} />
             Continuous Bias Monitoring
           </h2>
@@ -97,8 +97,7 @@ export default function MonitoringPage() {
         <button
           onClick={triggerAudit}
           disabled={triggering}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 disabled:opacity-50"
-          style={{ background: "linear-gradient(135deg, #3B82F6, #8B5CF6)" }}
+          className="btn btn-primary gap-2"
         >
           <RefreshCw className={`w-4 h-4 ${triggering ? "animate-spin" : ""}`} />
           {triggering ? "Running..." : "Trigger Audit Now"}
@@ -107,14 +106,14 @@ export default function MonitoringPage() {
 
       {/* Stats Row */}
       <div className="grid grid-cols-4 gap-4">
-        <div className="glass-card p-5">
+        <div className="card p-5">
           <div className="flex items-center gap-2 mb-2">
             <Shield className="w-4 h-4" style={{ color: "var(--accent-blue)" }} />
             <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>Current Score</span>
           </div>
-          <p className="text-3xl font-bold text-white">{latestScore !== null ? latestScore.toFixed(1) : "--"}</p>
+          <p className="text-3xl font-bold">{latestScore !== null ? latestScore.toFixed(1) : "--"}</p>
         </div>
-        <div className="glass-card p-5">
+        <div className="card p-5">
           <div className="flex items-center gap-2 mb-2">
             {scoreDelta !== null && scoreDelta >= 0 ? (
               <TrendingUp className="w-4 h-4" style={{ color: "var(--severity-green)" }} />
@@ -127,27 +126,27 @@ export default function MonitoringPage() {
             {scoreDelta !== null ? `${scoreDelta > 0 ? "+" : ""}${scoreDelta.toFixed(1)}` : "--"}
           </p>
         </div>
-        <div className="glass-card p-5">
+        <div className="card p-5">
           <div className="flex items-center gap-2 mb-2">
             <BarChart3 className="w-4 h-4" style={{ color: "var(--accent-purple)" }} />
             <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>Total Audits</span>
           </div>
-          <p className="text-3xl font-bold text-white">{driftData.length}</p>
+          <p className="text-3xl font-bold">{driftData.length}</p>
         </div>
-        <div className="glass-card p-5">
+        <div className="card p-5">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="w-4 h-4" style={{ color: "var(--accent-cyan)" }} />
             <span className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>Schedule</span>
           </div>
-          <p className="text-lg font-bold text-white">Every 60s</p>
+          <p className="text-lg font-bold">Every 60s</p>
           <p className="text-[10px]" style={{ color: "var(--text-muted)" }}>Cloud Scheduler Mock</p>
         </div>
       </div>
 
       {/* Drift Chart */}
-      <div className="glass-card p-6">
+      <div className="card p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
             <Zap className="w-5 h-5" style={{ color: "var(--severity-amber)" }} />
             Bias Score Drift Over Time
           </h3>
@@ -242,25 +241,25 @@ export default function MonitoringPage() {
       </div>
 
       {/* Alert config (placeholder for judges) */}
-      <div className="glass-card p-6">
-        <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+      <div className="card p-6">
+        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
           <AlertTriangle className="w-5 h-5" style={{ color: "var(--severity-amber)" }} />
           Alert Configuration
         </h3>
         <div className="grid grid-cols-3 gap-4">
           <div className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
             <p className="text-xs font-medium mb-1" style={{ color: "var(--text-muted)" }}>Score Threshold</p>
-            <p className="text-lg font-bold text-white">≤ 60.0</p>
+            <p className="text-lg font-bold">≤ 60.0</p>
             <p className="text-[10px] mt-1" style={{ color: "var(--severity-amber)" }}>Triggers AMBER alert</p>
           </div>
           <div className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
             <p className="text-xs font-medium mb-1" style={{ color: "var(--text-muted)" }}>Notification Channel</p>
-            <p className="text-lg font-bold text-white">Email + Slack</p>
+            <p className="text-lg font-bold">Email + Slack</p>
             <p className="text-[10px] mt-1" style={{ color: "var(--severity-green)" }}>Active</p>
           </div>
           <div className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
             <p className="text-xs font-medium mb-1" style={{ color: "var(--text-muted)" }}>Auto-Remediation</p>
-            <p className="text-lg font-bold text-white">Enabled</p>
+            <p className="text-lg font-bold">Enabled</p>
             <p className="text-[10px] mt-1" style={{ color: "var(--accent-cyan)" }}>Synthetic data pipeline</p>
           </div>
         </div>

@@ -255,6 +255,9 @@ class AuditStatusResponse(BaseModel):
     audit_id: str
     status: AuditStatus
     progress_percent: int = 0
+    current_step: str = "Queued"
+    step_index: int = 0
+    total_steps: int = 5
     agents: dict[str, AgentState] = {}
     overall_severity: Optional[Severity] = None
     overall_score: Optional[float] = None

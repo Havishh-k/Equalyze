@@ -6,24 +6,45 @@ import Link from "next/link";
 import {
   FileSearch,
   ArrowRight,
-  CheckCircle,
-  AlertTriangle,
-  XCircle,
   Plus,
-  Loader2,
 } from "lucide-react";
 import { listAudits, type AuditSummary } from "@/lib/api";
 
 function SeverityBadge({ severity }: { severity: string }) {
-  const config: Record<string, { label: string; cls: string; icon: React.ReactNode }> = {
-    GREEN: { label: "Compliant", cls: "severity-green", icon: <CheckCircle className="w-3 h-3" /> },
-    AMBER: { label: "Monitor", cls: "severity-amber", icon: <AlertTriangle className="w-3 h-3" /> },
-    RED: { label: "Action Required", cls: "severity-red", icon: <XCircle className="w-3 h-3" /> },
+  const config: Record<string, { label: string; variant: string }> = {
+    GREEN: { label: "Compliant", variant: "green" },
+    AMBER: { label: "Monitor", variant: "amber" },
+    RED: { label: "Action Required", variant: "red" },
   };
   const c = config[severity] || config.GREEN;
   return (
-    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-semibold ${c.cls}`}>
-      {c.icon} {c.label}
+    <span className={`severity-badge severity-badge--${c.variant}`} role="status">
+      <span className="severity-dot" />
+      {c.label}
+    </span>
+  );
+}
+
+function StatusBadge({ status }: { status: string }) {
+  const styles: Record<string, { bg: string; color: string }> = {
+    complete: { bg: "var(--severity-green-bg)", color: "var(--severity-green-text)" },
+    running: { bg: "var(--brand-50)", color: "var(--brand-600)" },
+    failed: { bg: "var(--severity-red-bg)", color: "var(--severity-red-text)" },
+  };
+  const s = styles[status] || styles.complete;
+  return (
+    <span
+      style={{
+        fontSize: 12,
+        fontWeight: 500,
+        padding: "2px 8px",
+        borderRadius: "var(--radius-full)",
+        background: s.bg,
+        color: s.color,
+        textTransform: "capitalize",
+      }}
+    >
+      {status}
     </span>
   );
 }
@@ -40,73 +61,134 @@ export default function AuditsListPage() {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold text-white">All Audits</h2>
-        <Link
-          href="/dashboard/audits/new"
-          className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-white"
-          style={{ background: "linear-gradient(135deg, #3B82F6, #2563EB)" }}
-        >
-          <Plus className="w-3.5 h-3.5" />
+    <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      {/* Header */}
+      <div
+        className="flex items-center justify-between"
+        style={{ marginBottom: "var(--space-6)" }}
+      >
+        <div>
+          <h1
+            style={{
+              fontWeight: 700,
+              fontSize: 30,
+              color: "var(--text-primary)",
+              letterSpacing: "-0.02em",
+              marginBottom: 4,
+            }}
+          >
+            All Audits
+          </h1>
+          <p style={{ fontSize: 15, color: "var(--text-secondary)" }}>
+            {audits.length} audit{audits.length !== 1 ? "s" : ""} total
+          </p>
+        </div>
+        <Link href="/dashboard/audits/new" className="btn btn-primary">
+          <Plus style={{ width: 16, height: 16 }} />
           New Audit
         </Link>
       </div>
 
+      {/* Content */}
       {loading ? (
-        <div className="text-center py-20">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3" style={{ color: "var(--accent-blue)" }} />
+        <div className="text-center" style={{ padding: "var(--space-20) 0" }}>
+          <div
+            className="animate-spinner mx-auto"
+            style={{
+              width: 24,
+              height: 24,
+              border: "2px solid var(--neutral-200)",
+              borderTopColor: "var(--brand-500)",
+              borderRadius: "50%",
+              marginBottom: "var(--space-3)",
+            }}
+          />
         </div>
       ) : audits.length === 0 ? (
-        <div className="text-center py-20 glass-card">
-          <FileSearch className="w-12 h-12 mx-auto mb-4" style={{ color: "var(--text-muted)" }} />
-          <p className="text-sm font-medium text-white mb-1">No audits yet</p>
-          <p className="text-xs mb-4" style={{ color: "var(--text-muted)" }}>
+        <div className="card text-center" style={{ padding: "var(--space-16) var(--space-8)" }}>
+          <FileSearch
+            style={{
+              width: 40,
+              height: 40,
+              color: "var(--neutral-300)",
+              margin: "0 auto var(--space-4)",
+            }}
+          />
+          <p
+            style={{
+              fontWeight: 500,
+              fontSize: 14,
+              color: "var(--text-primary)",
+              marginBottom: 4,
+            }}
+          >
+            No audits yet
+          </p>
+          <p
+            style={{
+              fontSize: 13,
+              color: "var(--text-secondary)",
+              marginBottom: "var(--space-4)",
+            }}
+          >
             Run your first bias audit to see results here
           </p>
-          <Link
-            href="/dashboard/audits/new"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-white"
-            style={{ background: "var(--accent-blue)" }}
-          >
-            <Plus className="w-3.5 h-3.5" />
+          <Link href="/dashboard/audits/new" className="btn btn-primary">
+            <Plus style={{ width: 14, height: 14 }} />
             Start Audit
           </Link>
         </div>
       ) : (
-        <div className="space-y-3">
-          {audits.map((audit, i) => (
-            <motion.div
-              key={audit.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-            >
-              <Link
-                href={`/dashboard/audits/${audit.id}`}
-                className="flex items-center gap-4 p-5 rounded-xl glass-card hover:scale-[1.01] transition-all"
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-white truncate">
-                    {audit.dataset_filename}
-                  </p>
-                  <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>
-                    {audit.domain} · {audit.findings_count} finding{audit.findings_count !== 1 ? "s" : ""} · {new Date(audit.created_at).toLocaleDateString()}
-                  </p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-medium px-2 py-1 rounded-md" style={{ 
-                    background: audit.status === "complete" ? "rgba(34,197,94,0.1)" : audit.status === "running" ? "rgba(59,130,246,0.1)" : "rgba(239,68,68,0.1)",
-                    color: audit.status === "complete" ? "var(--severity-green)" : audit.status === "running" ? "var(--accent-blue)" : "var(--severity-red)",
-                  }}>
-                    {audit.status}
-                  </span>
-                  <SeverityBadge severity={audit.overall_severity} />
-                  <ArrowRight className="w-4 h-4" style={{ color: "var(--text-muted)" }} />
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+        <div className="card" style={{ overflow: "hidden" }}>
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Dataset</th>
+                <th>Domain</th>
+                <th>Findings</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Severity</th>
+                <th style={{ width: 40 }}></th>
+              </tr>
+            </thead>
+            <tbody>
+              {audits.map((audit, i) => (
+                <motion.tr
+                  key={audit.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: i * 0.03 }}
+                  className="clickable"
+                  onClick={() => {
+                    window.location.href = `/dashboard/audits/${audit.id}`;
+                  }}
+                >
+                  <td>
+                    <span style={{ fontWeight: 500 }}>{audit.dataset_filename}</span>
+                  </td>
+                  <td style={{ color: "var(--text-secondary)", textTransform: "capitalize" }}>
+                    {audit.domain}
+                  </td>
+                  <td>
+                    {audit.findings_count} finding{audit.findings_count !== 1 ? "s" : ""}
+                  </td>
+                  <td style={{ color: "var(--text-secondary)", fontFamily: "var(--font-mono)", fontSize: 13 }}>
+                    {new Date(audit.created_at).toLocaleDateString()}
+                  </td>
+                  <td>
+                    <StatusBadge status={audit.status} />
+                  </td>
+                  <td>
+                    <SeverityBadge severity={audit.overall_severity} />
+                  </td>
+                  <td>
+                    <ArrowRight style={{ width: 14, height: 14, color: "var(--text-tertiary)" }} />
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

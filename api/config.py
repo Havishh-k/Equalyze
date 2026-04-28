@@ -7,8 +7,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Load .env from project root
-ROOT_DIR = Path(__file__).parent.parent
-load_dotenv(ROOT_DIR / ".env")
+# In container: /app/api/config.py -> parent.parent = /app
+ROOT_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(ROOT_DIR / ".env", override=False)
 
 
 class Settings:

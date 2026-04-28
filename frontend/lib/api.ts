@@ -53,6 +53,8 @@ export async function uploadDataset(file: File, domain: string = "other") {
     job_id: string;
     dataset_id: string;
     filename: string;
+    row_count?: number;
+    column_names?: string[];
   }>("/datasets/upload", {
     method: "POST",
     body: formData,
@@ -107,6 +109,9 @@ export async function getAuditStatus(auditId: string) {
     audit_id: string;
     status: string;
     progress_percent: number;
+    current_step: string;
+    step_index: number;
+    total_steps: number;
     agents: Record<string, AgentState>;
     overall_severity: string | null;
     overall_score: number | null;
@@ -140,15 +145,20 @@ export async function listAudits() {
 export async function resolveAudit(auditId: string, params: {
   action: "approve" | "escalate";
   comments: string;
+  reviewer_2_uid?: string;
 }) {
+  // Map frontend fields to the API's ResolutionRequest schema
+  const payload = {
+    action_taken: params.action === "approve" ? "Approved" : "Escalated",
+    reviewer_2_uid: params.reviewer_2_uid || "self-review",
+  };
   return fetchAPI<{
     message: string;
-    audit_id: string;
-    resolution_status: string;
+    event: Record<string, unknown>;
   }>(`/audits/${auditId}/resolve`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(params),
+    body: JSON.stringify(payload),
   });
 }
 

@@ -28,29 +28,42 @@ class OrchestratorAgent:
     4. Finalize: Compute overall severity, write audit log
     """
 
-    async def run_audit(self, audit: Audit, df: pd.DataFrame, schema_map):
+    async def run_audit(self, audit: Audit, df: pd.DataFrame, schema_map, on_update=None):
         """Execute the complete audit pipeline."""
         schema_dict = schema_map.model_dump() if hasattr(schema_map, 'model_dump') else schema_map
         domain = audit.model_metadata.domain.value if hasattr(audit.model_metadata.domain, 'value') else str(audit.model_metadata.domain)
         jurisdictions = audit.model_metadata.jurisdiction
 
+        def emit_update():
+            if on_update:
+                try:
+                    on_update(audit)
+                except Exception:
+                    # Progress persistence should never break the audit pipeline.
+                    pass
+
         self._log(audit, "audit_started", "Pipeline execution started")
+        emit_update()
 
         # ── Step 1: Twin Engine ────────────────
         self._update_agent(audit, "twin_engine", AgentStatus.RUNNING)
+        emit_update()
         try:
             findings = await twin_engine_agent.analyze(df, schema_dict, domain)
             audit.findings = findings
             self._update_agent(audit, "twin_engine", AgentStatus.COMPLETE)
             self._log(audit, "twin_engine_complete", f"Found {len(findings)} findings")
+            emit_update()
         except Exception as e:
             self._update_agent(audit, "twin_engine", AgentStatus.FAILED, str(e))
             self._log(audit, "twin_engine_failed", str(e))
             # Continue with empty findings rather than aborting
             audit.findings = []
+            emit_update()
 
         # ── Step 2: Governance ────────────────
         self._update_agent(audit, "governance", AgentStatus.RUNNING)
+        emit_update()
         try:
             for finding in audit.findings:
                 if finding.severity in (Severity.AMBER, Severity.RED):
@@ -68,12 +81,15 @@ class OrchestratorAgent:
 
             self._update_agent(audit, "governance", AgentStatus.COMPLETE)
             self._log(audit, "governance_complete", f"Overall: {overall_severity} ({overall_score})")
+            emit_update()
         except Exception as e:
             self._update_agent(audit, "governance", AgentStatus.FAILED, str(e))
             self._log(audit, "governance_failed", str(e))
+            emit_update()
 
         # ── Step 3: Remediation ────────────────
         self._update_agent(audit, "remediation", AgentStatus.RUNNING)
+        emit_update()
         try:
             for finding in audit.findings:
                 if finding.severity in (Severity.AMBER, Severity.RED):
@@ -86,12 +102,15 @@ class OrchestratorAgent:
 
             self._update_agent(audit, "remediation", AgentStatus.COMPLETE)
             self._log(audit, "remediation_complete", "Strategies generated")
+            emit_update()
         except Exception as e:
             self._update_agent(audit, "remediation", AgentStatus.FAILED, str(e))
             self._log(audit, "remediation_failed", str(e))
+            emit_update()
 
         # ── Step 4: Finalize ────────────────
         self._update_agent(audit, "reporting", AgentStatus.RUNNING)
+        emit_update()
         try:
             # Mark ingestion as complete (already done during upload)
             self._update_agent(audit, "ingestion", AgentStatus.COMPLETE)
@@ -119,10 +138,12 @@ class OrchestratorAgent:
 
             self._update_agent(audit, "reporting", AgentStatus.COMPLETE)
             self._log(audit, "audit_complete", f"Audit complete: {audit.overall_severity}")
+            emit_update()
         except Exception as e:
             self._update_agent(audit, "reporting", AgentStatus.FAILED, str(e))
             audit.status = AuditStatus.FAILED
             self._log(audit, "audit_failed", str(e))
+            emit_update()
 
     def _update_agent(self, audit: Audit, agent_name: str, status: AgentStatus, error: str = None):
         """Update an agent's status."""

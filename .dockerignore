@@ -1,0 +1,37 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Node
+frontend/node_modules/
+frontend/.next/
+
+# Git
+.git/
+.github/
+
+# IDE / tooling
+.agent/
+.agent.zip
+.code-review-graph/
+.planning/
+.graphifyignore
+graphify/
+graphify-out/
+
+# Large artifacts (root-level only, not trained_models/)
+/*.joblib
+storage/
+sdk/
+tests/
+testsprite_tests/
+scratch/
+functions/
+frontend/
+regulations/
+worker/
+
+# Docs
+*.md
+!api/README.md

@@ -4,9 +4,10 @@ from firebase_admin import credentials, firestore, auth, storage
 from fastapi import HTTPException, Security, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Dict, Any
+from pathlib import Path
 
 # Path to the service account JSON
-CREDENTIAL_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "firebase-adminsdk.json")
+CREDENTIAL_PATH = str(Path(__file__).resolve().parent.parent / "firebase-adminsdk.json")
 
 def initialize_firebase():
     if not firebase_admin._apps:

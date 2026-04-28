@@ -6,9 +6,11 @@ def trigger_cloud_scheduler_mock():
     """
     Mocks Google Cloud Scheduler triggering the webhook.
     """
+    import os
+    port = os.getenv("PORT", "8000")
     try:
         req = urllib.request.Request(
-            "http://127.0.0.1:8000/api/v1/monitoring/run-scheduled-audit",
+            f"http://127.0.0.1:{port}/api/v1/monitoring/run-scheduled-audit",
             method="POST",
             headers={"Content-Length": "0"}
         )

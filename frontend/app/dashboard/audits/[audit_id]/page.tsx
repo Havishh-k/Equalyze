@@ -28,23 +28,7 @@ import {
   type BiasMetric,
   type CounterfactualTwin,
 } from "@/lib/api";
-
-// ── Severity Badge ──────────────────────────────
-
-function SeverityBadge({ severity, size = "md" }: { severity: string; size?: "sm" | "md" | "lg" }) {
-  const config: Record<string, { label: string; cls: string; icon: React.ReactNode }> = {
-    GREEN: { label: "Compliant", cls: "severity-green", icon: <CheckCircle className="w-3.5 h-3.5" /> },
-    AMBER: { label: "Monitor", cls: "severity-amber", icon: <AlertTriangle className="w-3.5 h-3.5" /> },
-    RED: { label: "Action Required", cls: "severity-red", icon: <XCircle className="w-3.5 h-3.5" /> },
-  };
-  const c = config[severity] || config.GREEN;
-  const sizeClasses = { sm: "px-2 py-0.5 text-[10px]", md: "px-3 py-1.5 text-xs", lg: "px-4 py-2 text-sm" };
-  return (
-    <span className={`inline-flex items-center gap-1.5 rounded-lg font-semibold ${c.cls} ${sizeClasses[size]}`}>
-      {c.icon} {c.label}
-    </span>
-  );
-}
+import { SeverityBadge } from "@/components/SeverityBadge";
 
 // ── Score Gauge ─────────────────────────────────
 
@@ -89,15 +73,15 @@ function AgentTracker({ agents = {} }: { agents?: Record<string, { status: strin
       {agentList.map((a, i) => {
         const status = agents[a.key]?.status || "pending";
         const color =
-          status === "complete" ? "var(--severity-green)"
-          : status === "running" ? "var(--accent-blue)"
-          : status === "failed" ? "var(--severity-red)"
-          : "var(--text-muted)";
+          status === "complete" ? "var(--severity-green-dot)"
+          : status === "running" ? "var(--brand-500)"
+          : status === "failed" ? "var(--severity-red-dot)"
+          : "var(--text-tertiary)";
         return (
           <div key={a.key} className="flex items-center gap-2">
             <div
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium"
-              style={{ background: "var(--bg-card)", border: `1px solid ${color}30`, color }}
+              style={{ background: "var(--surface-card)", border: `1px solid ${color}30`, color }}
             >
               {status === "running" ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -111,7 +95,7 @@ function AgentTracker({ agents = {} }: { agents?: Record<string, { status: strin
               {a.label}
             </div>
             {i < agentList.length - 1 && (
-              <div className="w-4 h-px" style={{ background: status === "complete" ? "var(--severity-green)" : "var(--border-default)" }} />
+              <div className="w-4 h-px" style={{ background: status === "complete" ? "var(--severity-green-dot)" : "var(--border-default)" }} />
             )}
           </div>
         );
@@ -124,7 +108,7 @@ function AgentTracker({ agents = {} }: { agents?: Record<string, { status: strin
 
 function MetricCard({ metric }: { metric: BiasMetric }) {
   return (
-    <div className="glass-card p-5">
+    <div className="card p-5">
       <div className="flex items-center justify-between mb-3">
         <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>
           {metric.metric_name.replace(/_/g, " ")}
@@ -154,11 +138,11 @@ function TwinCard({ twin, protectedAttr }: { twin: CounterfactualTwin; protected
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="glass-card p-6 glow-red"
+      className="card p-6 glow-red"
     >
       <div className="flex items-center gap-2 mb-5">
         <Users className="w-5 h-5" style={{ color: "var(--severity-red)" }} />
-        <h4 className="text-sm font-bold text-white">Counterfactual Twin — {protectedAttr}</h4>
+        <h4 className="text-sm font-bold">Counterfactual Twin — {protectedAttr}</h4>
         <span className="ml-auto text-[10px] font-mono px-2 py-0.5 rounded" style={{ background: "var(--bg-elevated)", color: "var(--text-muted)" }}>
           Quality: {(twin.twin_quality_score * 100).toFixed(0)}%
         </span>
@@ -239,7 +223,7 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
     >
       {/* Finding header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-bold text-white flex items-center gap-3">
+        <h3 className="text-lg font-bold flex items-center gap-3">
           <span className="text-xs font-mono px-2 py-1 rounded" style={{ background: "var(--bg-elevated)", color: "var(--text-muted)" }}>
             #{index + 1}
           </span>
@@ -253,7 +237,7 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
       </div>
 
       {isScheduledFinding ? (
-        <div className="glass-card p-5">
+        <div className="card p-5">
           <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
             {finding.description}
           </p>
@@ -274,8 +258,8 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
 
           {/* Legal violations */}
           {(finding.legal_violations?.length || 0) > 0 && (
-            <div className="glass-card p-6">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2 mb-4">
+            <div className="card p-6">
+              <h4 className="text-sm font-bold flex items-center gap-2 mb-4">
                 <Scale className="w-4 h-4" style={{ color: "var(--severity-red)" }} />
                 Legal Exposure
               </h4>
@@ -283,7 +267,7 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
                 {finding.legal_violations.map((v: any, i: number) => (
                   <div key={i} className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-semibold text-white">{v.regulation_name}</span>
+                      <span className="text-xs font-semibold">{v.regulation_name}</span>
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
                         v.risk_level === "CRITICAL" || v.risk_level === "HIGH" ? "severity-red" : v.risk_level === "MEDIUM" ? "severity-amber" : "severity-green"
                       }`}>
@@ -304,8 +288,8 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
 
           {/* Remediation strategies */}
           {(finding.remediation_strategies?.length || 0) > 0 && (
-            <div className="glass-card p-6">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2 mb-4">
+            <div className="card p-6">
+              <h4 className="text-sm font-bold flex items-center gap-2 mb-4">
                 <Zap className="w-4 h-4" style={{ color: "var(--severity-amber)" }} />
                 Remediation Strategies
               </h4>
@@ -316,7 +300,7 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
                       <span className="text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "rgba(59,130,246,0.15)", color: "var(--accent-blue)" }}>
                         {s.rank}
                       </span>
-                      <span className="text-sm font-semibold text-white">{s.name}</span>
+                      <span className="text-sm font-semibold">{s.name}</span>
                       <span className="ml-auto text-[10px] font-medium px-2 py-0.5 rounded" style={{ background: "var(--bg-elevated)", color: "var(--text-muted)" }}>
                         {s.level} · {s.estimated_effort}
                       </span>
@@ -338,8 +322,8 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
 
           {/* Genealogy */}
           {(finding.genealogy_tree?.length || 0) > 0 && (
-            <div className="glass-card p-6">
-              <h4 className="text-sm font-bold text-white mb-4">Bias Genealogy — Root Cause Analysis</h4>
+            <div className="card p-6">
+              <h4 className="text-sm font-bold mb-4">Bias Genealogy — Root Cause Analysis</h4>
               <div className="space-y-3">
                 {finding.genealogy_tree.map((node: any) => (
                   <div key={node.level} className="flex items-start gap-4">
@@ -354,7 +338,7 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-semibold text-white">{node.level_name}</span>
+                        <span className="text-xs font-semibold">{node.level_name}</span>
                         <span className="text-[10px] font-mono" style={{ color: "var(--text-muted)" }}>
                           ({(node.bias_contribution * 100).toFixed(0)}% contribution)
                         </span>
@@ -382,6 +366,12 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
   const [error, setError] = useState<string | null>(null);
   const [verifying, setVerifying] = useState(false);
   const [verificationResult, setVerificationResult] = useState<{verified: boolean, message: string} | null>(null);
+  const [statusSnapshot, setStatusSnapshot] = useState<{
+    progress_percent: number;
+    current_step: string;
+    step_index: number;
+    total_steps: number;
+  } | null>(null);
 
   // Resolution state
   const [showResolveModal, setShowResolveModal] = useState(false);
@@ -438,7 +428,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
         action: resolveAction,
         comments: resolveComments,
       });
-      setAudit((prev) => prev ? { ...prev, resolution_status: result.resolution_status, resolution_comments: resolveComments } : prev);
+      setAudit((prev) => prev ? { ...prev, resolution_status: resolveAction === "approve" ? "approved" : "escalated", resolution_comments: resolveComments } : prev);
       setShowResolveModal(false);
     } catch (err) {
       console.error(err);
@@ -453,24 +443,18 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
 
     const fetchAudit = async () => {
       try {
+        const status = await getAuditStatus(audit_id);
+        if (stopped) return;
+        setStatusSnapshot({
+          progress_percent: status.progress_percent,
+          current_step: status.current_step,
+          step_index: status.step_index,
+          total_steps: status.total_steps,
+        });
+
         const data = await getAudit(audit_id);
         if (stopped) return;
         setError(null);
-        
-        // Detect stale "running" audits (older than 10 min) — they'll never complete
-        if (data.status === "running" && data.created_at) {
-          const createdStr = data.created_at.endsWith("Z") ? data.created_at : data.created_at + "Z";
-          const ageMs = Date.now() - new Date(createdStr).getTime();
-          if (ageMs > 10 * 60 * 1000) {
-            data.status = "failed";
-            data.audit_log = data.audit_log || [];
-            data.audit_log.push({
-              event: "timeout",
-              details: "Audit timed out — pipeline worker was unreachable. Please re-run.",
-              timestamp: new Date().toISOString(),
-            });
-          }
-        }
 
         setAudit(data);
         setLoading(false);
@@ -495,7 +479,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
     return (
       <div className="text-center py-20">
         <XCircle className="w-10 h-10 mx-auto mb-4" style={{ color: "var(--severity-red)" }} />
-        <p className="text-lg font-semibold text-white mb-2">Audit Not Found</p>
+        <p className="text-lg font-semibold mb-2">Audit Not Found</p>
         <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>{error}</p>
         <Link href="/dashboard/audits" className="text-sm font-medium hover:underline" style={{ color: "var(--accent-blue)" }}>
           ← Back to Audits
@@ -524,7 +508,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
             <ArrowLeft className="w-3.5 h-3.5" />
             Back to Dashboard
           </Link>
-          <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h2 className="text-2xl font-bold flex items-center gap-3">
             {audit.dataset?.filename || "Bias Audit"}
             {audit.resolution_status && (
               <span className={`text-xs px-2 py-1 rounded-md font-bold ${audit.resolution_status === 'approved' ? 'severity-green' : 'severity-amber'}`}>
@@ -541,8 +525,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
           {!isRunning && audit.overall_severity !== "GREEN" && !(audit_id as string).startsWith("sch-") && (
             <Link
               href={`/dashboard/audits/${audit_id}/remediation`}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
-              style={{ background: "linear-gradient(135deg, #8B5CF6, #06B6D4)" }}
+              className="btn btn-primary gap-2"
             >
               <Sparkles className="w-4 h-4" />
               Remediate with AI
@@ -551,8 +534,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
           {!isRunning && !audit.resolution_status && (
             <button
               onClick={() => setShowResolveModal(true)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
-              style={{ background: "linear-gradient(135deg, #10B981, #059669)" }}
+              className="btn btn-primary gap-2"
             >
               <CheckCircle className="w-4 h-4" />
               Resolve Audit
@@ -561,8 +543,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
           {!isRunning && (
             <button
               onClick={() => setShowExportModal(true)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
-              style={{ background: "var(--bg-elevated)", border: "1px solid var(--border-default)", color: "var(--text-primary)" }}
+              className="btn btn-secondary gap-2"
             >
               <Download className="w-4 h-4" />
               Export Bias Receipt
@@ -572,11 +553,39 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
       </div>
 
       {/* Agent status tracker */}
-      <div className="glass-card p-5 overflow-x-auto">
+      <div className="card p-5 overflow-x-auto">
         <p className="text-xs font-medium mb-3" style={{ color: "var(--text-muted)" }}>
           Agent Pipeline {isRunning ? "(running...)" : ""}
         </p>
         <AgentTracker agents={audit.agents} />
+        {statusSnapshot && (
+          <div style={{ marginTop: "var(--space-4)" }}>
+            <div className="flex items-center justify-between text-xs" style={{ marginBottom: 6 }}>
+              <span style={{ color: "var(--text-secondary)" }}>
+                Step {statusSnapshot.step_index}/{statusSnapshot.total_steps}: {statusSnapshot.current_step}
+              </span>
+              <span style={{ color: "var(--text-secondary)", fontFamily: "var(--font-mono)" }}>
+                {statusSnapshot.progress_percent}%
+              </span>
+            </div>
+            <div
+              style={{
+                width: "100%",
+                height: 8,
+                background: "var(--neutral-100)",
+                borderRadius: "var(--radius-full)",
+                overflow: "hidden",
+              }}
+            >
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${statusSnapshot.progress_percent}%` }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                style={{ height: "100%", background: "var(--brand-500)" }}
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Running state */}
@@ -584,13 +593,18 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="text-center py-16 glass-card"
+          className="text-center py-16 card"
         >
-          <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4" style={{ color: "var(--accent-blue)" }} />
-          <p className="text-lg font-semibold text-white mb-2">Audit in Progress</p>
+          <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4" style={{ color: "var(--brand-500)" }} />
+          <p className="text-lg font-semibold mb-2">Audit in Progress</p>
           <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
             Our AI agents are analyzing your dataset for bias. This usually takes 2-5 minutes.
           </p>
+          {statusSnapshot && (
+            <p className="text-xs mt-2" style={{ color: "var(--text-tertiary)" }}>
+              Current step: {statusSnapshot.current_step} ({statusSnapshot.progress_percent}%)
+            </p>
+          )}
         </motion.div>
       )}
 
@@ -598,9 +612,9 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
       {!isRunning && audit.findings && (
         <div className="space-y-10">
           {audit.findings.length === 0 ? (
-            <div className="text-center py-16 glass-card">
+            <div className="text-center py-16 card">
               <CheckCircle className="w-12 h-12 mx-auto mb-4" style={{ color: "var(--severity-green)" }} />
-              <p className="text-lg font-semibold text-white mb-2">No Bias Detected</p>
+              <p className="text-lg font-semibold mb-2">No Bias Detected</p>
               <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
                 Your model appears fair across all tested protected attributes. 🎉
               </p>
@@ -615,15 +629,15 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
 
       {/* Audit log */}
       {!isRunning && audit.audit_log && audit.audit_log.length > 0 && (
-        <div className="glass-card p-6">
-          <h4 className="text-sm font-bold text-white mb-4">Audit Log — Chain of Custody</h4>
+        <div className="card p-6">
+          <h4 className="text-sm font-bold mb-4">Audit Log — Chain of Custody</h4>
           <div className="space-y-2">
             {audit.audit_log.map((entry, i) => (
               <div key={i} className="flex items-center gap-3 text-xs">
                 <span className="font-mono" style={{ color: "var(--text-muted)" }}>
                   {new Date(entry.timestamp).toLocaleTimeString()}
                 </span>
-                <span className="font-medium text-white">{entry.event}</span>
+                <span className="font-medium">{entry.event}</span>
                 <span style={{ color: "var(--text-secondary)" }}>{entry.details}</span>
               </div>
             ))}
@@ -660,8 +674,8 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
       {/* Cognitive Forcing Function Modal */}
       {showExportModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="glass-card p-8 max-w-lg w-full">
-            <h3 className="text-xl font-bold text-white mb-4">Export Bias Receipt</h3>
+          <div className="card p-8 max-w-lg w-full">
+            <h3 className="text-xl font-bold mb-4">Export Bias Receipt</h3>
             <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
               Under EU AI Act Article 14, active human oversight is required before certifying an AI system. Please acknowledge the following before generating the report:
             </p>
@@ -669,15 +683,15 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
             <div className="space-y-4 mb-8">
               <label className="flex items-start gap-3 cursor-pointer">
                 <input type="checkbox" checked={exportCheck1} onChange={e => setExportCheck1(e.target.checked)} className="mt-1" />
-                <span className="text-sm text-white">I have reviewed the statistical uncertainty margins and understand they represent probabilities, not absolute facts.</span>
+                <span className="text-sm">I have reviewed the statistical uncertainty margins and understand they represent probabilities, not absolute facts.</span>
               </label>
               <label className="flex items-start gap-3 cursor-pointer">
                 <input type="checkbox" checked={exportCheck2} onChange={e => setExportCheck2(e.target.checked)} className="mt-1" />
-                <span className="text-sm text-white">I acknowledge that this report does not replace formal legal counsel regarding regulatory compliance.</span>
+                <span className="text-sm">I acknowledge that this report does not replace formal legal counsel regarding regulatory compliance.</span>
               </label>
               <label className="flex items-start gap-3 cursor-pointer">
                 <input type="checkbox" checked={exportCheck3} onChange={e => setExportCheck3(e.target.checked)} className="mt-1" />
-                <span className="text-sm text-white">I confirm that the identified counterfactual twins represent realistic scenarios for our user base.</span>
+                <span className="text-sm">I confirm that the identified counterfactual twins represent realistic scenarios for our user base.</span>
               </label>
             </div>
 
@@ -692,8 +706,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
               <button 
                 onClick={handleExport}
                 disabled={!canExport}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 disabled:opacity-50"
-                style={{ background: "linear-gradient(135deg, #22C55E, #06B6D4)" }}
+                className="btn btn-primary gap-2"
               >
                 <Download className="w-4 h-4" />
                 Download JSON Report
@@ -706,8 +719,8 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
       {/* Resolve Audit Modal */}
       {showResolveModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="glass-card p-8 max-w-lg w-full">
-            <h3 className="text-xl font-bold text-white mb-4">Resolve Bias Audit</h3>
+          <div className="card p-8 max-w-lg w-full">
+            <h3 className="text-xl font-bold mb-4">Resolve Bias Audit</h3>
             <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
               As a compliance officer, your resolution will be immutably logged to BigQuery.
             </p>
@@ -742,7 +755,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
               <textarea
                 value={resolveComments}
                 onChange={(e) => setResolveComments(e.target.value)}
-                className="w-full h-24 p-3 rounded-xl text-sm bg-black/30 border border-white/10 text-white placeholder-white/20 focus:outline-none focus:border-blue-500/50"
+                className="w-full h-24 p-3 rounded-xl text-sm bg-[var(--surface-sunken)] border border-[var(--border-default)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--brand-500)]"
                 placeholder="Detail your rationale for this decision..."
               />
             </div>
@@ -758,8 +771,7 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
               <button 
                 onClick={handleResolve}
                 disabled={resolving || !resolveComments.trim()}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 disabled:opacity-50"
-                style={{ background: resolveAction === "approve" ? "var(--severity-green)" : "var(--severity-red)" }}
+                className="btn btn-primary gap-2"
               >
                 {resolving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shield className="w-4 h-4" />}
                 {resolveAction === "approve" ? "Confirm Approval" : "Confirm Escalation"}

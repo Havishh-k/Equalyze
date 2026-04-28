@@ -23,6 +23,56 @@ router = APIRouter()
 # In-memory audit store for active running tasks
 _active_audits: dict[str, Audit] = {}
 
+AGENT_ORDER = ["ingestion", "twin_engine", "governance", "remediation", "reporting"]
+AGENT_LABELS = {
+    "ingestion": "Ingestion",
+    "twin_engine": "Twin Engine",
+    "governance": "Governance",
+    "remediation": "Remediation",
+    "reporting": "Reporting",
+}
+
+
+def _parse_created_at(value):
+    if not value:
+        return None
+    if isinstance(value, datetime):
+        return value
+    if isinstance(value, str):
+        try:
+            return datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except Exception:
+            return None
+    return None
+
+
+def _is_stale_queued_running(audit_dict: dict) -> bool:
+    if audit_dict.get("status") != AuditStatus.RUNNING:
+        return False
+    agents = audit_dict.get("agents", {})
+    if not agents:
+        return False
+    all_pending = all((a or {}).get("status", "pending") == "pending" for a in agents.values())
+    if not all_pending:
+        return False
+    created_at = _parse_created_at(audit_dict.get("created_at"))
+    if not created_at:
+        return False
+    age_seconds = (datetime.utcnow() - created_at.replace(tzinfo=None)).total_seconds()
+    return age_seconds > 600
+
+
+def _mark_stale_failed(audit_dict: dict) -> dict:
+    audit_dict["status"] = AuditStatus.FAILED
+    logs = audit_dict.get("audit_log", []) or []
+    logs.append({
+        "event": "pipeline_unreachable",
+        "details": "Audit did not start within 10 minutes. Background worker likely unavailable; please re-run.",
+        "timestamp": datetime.utcnow().isoformat(),
+    })
+    audit_dict["audit_log"] = logs
+    return audit_dict
+
 def save_audit_to_db(audit: Audit, org_id: str, db):
     """Upsert Audit object to Firestore."""
     try:
@@ -98,9 +148,12 @@ async def run_audit_pipeline(audit_id: str, org_id: str, df, schema_map):
         return
         
     db = get_db()
+    
+    def persist_progress(updated_audit):
+        save_audit_to_db(updated_audit, org_id, db)
 
     try:
-        await orchestrator_agent.run_audit(audit, df, schema_map)
+        await orchestrator_agent.run_audit(audit, df, schema_map, on_update=persist_progress)
     except Exception as e:
         audit.status = AuditStatus.FAILED
         audit.audit_log.append({
@@ -123,17 +176,45 @@ async def get_audit(
 ):
     org_id = user.get("current_org_id", "demo-org")
     if audit_id in _active_audits:
-        return _active_audits[audit_id].model_dump(mode="json")
+        active = _active_audits[audit_id]
+        active_dict = active.model_dump(mode="json")
+        if _is_stale_queued_running(active_dict):
+            active.status = AuditStatus.FAILED
+            active.audit_log.append({
+                "event": "pipeline_unreachable",
+                "details": "Audit did not start within 10 minutes. Background worker likely unavailable; please re-run.",
+                "timestamp": datetime.utcnow().isoformat(),
+            })
+            save_audit_to_db(active, org_id, db)
+            _active_audits.pop(audit_id, None)
+            return active.model_dump(mode="json")
+        return active_dict
         
-    doc = db.collection("organizations").document(org_id).collection("audits").document(audit_id).get()
+    doc_ref = db.collection("organizations").document(org_id).collection("audits").document(audit_id)
+    doc = doc_ref.get()
     if doc.exists:
-        return doc.to_dict()
+        audit_dict = doc.to_dict()
+        if _is_stale_queued_running(audit_dict):
+            audit_dict = _mark_stale_failed(audit_dict)
+            try:
+                doc_ref.set(audit_dict)
+            except Exception:
+                pass
+        return audit_dict
     
     # Fallback: scheduled audits are stored under "demo-org"
     if org_id != "demo-org":
-        doc = db.collection("organizations").document("demo-org").collection("audits").document(audit_id).get()
+        doc_ref = db.collection("organizations").document("demo-org").collection("audits").document(audit_id)
+        doc = doc_ref.get()
         if doc.exists:
-            return doc.to_dict()
+            audit_dict = doc.to_dict()
+            if _is_stale_queued_running(audit_dict):
+                audit_dict = _mark_stale_failed(audit_dict)
+                try:
+                    doc_ref.set(audit_dict)
+                except Exception:
+                    pass
+            return audit_dict
     
     raise HTTPException(status_code=404, detail="Audit not found")
 
@@ -148,23 +229,57 @@ async def get_audit_status(
     
     if audit_id in _active_audits:
         audit_dict = _active_audits[audit_id].model_dump(mode="json")
+        if _is_stale_queued_running(audit_dict):
+            active = _active_audits[audit_id]
+            active.status = AuditStatus.FAILED
+            active.audit_log.append({
+                "event": "pipeline_unreachable",
+                "details": "Audit did not start within 10 minutes. Background worker likely unavailable; please re-run.",
+                "timestamp": datetime.utcnow().isoformat(),
+            })
+            save_audit_to_db(active, org_id, db)
+            _active_audits.pop(audit_id, None)
+            audit_dict = active.model_dump(mode="json")
     else:
-        doc = db.collection("organizations").document(org_id).collection("audits").document(audit_id).get()
+        doc_ref = db.collection("organizations").document(org_id).collection("audits").document(audit_id)
+        doc = doc_ref.get()
         if not doc.exists and org_id != "demo-org":
-            doc = db.collection("organizations").document("demo-org").collection("audits").document(audit_id).get()
+            doc_ref = db.collection("organizations").document("demo-org").collection("audits").document(audit_id)
+            doc = doc_ref.get()
         if not doc.exists:
             raise HTTPException(status_code=404, detail="Audit not found")
         audit_dict = doc.to_dict()
+        if _is_stale_queued_running(audit_dict):
+            audit_dict = _mark_stale_failed(audit_dict)
+            try:
+                doc_ref.set(audit_dict)
+            except Exception:
+                pass
 
     agents = audit_dict.get("agents", {})
-    total_agents = len(agents)
-    complete_agents = sum(1 for a in agents.values() if a.get("status") == "complete")
+    total_agents = len(AGENT_ORDER)
+    complete_agents = sum(1 for k in AGENT_ORDER if (agents.get(k) or {}).get("status") == "complete")
     progress = int((complete_agents / total_agents) * 100) if total_agents > 0 else 0
+    running_key = next((k for k in AGENT_ORDER if (agents.get(k) or {}).get("status") == "running"), None)
+    next_pending = next((k for k in AGENT_ORDER if (agents.get(k) or {}).get("status") == "pending"), None)
+    current_key = running_key or next_pending or AGENT_ORDER[-1]
+    step_index = AGENT_ORDER.index(current_key) + 1 if current_key in AGENT_ORDER else 1
+    current_step = AGENT_LABELS.get(current_key, "Queued")
+
+    if audit_dict.get("status") == AuditStatus.COMPLETE:
+        progress = 100
+        step_index = total_agents
+        current_step = "Complete"
+    elif audit_dict.get("status") == AuditStatus.FAILED:
+        current_step = "Failed"
 
     return AuditStatusResponse(
         audit_id=audit_id,
         status=audit_dict.get("status", AuditStatus.RUNNING),
         progress_percent=progress,
+        current_step=current_step,
+        step_index=step_index,
+        total_steps=total_agents,
         agents=agents,
         overall_severity=audit_dict.get("overall_severity"),
         overall_score=audit_dict.get("overall_score"),
@@ -211,6 +326,9 @@ async def list_audits(
         results = []
         for doc in docs:
             a = doc.to_dict()
+            if a.get("type") == "scheduled" or str(a.get("id", "")).startswith("sch-"):
+                continue
+                
             results.append({
                 "id": a.get("id"),
                 "status": a.get("status"),

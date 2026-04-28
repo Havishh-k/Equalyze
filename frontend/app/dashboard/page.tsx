@@ -10,21 +10,26 @@ import {
   CheckCircle,
   Clock,
   ArrowRight,
-  TrendingUp,
   Shield,
+  Activity,
 } from "lucide-react";
 import { listAudits, type AuditSummary } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 
 function SeverityBadge({ severity }: { severity: string }) {
-  const config: Record<string, { label: string; class: string }> = {
-    GREEN: { label: "Compliant", class: "severity-green" },
-    AMBER: { label: "Monitor", class: "severity-amber" },
-    RED: { label: "Action Required", class: "severity-red" },
+  const config: Record<string, { label: string; variant: string }> = {
+    GREEN: { label: "Compliant", variant: "green" },
+    AMBER: { label: "Monitor", variant: "amber" },
+    RED: { label: "Action Required", variant: "red" },
   };
   const c = config[severity] || config.GREEN;
   return (
-    <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold ${c.class}`}>
+    <span
+      className={`severity-badge severity-badge--${c.variant}`}
+      role="status"
+      aria-label={`Severity: ${c.label}`}
+    >
+      <span className="severity-dot" />
       {c.label}
     </span>
   );
@@ -49,163 +54,349 @@ export default function DashboardPage() {
     green: audits.filter((a) => a.overall_severity === "GREEN").length,
   };
 
+  const statCards = [
+    { label: "Total Audits", value: stats.total, icon: FileSearch, dotColor: "var(--brand-500)" },
+    { label: "Action Required", value: stats.red, icon: AlertTriangle, dotColor: "var(--severity-red-dot)" },
+    { label: "Needs Monitoring", value: stats.amber, icon: Clock, dotColor: "var(--severity-amber-dot)" },
+    { label: "Compliant", value: stats.green, icon: CheckCircle, dotColor: "var(--severity-green-dot)" },
+  ];
+
   return (
-    <div className="space-y-8">
-      {/* Welcome */}
+    <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      {/* ── Page Header ─────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
+        className="flex items-center justify-between"
+        style={{ marginBottom: "var(--space-8)" }}
       >
-        <h2 className="text-2xl font-bold text-white mb-1">
-          Welcome back, <span className="gradient-text">{user?.displayName || user?.email?.split('@')[0] || "User"}</span>
-        </h2>
-        <p style={{ color: "var(--text-secondary)" }}>
-          Here&apos;s your organization&apos;s AI fairness overview.
-        </p>
+        <div>
+          <h1
+            style={{
+              fontFamily: "var(--font-body)",
+              fontWeight: 700,
+              fontSize: 30,
+              color: "var(--text-primary)",
+              letterSpacing: "-0.02em",
+              marginBottom: 4,
+            }}
+          >
+            Dashboard
+          </h1>
+          <p style={{ fontSize: 15, color: "var(--text-secondary)" }}>
+            AI fairness overview for{" "}
+            {user?.displayName || user?.email?.split("@")[0] || "your organization"}.
+          </p>
+        </div>
+        <Link href="/dashboard/audits/new" className="btn btn-primary">
+          <Plus style={{ width: 16, height: 16 }} />
+          New Audit
+        </Link>
       </motion.div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {[
-          { label: "Total Audits", value: stats.total, icon: FileSearch, color: "#3B82F6" },
-          { label: "Critical (Red)", value: stats.red, icon: AlertTriangle, color: "#EF4444" },
-          { label: "Warning (Amber)", value: stats.amber, icon: Clock, color: "#F59E0B" },
-          { label: "Compliant (Green)", value: stats.green, icon: CheckCircle, color: "#22C55E" },
-        ].map((stat, i) => (
+      {/* ── Stat Cards ──────────────────────── */}
+      <div
+        className="grid grid-cols-1 md:grid-cols-4"
+        style={{ gap: "var(--space-4)", marginBottom: "var(--space-8)" }}
+      >
+        {statCards.map((stat, i) => (
           <motion.div
             key={stat.label}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            className="glass-card p-5"
+            transition={{ delay: i * 0.08 }}
+            className="card"
+            style={{ padding: "var(--space-5)" }}
           >
-            <div className="flex items-center justify-between mb-3">
-              <stat.icon className="w-5 h-5" style={{ color: stat.color }} />
-              <span className="text-2xl font-bold text-white">{stat.value}</span>
+            <div className="flex items-center justify-between" style={{ marginBottom: "var(--space-3)" }}>
+              <stat.icon
+                style={{ width: 18, height: 18, color: "var(--text-tertiary)" }}
+              />
+              <span
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: stat.dotColor,
+                  display: "inline-block",
+                }}
+              />
             </div>
-            <p className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>
+            <p
+              style={{
+                fontFamily: "var(--font-body)",
+                fontWeight: 700,
+                fontSize: 28,
+                color: "var(--text-primary)",
+                lineHeight: 1,
+                marginBottom: 4,
+              }}
+            >
+              {stat.value}
+            </p>
+            <p
+              style={{
+                fontSize: 13,
+                fontWeight: 400,
+                color: "var(--text-secondary)",
+              }}
+            >
               {stat.label}
             </p>
           </motion.div>
         ))}
       </div>
 
-      {/* Quick Actions */}
+      {/* ── Quick Actions ───────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="glass-card p-6"
+        transition={{ delay: 0.35 }}
+        className="card"
+        style={{ marginBottom: "var(--space-8)" }}
       >
-        <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Link
-            href="/dashboard/audits/new"
-            className="group flex items-center gap-4 p-5 rounded-xl transition-all hover:scale-[1.02]"
+        <div className="card-header">
+          <h3
             style={{
-              background: "rgba(59, 130, 246, 0.06)",
-              border: "1px solid rgba(59, 130, 246, 0.15)",
+              fontWeight: 600,
+              fontSize: 16,
+              color: "var(--text-primary)",
             }}
           >
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: "rgba(59, 130, 246, 0.15)" }}>
-              <Plus className="w-6 h-6" style={{ color: "var(--accent-blue)" }} />
+            Quick Actions
+          </h3>
+        </div>
+        <div
+          className="card-body grid grid-cols-1 md:grid-cols-2"
+          style={{ gap: "var(--space-4)" }}
+        >
+          <Link
+            href="/dashboard/audits/new"
+            className="group flex items-center gap-4 p-4 transition-all"
+            style={{
+              borderRadius: "var(--radius-lg)",
+              border: "1px solid var(--border-default)",
+              background: "var(--surface-card)",
+            }}
+          >
+            <div
+              className="flex items-center justify-center"
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: "var(--radius-lg)",
+                background: "var(--brand-50)",
+                color: "var(--brand-500)",
+                flexShrink: 0,
+              }}
+            >
+              <Plus style={{ width: 20, height: 20 }} />
             </div>
             <div className="flex-1">
-              <p className="font-semibold text-white">Start New Audit</p>
-              <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
+              <p
+                style={{
+                  fontWeight: 600,
+                  fontSize: 14,
+                  color: "var(--text-primary)",
+                  marginBottom: 2,
+                }}
+              >
+                Start New Audit
+              </p>
+              <p style={{ fontSize: 13, color: "var(--text-secondary)" }}>
                 Upload a dataset and run a comprehensive bias analysis
               </p>
             </div>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" style={{ color: "var(--text-muted)" }} />
+            <ArrowRight
+              className="group-hover:translate-x-1 transition-transform"
+              style={{ width: 16, height: 16, color: "var(--text-tertiary)" }}
+            />
           </Link>
 
-          <div
-            className="flex items-center gap-4 p-5 rounded-xl"
+          <Link
+            href="/dashboard/monitoring"
+            className="group flex items-center gap-4 p-4 transition-all"
             style={{
-              background: "rgba(139, 92, 246, 0.06)",
-              border: "1px solid rgba(139, 92, 246, 0.15)",
+              borderRadius: "var(--radius-lg)",
+              border: "1px solid var(--border-default)",
+              background: "var(--surface-card)",
             }}
           >
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: "rgba(139, 92, 246, 0.15)" }}>
-              <TrendingUp className="w-6 h-6" style={{ color: "var(--accent-purple)" }} />
+            <div
+              className="flex items-center justify-center"
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: "var(--radius-lg)",
+                background: "var(--brand-50)",
+                color: "var(--brand-500)",
+                flexShrink: 0,
+              }}
+            >
+              <Activity style={{ width: 20, height: 20 }} />
             </div>
             <div className="flex-1">
-              <p className="font-semibold text-white">Bias Drift Monitor</p>
-              <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
+              <p
+                style={{
+                  fontWeight: 600,
+                  fontSize: 14,
+                  color: "var(--text-primary)",
+                  marginBottom: 2,
+                }}
+              >
+                Bias Drift Monitor
+              </p>
+              <p style={{ fontSize: 13, color: "var(--text-secondary)" }}>
                 Track bias trends across all models over time
               </p>
             </div>
-            <span className="text-[10px] px-2 py-1 rounded-md font-medium" style={{ color: "var(--text-muted)", background: "var(--bg-card)" }}>
-              Coming Soon
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 500,
+                padding: "3px 8px",
+                borderRadius: "var(--radius-full)",
+                background: "var(--severity-green-bg)",
+                color: "var(--severity-green-text)",
+                border: "1px solid var(--severity-green-border)",
+              }}
+            >
+              Live
             </span>
-          </div>
+            <ArrowRight
+              className="group-hover:translate-x-1 transition-transform"
+              style={{ width: 16, height: 16, color: "var(--text-tertiary)" }}
+            />
+          </Link>
         </div>
       </motion.div>
 
-      {/* Recent Audits */}
+      {/* ── Recent Audits ───────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="glass-card p-6"
+        transition={{ delay: 0.45 }}
+        className="card"
       >
-        <div className="flex items-center justify-between mb-5">
-          <h3 className="text-lg font-semibold text-white">Recent Audits</h3>
+        <div className="card-header flex items-center justify-between">
+          <h3
+            style={{
+              fontWeight: 600,
+              fontSize: 16,
+              color: "var(--text-primary)",
+            }}
+          >
+            Recent Audits
+          </h3>
           {audits.length > 0 && (
             <Link
               href="/dashboard/audits"
-              className="text-xs font-medium hover:underline"
-              style={{ color: "var(--accent-blue)" }}
+              className="text-xs font-medium"
+              style={{ color: "var(--text-link)" }}
             >
               View All →
             </Link>
           )}
         </div>
 
-        {loading ? (
-          <div className="text-center py-12">
-            <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin mx-auto mb-3" style={{ borderColor: "var(--accent-blue)", borderTopColor: "transparent" }} />
-            <p className="text-sm" style={{ color: "var(--text-muted)" }}>Loading audits...</p>
-          </div>
-        ) : audits.length === 0 ? (
-          <div className="text-center py-12">
-            <Shield className="w-12 h-12 mx-auto mb-4" style={{ color: "var(--text-muted)" }} />
-            <p className="text-sm font-medium text-white mb-1">No audits yet</p>
-            <p className="text-xs mb-4" style={{ color: "var(--text-muted)" }}>
-              Upload a dataset to run your first bias analysis
-            </p>
-            <Link
-              href="/dashboard/audits/new"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-white"
-              style={{ background: "var(--accent-blue)" }}
-            >
-              <Plus className="w-3.5 h-3.5" />
-              New Audit
-            </Link>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {audits.slice(0, 5).map((audit) => (
-              <Link
-                key={audit.id}
-                href={`/dashboard/audits/${audit.id}`}
-                className="flex items-center gap-4 p-4 rounded-xl transition-all hover:scale-[1.01]"
-                style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}
+        <div className="card-body">
+          {loading ? (
+            <div className="text-center" style={{ padding: "var(--space-12) 0" }}>
+              <div
+                className="animate-spinner mx-auto"
+                style={{
+                  width: 24,
+                  height: 24,
+                  border: "2px solid var(--neutral-200)",
+                  borderTopColor: "var(--brand-500)",
+                  borderRadius: "50%",
+                  marginBottom: "var(--space-3)",
+                }}
+              />
+              <p style={{ fontSize: 13, color: "var(--text-secondary)" }}>Loading audits…</p>
+            </div>
+          ) : audits.length === 0 ? (
+            <div className="text-center" style={{ padding: "var(--space-12) 0" }}>
+              <Shield
+                style={{
+                  width: 40,
+                  height: 40,
+                  color: "var(--neutral-300)",
+                  margin: "0 auto var(--space-4)",
+                }}
+              />
+              <p
+                style={{
+                  fontWeight: 500,
+                  fontSize: 14,
+                  color: "var(--text-primary)",
+                  marginBottom: 4,
+                }}
               >
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-white truncate">
-                    {audit.dataset_filename}
-                  </p>
-                  <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-                    {audit.domain} · {audit.findings_count} finding{audit.findings_count !== 1 ? "s" : ""} · {new Date(audit.created_at).toLocaleDateString()}
-                  </p>
-                </div>
-                <SeverityBadge severity={audit.overall_severity} />
-                <ArrowRight className="w-4 h-4" style={{ color: "var(--text-muted)" }} />
+                No audits yet
+              </p>
+              <p
+                style={{
+                  fontSize: 13,
+                  color: "var(--text-secondary)",
+                  marginBottom: "var(--space-4)",
+                }}
+              >
+                Upload a dataset to run your first bias analysis
+              </p>
+              <Link href="/dashboard/audits/new" className="btn btn-primary">
+                <Plus style={{ width: 14, height: 14 }} />
+                New Audit
               </Link>
-            ))}
-          </div>
-        )}
+            </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
+              {audits.slice(0, 5).map((audit) => (
+                <Link
+                  key={audit.id}
+                  href={`/dashboard/audits/${audit.id}`}
+                  className="flex items-center gap-4 transition-all"
+                  style={{
+                    padding: "var(--space-3) var(--space-4)",
+                    borderRadius: "var(--radius-md)",
+                    border: "1px solid transparent",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "var(--neutral-50)";
+                    e.currentTarget.style.borderColor = "var(--border-default)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.borderColor = "transparent";
+                  }}
+                >
+                  <div className="flex-1 min-w-0">
+                    <p
+                      className="truncate"
+                      style={{
+                        fontWeight: 500,
+                        fontSize: 14,
+                        color: "var(--text-primary)",
+                        marginBottom: 2,
+                      }}
+                    >
+                      {audit.dataset_filename}
+                    </p>
+                    <p style={{ fontSize: 13, color: "var(--text-secondary)" }}>
+                      {audit.domain} · {audit.findings_count} finding
+                      {audit.findings_count !== 1 ? "s" : ""} ·{" "}
+                      {new Date(audit.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <SeverityBadge severity={audit.overall_severity} />
+                  <ArrowRight
+                    style={{ width: 14, height: 14, color: "var(--text-tertiary)" }}
+                  />
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       </motion.div>
     </div>
   );

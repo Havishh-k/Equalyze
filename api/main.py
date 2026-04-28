@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from api.routers import datasets, audits, organizations, monitoring
+from api.routers import datasets, audits, organizations, monitoring, counterfactual
 from api.config import settings
 from api.services.scheduler import start_scheduler
 from fastapi.exceptions import RequestValidationError
@@ -45,6 +45,7 @@ app.add_middleware(
         settings.FRONTEND_URL,
         "http://localhost:3000",
         "http://localhost:3001",
+        "https://equalyze-frontend-940127015585.us-central1.run.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -63,6 +64,7 @@ app.include_router(datasets.router, prefix="/api/v1", tags=["datasets"])
 app.include_router(audits.router, prefix="/api/v1", tags=["audits"])
 app.include_router(organizations.router, prefix="/api/v1", tags=["organizations"])
 app.include_router(monitoring.router, prefix="/api/v1", tags=["monitoring"])
+app.include_router(counterfactual.router, prefix="/api/v1", tags=["counterfactual"])
 
 
 if __name__ == "__main__":
