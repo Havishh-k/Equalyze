@@ -33,7 +33,7 @@ async def upload_dataset(
 
     dataset_id = str(uuid.uuid4())
     org_id = user.get("current_org_id", "demo-org")
-    
+
     # 1. Save locally
     save_dir = settings.DATASETS_DIR / dataset_id
     save_dir.mkdir(parents=True, exist_ok=True)
@@ -127,17 +127,17 @@ async def get_dataset_status(
                 return {"status": "PROCESSING"}
     except Exception:
         pass
-        
+
     return {"status": "PROCESSING"}
 
 @router.get("/datasets/{dataset_id}/schema-suggestions")
 async def get_schema_suggestions(
-    dataset_id: str, 
+    dataset_id: str,
     user: Dict[str, Any] = Depends(get_optional_user),
     db = Depends(get_db)
 ):
     org_id = user.get("current_org_id", "demo-org")
-    
+
     # Try Firestore first, fallback to local cache
     ds = None
     try:
@@ -147,14 +147,14 @@ async def get_schema_suggestions(
             ds = doc.to_dict()
     except Exception:
         pass
-    
+
     # Fallback to local cache
     if not ds and dataset_id in _datastore_cache:
         ds = _datastore_cache[dataset_id]["metadata"]
-    
+
     if not ds:
         raise HTTPException(status_code=404, detail="Dataset not found")
-        
+
     profile = ds["profile"]
 
     # Ingestion Agent
@@ -170,18 +170,18 @@ async def get_schema_suggestions(
         df = _datastore_cache[dataset_id]["df"]
         from api.services.proxy_detector import proxy_detector
         from api.agents.proxy_agent import proxy_agent
-        
+
         if schema.protected_attributes and schema.valid_factors:
             proxies = proxy_detector.detect_proxies(
                 df=df,
                 protected_cols=schema.protected_attributes,
                 valid_factor_cols=schema.valid_factors,
             )
-            
+
             # Use Gemini to generate semantic explanations for the detected proxies
             domain = ds.get("domain", "other") if ds else "other"
             proxies_with_explanations = proxy_agent.explain_proxies(proxies, domain=domain)
-            
+
             schema.proxy_warnings = proxies_with_explanations
 
     return {

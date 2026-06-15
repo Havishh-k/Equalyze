@@ -33,7 +33,7 @@ class LLMPromptAuditRequest(BaseModel):
 async def run_llm_prompt_audit(request: LLMPromptAuditRequest):
     """
     Run a Generative AI Prompt Twin Audit.
-    
+
     Evaluates a system prompt template for demographic bias by:
     1. Generating Prompt Twins (majority vs. minority identifiers)
     2. Simulating LLM responses for each twin
@@ -43,7 +43,7 @@ async def run_llm_prompt_audit(request: LLMPromptAuditRequest):
         system_prompt=request.system_prompt,
         demographic_axes=request.demographic_axes,
     )
-    
+
     return {
         "audit_type": "generative_ai",
         "organization_name": request.organization_name,

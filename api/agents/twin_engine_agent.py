@@ -143,7 +143,7 @@ Output JSON:
 class TwinEngineAgent(BaseEqualyzeAgent):
     """
     Twin Engine Agent — detects bias AND proves it.
-    
+
     Three parallel sub-tasks:
     1. Statistical bias detection (FairnessEvaluator — pure Python)
     2. Counterfactual twin generation (Gemini Pro — the magic)
@@ -206,7 +206,7 @@ class TwinEngineAgent(BaseEqualyzeAgent):
                         majority_group=metric_data.get("majority_group"),
                     )
                     finding.metrics.append(bm)
-                    
+
                     # Track worst severity
                     sev = metric_data.get("severity", Severity.GREEN)
                     if isinstance(sev, str):
@@ -244,11 +244,11 @@ class TwinEngineAgent(BaseEqualyzeAgent):
                     inter_severity = inter_metric.get("severity", Severity.GREEN)
                     if isinstance(inter_severity, str):
                         inter_severity = Severity(inter_severity)
-                        
+
                     if inter_severity in (Severity.AMBER, Severity.RED):
                         inter_attrs = inter_metric.get("attributes", [])
                         combo_name = " + ".join(inter_attrs)
-                        
+
                         inter_finding = Finding(
                             protected_attribute=combo_name,
                             finding_type=FindingType.INTERSECTIONAL,
@@ -266,7 +266,7 @@ class TwinEngineAgent(BaseEqualyzeAgent):
                                 )
                             ]
                         )
-                        
+
                         try:
                             twin = await self._generate_intersectional_twin(
                                 df, schema_map, inter_attrs, inter_metric, domain
@@ -275,7 +275,7 @@ class TwinEngineAgent(BaseEqualyzeAgent):
                                 inter_finding.counterfactual_twins.append(twin)
                         except Exception as e:
                             print(f"Intersectional twin generation error for {combo_name}: {e}")
-                            
+
                         inter_finding.severity_score = self._compute_severity_score(inter_finding)
                         findings.append(inter_finding)
 
@@ -348,7 +348,7 @@ class TwinEngineAgent(BaseEqualyzeAgent):
         for factor in valid_factors:
             orig_val = original.get(factor)
             twin_val = twin_profile.get(factor)
-            
+
             # If both are numeric, check variance
             if isinstance(orig_val, (int, float)) and isinstance(twin_val, (int, float)):
                 if pd.api.types.is_numeric_dtype(df[factor]):
@@ -484,7 +484,7 @@ Output JSON: {{"valid": true, "reason": "..."}}
 
         minority_group_values = metric_data.get("worst_group_values")
         majority_group_values = metric_data.get("best_group_values")
-        
+
         if not minority_group_values or not majority_group_values:
             return None
 
@@ -492,7 +492,7 @@ Output JSON: {{"valid": true, "reason": "..."}}
         # Using boolean masking to be safe with types
         min_mask = pd.Series([True]*len(df), index=df.index)
         maj_mask = pd.Series([True]*len(df), index=df.index)
-        
+
         for attr, min_val, maj_val in zip(protected_attrs, minority_group_values, majority_group_values):
             min_mask &= (df[attr] == min_val)
             maj_mask &= (df[attr] == maj_val)

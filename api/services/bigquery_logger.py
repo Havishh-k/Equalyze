@@ -44,7 +44,7 @@ class BigQueryLogger:
         """Ensures the dataset and table exist for immutable audit logging."""
         if not self.client:
             return
-        
+
         dataset_ref = self.client.dataset(DATASET_ID)
         try:
             self.client.get_dataset(dataset_ref)
@@ -52,7 +52,7 @@ class BigQueryLogger:
             dataset = bigquery.Dataset(dataset_ref)
             dataset.location = "US"
             self.client.create_dataset(dataset, timeout=30)
-            
+
         table_ref = dataset_ref.table(TABLE_ID)
         try:
             self.client.get_table(table_ref)
@@ -88,9 +88,9 @@ class BigQueryLogger:
         if not self.client:
             print(f"[MOCK BQ] Logged: {entry.action} for {entry.resource_id}")
             return True
-            
+
         table_ref = self.client.dataset(DATASET_ID).table(TABLE_ID)
-        
+
         row_to_insert = [
             {
                 "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -105,14 +105,14 @@ class BigQueryLogger:
                 "approval_token": entry.approval_token or "",
             }
         ]
-        
+
         errors = self.client.insert_rows_json(table_ref, row_to_insert)
-        
+
         if errors:
             print(f"BigQuery Insert Errors: {errors}")
             # Real enterprise implementation would queue to a DLQ here
             return False
-            
+
         return True
 
     def log_audit(self, audit_id: str, report_hash: str, payload: Dict[str, Any]) -> bool:

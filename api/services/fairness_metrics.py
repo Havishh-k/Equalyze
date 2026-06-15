@@ -103,7 +103,7 @@ class FairnessEvaluator:
 
     def _get_y_true_proxy(self) -> np.ndarray:
         """
-        Generate a proxy for ground truth using pure numpy Ridge Regression 
+        Generate a proxy for ground truth using pure numpy Ridge Regression
         on valid factors to predict the fair outcome.
         """
         if hasattr(self, '_y_true_proxy'):
@@ -114,7 +114,7 @@ class FairnessEvaluator:
             if c in self.df.columns and pd.api.types.is_numeric_dtype(self.df[c])
         ]
         outcomes = self.df[self.outcome_col].values.astype(float)
-        
+
         if len(numeric_cols) < 1:
             self._y_true_proxy = outcomes
             return outcomes
@@ -125,10 +125,10 @@ class FairnessEvaluator:
         std = X.std(axis=0)
         std[std == 0] = 1.0
         X = (X - mean) / std
-        
+
         # Add bias term
         X = np.c_[np.ones(X.shape[0]), X]
-        
+
         # Ridge regression closed form: w = (X^T X + lambda I)^-1 X^T y
         lam = 1.0
         try:
@@ -151,11 +151,11 @@ class FairnessEvaluator:
             y_true = self._get_y_true_proxy()
             y_pred = self.df[self.outcome_col].values.astype(int)
             attr_vals = self.df[attr].values
-            
+
             groups = np.unique(attr_vals)
             if len(groups) < 2:
                 return self._no_data_result("equalized_odds")
-                
+
             tpr_by_group = {}
             for g in groups:
                 mask_g = (attr_vals == g)
@@ -166,7 +166,7 @@ class FairnessEvaluator:
                     tpr_by_group[g] = tpr_num / tpr_denom
                 else:
                     tpr_by_group[g] = 0.0
-                    
+
             tprs = list(tpr_by_group.values())
             eod = float(max(tprs) - min(tprs))
             severity = self._classify_severity(eod, [0.1, 0.2])
@@ -191,11 +191,11 @@ class FairnessEvaluator:
             y_true = self._get_y_true_proxy()
             y_pred = self.df[self.outcome_col].values.astype(int)
             attr_vals = self.df[attr].values
-            
+
             groups = np.unique(attr_vals)
             if len(groups) < 2:
                 return self._no_data_result("fpr_parity")
-                
+
             fpr_by_group = {}
             for g in groups:
                 mask_g = (attr_vals == g)
@@ -206,7 +206,7 @@ class FairnessEvaluator:
                     fpr_by_group[g] = fpr_num / fpr_denom
                 else:
                     fpr_by_group[g] = 0.0
-                    
+
             fprs = list(fpr_by_group.values())
             fprp = float(max(fprs) - min(fprs))
             severity = self._classify_severity(fprp, [0.1, 0.2])

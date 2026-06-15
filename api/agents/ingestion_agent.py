@@ -29,7 +29,7 @@ Column statistics:
 {column_stats}
 
 Classify each column into exactly one of:
-- PROTECTED_ATTRIBUTE: A characteristic that should NOT influence the AI's decision 
+- PROTECTED_ATTRIBUTE: A characteristic that should NOT influence the AI's decision
   (race, gender, age, religion, disability, zip_code, zip_type, region, national_origin, caste, ethnicity)
 - VALID_FACTOR: A legitimate decision input (income, credit_score, years_employed, bmi, medical_history)
 - OUTCOME: The model's prediction or decision column (loan_approved, claim_approved, risk_score, premium)
@@ -90,7 +90,7 @@ class IngestionAgent(BaseEqualyzeAgent):
         # Format sample data for prompt
         sample_text = json.dumps(sample_data[:3], indent=2, default=str)
         stats_text = json.dumps(
-            {k: {sk: sv for sk, sv in v.items() if sk != "values"} 
+            {k: {sk: sv for sk, sv in v.items() if sk != "values"}
              for k, v in column_stats.items()},
             indent=2, default=str
         )
@@ -131,7 +131,7 @@ class IngestionAgent(BaseEqualyzeAgent):
 
             if name_clean not in col_map:
                 continue
-                
+
             actual_name = col_map[name_clean]
 
             column_tags.append(ColumnTag(

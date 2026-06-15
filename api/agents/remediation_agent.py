@@ -142,19 +142,19 @@ class RemediationAgent(BaseEqualyzeAgent):
         """Generates synthetic rows using Gemini to balance a dataset."""
         import pandas as pd
         stats = df.describe(include='all').to_dict()
-        
+
         prompt = SYNTHETIC_DATA_PROMPT.format(
             num_rows=min(num_rows, 100),
             target_group=f"{target_group_col}='{target_group_val}'",
             schema_stats=json.dumps(stats, default=str)[:10000] # Safe limit
         )
-        
+
         try:
             result = self.invoke_sync(prompt)
             rows = result.get("synthetic_rows", [])
             for r in rows:
                 r[target_group_col] = target_group_val
-            
+
             synth_df = pd.DataFrame(rows)
             # Combine
             return pd.concat([df, synth_df], ignore_index=True)

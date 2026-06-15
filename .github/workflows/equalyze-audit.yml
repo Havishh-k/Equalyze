@@ -24,9 +24,9 @@ jobs:
       - name: Run Equalyze CI/CD Gate
         env:
           EQUALYZE_API_KEY: ${{ secrets.EQUALYZE_API_KEY }}
-          DATASET_PATH: "data/model_predictions.csv"
-          EQUALYZE_BASE_URL: "https://api.equalyze.ai"
+          DATASET_PATH: "predictions.csv"
+          EQUALYZE_BASE_URL: "https://equalyze-frontend-1085178935109.us-central1.run.app/api/v1"
         run: |
           # Fetch the SDK script (in a real scenario, this would be pip install equalyze-sdk)
           # Here we run the local script provided in the repo
-          python sdk/equalyze.py
+          python demo-integration/ci_cd_simulation.py

@@ -19,7 +19,7 @@ from api.services.bigquery_logger import bigquery_logger
 class OrchestratorAgent:
     """
     Orchestrator — coordinates the full bias audit pipeline.
-    
+
     Flow:
     1. Twin Engine: Run fairness metrics + generate counterfactual twins
     2. Governance: Map findings to regulations + score legal exposure
@@ -131,8 +131,8 @@ class OrchestratorAgent:
 
             # Write to Immutable Audit Log
             bigquery_logger.log_audit(
-                audit_id=audit.id, 
-                report_hash=audit.report_hash, 
+                audit_id=audit.id,
+                report_hash=audit.report_hash,
                 payload=audit.model_dump(mode="json")
             )
 

@@ -89,7 +89,7 @@ async def create_audit(
 ):
     org_id = user.get("current_org_id", "demo-org")
     datasets = get_dataset_store()
-    
+
     if request.dataset_id in datasets:
         ds_meta = datasets[request.dataset_id]["metadata"]
         df = datasets[request.dataset_id]["df"]
@@ -136,7 +136,7 @@ async def create_audit(
     )
 
     _active_audits[audit.id] = audit
-    
+
     # Save running state to DB
     save_audit_to_db(audit, org_id, db)
 
@@ -158,9 +158,9 @@ async def run_audit_pipeline(audit_id: str, org_id: str, df, schema_map):
     audit = _active_audits.get(audit_id)
     if not audit:
         return
-        
+
     db = get_db()
-    
+
     def persist_progress(updated_audit):
         save_audit_to_db(updated_audit, org_id, db)
 
@@ -201,7 +201,7 @@ async def get_audit(
             _active_audits.pop(audit_id, None)
             return active.model_dump(mode="json")
         return active_dict
-        
+
     doc_ref = db.collection("organizations").document(org_id).collection("audits").document(audit_id)
     doc = doc_ref.get()
     if doc.exists:
@@ -213,7 +213,7 @@ async def get_audit(
             except Exception:
                 pass
         return audit_dict
-    
+
     # Fallback: scheduled audits are stored under "demo-org"
     if org_id != "demo-org":
         doc_ref = db.collection("organizations").document("demo-org").collection("audits").document(audit_id)
@@ -227,7 +227,7 @@ async def get_audit(
                 except Exception:
                     pass
             return audit_dict
-    
+
     raise HTTPException(status_code=404, detail="Audit not found")
 
 
@@ -238,7 +238,7 @@ async def get_audit_status(
     db = Depends(get_db)
 ):
     org_id = user.get("current_org_id", "demo-org")
-    
+
     if audit_id in _active_audits:
         audit_dict = _active_audits[audit_id].model_dump(mode="json")
         if _is_stale_queued_running(audit_dict):
@@ -305,7 +305,7 @@ async def get_audit_findings(
     db = Depends(get_db)
 ):
     org_id = user.get("current_org_id", "demo-org")
-    
+
     if audit_id in _active_audits:
         audit_dict = _active_audits[audit_id].model_dump(mode="json")
     else:
@@ -331,16 +331,16 @@ async def list_audits(
     db = Depends(get_db)
 ):
     org_id = user.get("current_org_id", "demo-org")
-    
+
     try:
         docs = db.collection("organizations").document(org_id).collection("audits").stream()
-        
+
         results = []
         for doc in docs:
             a = doc.to_dict()
             if a.get("type") == "scheduled" or str(a.get("id", "")).startswith("sch-"):
                 continue
-                
+
             results.append({
                 "id": a.get("id"),
                 "status": a.get("status"),
@@ -379,7 +379,7 @@ async def remediate_audit(
 
     org_id = user.get("current_org_id", "demo-org")
     datasets = get_dataset_store()
-    
+
     # Get audit data
     audit_dict = None
     if audit_id in _active_audits:
@@ -388,14 +388,14 @@ async def remediate_audit(
         doc = db.collection("organizations").document(org_id).collection("audits").document(audit_id).get()
         if doc.exists:
             audit_dict = doc.to_dict()
-    
+
     if not audit_dict:
         raise HTTPException(status_code=404, detail="Audit not found")
-    
+
     # Scheduled audits cannot be remediated directly
     if audit_dict.get("type") == "scheduled" or audit_id.startswith("sch-"):
         raise HTTPException(status_code=400, detail="Scheduled monitor alerts cannot be remediated directly. Please run a full manual audit to generate synthetic data.")
-    
+
     # Get the dataset's DataFrame from cache
     dataset_id = audit_dict.get("dataset", {}).get("id")
     if not dataset_id or dataset_id not in datasets:
@@ -413,27 +413,27 @@ async def remediate_audit(
                 raise HTTPException(status_code=400, detail="Dataset not in cache and failed to load from disk. Re-upload to remediate.")
         else:
             raise HTTPException(status_code=400, detail="Dataset not in cache. Re-upload to remediate.")
-    
+
     df = datasets[dataset_id]["df"]
     original_rows = len(df)
-    
+
     # Find the first biased protected attribute
     findings = audit_dict.get("findings", [])
     biased = [f for f in findings if f.get("severity", "").upper() in ("AMBER", "RED")]
-    
+
     if not biased:
         return {"message": "No bias findings to remediate", "stats": {"original_rows": original_rows, "synthetic_rows": 0, "new_total": original_rows}}
-    
+
     target_col = biased[0].get("protected_attribute", "")
     if not target_col or target_col not in df.columns:
         return {"message": "Cannot identify target column", "stats": {"original_rows": original_rows, "synthetic_rows": 0, "new_total": original_rows}}
-    
+
     # Find the minority group
     value_counts = df[target_col].value_counts()
     minority_val = value_counts.idxmin()
-    
+
     schema_dict = audit_dict.get("schema_map", {})
-    
+
     augmented_df = await remediation_agent.generate_synthetic_dataset(
         df=df,
         schema_dict=schema_dict,
@@ -441,29 +441,29 @@ async def remediate_audit(
         target_group_val=minority_val,
         num_rows=req.num_rows
     )
-    
+
     synthetic_rows = len(augmented_df) - original_rows
-    
+
     # Validation logic
     before_audit = FairnessEvaluator(df, schema_dict).run_full_audit()
     before_dir = before_audit.get(target_col, {}).get("disparate_impact", {}).get("value", 1.0)
-    
+
     after_audit = FairnessEvaluator(augmented_df, schema_dict).run_full_audit()
     after_dir = after_audit.get(target_col, {}).get("disparate_impact", {}).get("value", 1.0)
-    
+
     improvement_percent = round(((after_dir - before_dir) / before_dir * 100), 1) if before_dir > 0 else 0.0
     validation_passed = after_dir >= 0.80
-    
+
     # DP Privacy Metrics Calculation
     from api.services.privacy_metrics import privacy_metrics
     dp_epsilon = privacy_metrics.calculate_epsilon(original_rows, synthetic_rows)
-    
+
     # Save augmented CSV for download
     import os
     save_path = os.path.join("data", "datasets", dataset_id, "remediated.csv")
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     augmented_df.to_csv(save_path, index=False)
-    
+
     return {
         "message": "Synthetic dataset generated",
         "stats": {
@@ -486,13 +486,13 @@ async def download_remediated(audit_id: str):
     from fastapi.responses import FileResponse
     import os
     import glob
-    
+
     # Find the file
     pattern = os.path.join("data", "datasets", "*", "remediated.csv")
     files = glob.glob(pattern)
     if not files:
         raise HTTPException(status_code=404, detail="No remediated file found. Generate first.")
-    
+
     return FileResponse(files[-1], media_type="text/csv", filename="remediated_dataset.csv")
 
 @router.get("/audits/{audit_id}/verify-integrity")
@@ -506,21 +506,21 @@ async def verify_audit_integrity(
     """
     try:
         from api.services.bigquery_logger import bigquery_logger
-        
+
         org_id = user.get("current_org_id", "demo-org")
-        
+
         doc = db.collection("organizations").document(org_id).collection("audits").document(audit_id).get()
         if not doc.exists:
             raise HTTPException(status_code=404, detail="Audit not found")
-            
+
         audit_dict = doc.to_dict()
         current_hash = audit_dict.get("report_hash")
-        
+
         if not current_hash:
             return {"verified": False, "message": "No hash found on this audit."}
-            
+
         is_valid = bigquery_logger.verify_integrity(audit_id, current_hash)
-        
+
         return {
             "verified": is_valid,
             "current_hash": current_hash,

@@ -93,7 +93,7 @@ class GovernanceAgent(BaseEqualyzeAgent):
         # RAG: Search the legal vector store
         query_text = f"Bias finding: {finding.finding_type} on {finding.protected_attribute} with severity {finding.severity}. Metrics: {'; '.join(metrics_summary)}"
         retrieved_docs = legal_vector_store.search(query=query_text, domain=domain, top_k=3)
-        
+
         regulations_context = "No specific regulations found."
         if retrieved_docs:
             regulations_context = "\n\n---\n\n".join(
@@ -132,7 +132,7 @@ class GovernanceAgent(BaseEqualyzeAgent):
         """
         Compute overall audit severity, score, and deployment decision.
         Returns (severity, score, deployment_decision).
-        
+
         deployment_decision is one of:
           - "PROCEED"
           - "PROCEED_WITH_WARNING"
@@ -142,7 +142,7 @@ class GovernanceAgent(BaseEqualyzeAgent):
             return Severity.GREEN, 0.0, "PROCEED"
 
         max_score = max(f.severity_score for f in findings)
-        
+
         # ── Hard-halt: DIR < 0.80 (ECOA 4/5ths rule) ──
         has_dir_violation = any(
             m.metric_name.lower() in ("disparate_impact", "disparate_impact_ratio", "dir")

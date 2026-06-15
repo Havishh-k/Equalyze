@@ -30,7 +30,7 @@ class ProxyDetector:
         Includes cardinality cap and downsampling to prevent OOM errors.
         """
         warnings = []
-        
+
         # 1. Downsample if needed to save compute budget
         if len(df) > self.MAX_ROWS_SAMPLE:
             df_sample = df.sample(n=self.MAX_ROWS_SAMPLE, random_state=42)

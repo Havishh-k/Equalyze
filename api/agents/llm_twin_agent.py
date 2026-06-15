@@ -1,7 +1,7 @@
 """
 Equalyze — LLM Prompt Twin Agent
-Evaluates Generative AI text prompts for demographic bias using the 
-"LLM-as-a-Judge" paradigm. Generates Prompt Twins by dynamically 
+Evaluates Generative AI text prompts for demographic bias using the
+"LLM-as-a-Judge" paradigm. Generates Prompt Twins by dynamically
 injecting majority vs. minority demographic identifiers and comparing
 the target LLM's responses for semantic divergence.
 """
@@ -86,12 +86,12 @@ class LLMTwinAgent(BaseEqualyzeAgent):
     ) -> dict[str, Any]:
         """
         Analyze a system prompt template for bias across demographic axes.
-        
+
         Args:
             system_prompt: The prompt template to evaluate (e.g., "Review candidate: [NAME]")
-            demographic_axes: List of demographic dimensions to test 
+            demographic_axes: List of demographic dimensions to test
                              (default: ["gender", "race_ethnicity", "age"])
-        
+
         Returns:
             Full analysis result with twins, scores, and recommendations.
         """

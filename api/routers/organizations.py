@@ -17,7 +17,7 @@ async def create_organization(
     uid = user.get("uid")
     if not uid:
         raise HTTPException(status_code=401, detail="User ID not found")
-        
+
     doc_ref = db.collection("organizations").document()
     org_data = {
         "id": doc_ref.id,
@@ -26,11 +26,11 @@ async def create_organization(
         "members": [uid]
     }
     doc_ref.set(org_data)
-    
+
     # Also update user's profile with their new org
     user_ref = db.collection("users").document(uid)
     user_ref.set({"current_org_id": doc_ref.id}, merge=True)
-    
+
     return org_data
 
 @router.get("/orgs/me")

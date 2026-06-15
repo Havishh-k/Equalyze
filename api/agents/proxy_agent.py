@@ -2,7 +2,7 @@ from api.agents.base_agent import BaseEqualyzeAgent
 from api.config import settings
 from api.models.audit import ProxyWarning
 
-PROXY_SYSTEM_PROMPT = """You are the Equalyze Proxy Detection Agent. 
+PROXY_SYSTEM_PROMPT = """You are the Equalyze Proxy Detection Agent.
 Your job is to provide semantic, plain-English explanations for statistical proxy relationships.
 Data scientists have mathematically determined that a feature strongly correlates with a protected attribute.
 Explain WHY this correlation likely exists in the real world (e.g., historical context, systemic bias, socio-economic factors).
@@ -46,7 +46,7 @@ class ProxyAgent(BaseEqualyzeAgent):
                 score=proxy.correlation_coefficient,
                 domain=domain
             )
-            
+
             try:
                 result = self.invoke_sync(prompt)
                 explanation = result.get("explanation", "")
@@ -54,7 +54,7 @@ class ProxyAgent(BaseEqualyzeAgent):
             except Exception as e:
                 print(f"[ProxyAgent] Failed to explain proxy {proxy.column}: {e}")
                 proxy.explanation = "Explanation unavailable due to AI timeout."
-                
+
         return proxies
 
 proxy_agent = ProxyAgent()
