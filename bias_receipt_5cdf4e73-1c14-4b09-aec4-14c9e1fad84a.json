@@ -1,0 +1,234 @@
+{
+  "created_at": "2026-04-28T18:13:28.979976",
+  "id": "5cdf4e73-1c14-4b09-aec4-14c9e1fad84a",
+  "completed_at": null,
+  "schema_map": {
+    "valid_factors": [
+      "bmi",
+      "blood_pressure_systolic",
+      "cholesterol",
+      "hba1c",
+      "smoking_status",
+      "exercise_hours_weekly",
+      "pre_existing_conditions",
+      "family_history_risk"
+    ],
+    "protected_attributes": [
+      "age",
+      "gender",
+      "zip_type"
+    ],
+    "identifier": "patient_id",
+    "outcome": "annual_premium_inr",
+    "proxy_warnings": [
+      {
+        "explanation": "Explanation unavailable due to AI timeout.",
+        "severity": "MEDIUM",
+        "correlated_with": "age",
+        "column": "smoking_status",
+        "correlation_coefficient": 0.3142
+      },
+      {
+        "explanation": "Explanation unavailable due to AI timeout.",
+        "severity": "MEDIUM",
+        "correlated_with": "age",
+        "column": "family_history_risk",
+        "correlation_coefficient": 0.3255
+      },
+      {
+        "explanation": "Explanation unavailable due to AI timeout.",
+        "severity": "HIGH",
+        "correlated_with": "gender",
+        "column": "bmi",
+        "correlation_coefficient": 0.5732
+      },
+      {
+        "explanation": "Explanation unavailable due to AI timeout.",
+        "severity": "MEDIUM",
+        "correlated_with": "gender",
+        "column": "blood_pressure_systolic",
+        "correlation_coefficient": 0.3411
+      },
+      {
+        "explanation": "Explanation unavailable due to AI timeout.",
+        "severity": "HIGH",
+        "correlated_with": "gender",
+        "column": "cholesterol",
+        "correlation_coefficient": 0.5138
+      },
+      {
+        "explanation": "Explanation unavailable due to AI timeout.",
+        "severity": "HIGH",
+        "correlated_with": "zip_type",
+        "column": "bmi",
+        "correlation_coefficient": 0.5417
+      },
+      {
+        "explanation": "Explanation unavailable due to AI timeout.",
+        "severity": "MEDIUM",
+        "correlated_with": "zip_type",
+        "column": "blood_pressure_systolic",
+        "correlation_coefficient": 0.3825
+      },
+      {
+        "explanation": "Explanation unavailable due to AI timeout.",
+        "severity": "HIGH",
+        "correlated_with": "zip_type",
+        "column": "cholesterol",
+        "correlation_coefficient": 0.5056
+      },
+      {
+        "explanation": "Explanation unavailable due to AI timeout.",
+        "severity": "MEDIUM",
+        "correlated_with": "zip_type",
+        "column": "hba1c",
+        "correlation_coefficient": 0.3457
+      }
+    ],
+    "column_tags": []
+  },
+  "overall_severity": "GREEN",
+  "findings": [],
+  "status": "failed",
+  "model_metadata": {
+    "jurisdiction": [
+      "india"
+    ],
+    "organization_name": "Submission Test",
+    "model_type": "classification",
+    "domain": "healthcare",
+    "model_name": "Health Model"
+  },
+  "resolution_events": [],
+  "audit_log": [
+    {
+      "event": "audit_failed",
+      "details": "Pipeline execution failed: cannot import name 'aiplatform' from 'google.cloud' (unknown location)",
+      "timestamp": "2026-04-28T18:13:29.380166"
+    }
+  ],
+  "overall_score": 0,
+  "dataset": {
+    "file_size_bytes": 0,
+    "row_count": 500,
+    "id": "6bbf5770-5217-47a3-b3eb-8ad5790251bf",
+    "file_path": "/app/storage/datasets/6bbf5770-5217-47a3-b3eb-8ad5790251bf/healthcare_insurance_biased.csv",
+    "column_types": {},
+    "column_count": 14,
+    "filename": "healthcare_insurance_biased.csv",
+    "file_hash": "adfd4ccbfd953163c2ce039aac7e69ea439b70b3f00e723b8b6b97b1e7ad05aa",
+    "sample_data": [
+      {
+        "age": 63,
+        "hba1c": 8.1,
+        "exercise_hours_weekly": 8,
+        "annual_premium_inr": 5683,
+        "family_history_risk": "Low",
+        "pre_existing_conditions": 1,
+        "bmi": 31.9,
+        "cholesterol": 232,
+        "blood_pressure_systolic": 109,
+        "patient_id": "P0000",
+        "claim_approved": 1,
+        "smoking_status": "No",
+        "gender": "Male",
+        "zip_type": "Urban"
+      },
+      {
+        "age": 53,
+        "hba1c": 5.3,
+        "exercise_hours_weekly": 9,
+        "annual_premium_inr": 5450,
+        "family_history_risk": "Low",
+        "pre_existing_conditions": 3,
+        "bmi": 18.3,
+        "cholesterol": 192,
+        "blood_pressure_systolic": 128,
+        "patient_id": "P0001",
+        "claim_approved": 1,
+        "smoking_status": "No",
+        "gender": "Female",
+        "zip_type": "Semi-Urban"
+      },
+      {
+        "age": 39,
+        "hba1c": 7.1,
+        "exercise_hours_weekly": 9,
+        "annual_premium_inr": 5590,
+        "family_history_risk": "Low",
+        "pre_existing_conditions": 0,
+        "bmi": 23.9,
+        "cholesterol": 212,
+        "blood_pressure_systolic": 135,
+        "patient_id": "P0002",
+        "claim_approved": 1,
+        "smoking_status": "No",
+        "gender": "Male",
+        "zip_type": "Semi-Urban"
+      }
+    ],
+    "column_names": [
+      "patient_id",
+      "age",
+      "gender",
+      "zip_type",
+      "bmi",
+      "blood_pressure_systolic",
+      "cholesterol",
+      "hba1c",
+      "smoking_status",
+      "exercise_hours_weekly",
+      "pre_existing_conditions",
+      "family_history_risk",
+      "annual_premium_inr",
+      "claim_approved"
+    ]
+  },
+  "report_hash": null,
+  "report_url": null,
+  "agents": {
+    "reporting": {
+      "error": null,
+      "status": "pending",
+      "started_at": null,
+      "output": null,
+      "completed_at": null
+    },
+    "governance": {
+      "error": null,
+      "status": "pending",
+      "started_at": null,
+      "output": null,
+      "completed_at": null
+    },
+    "ingestion": {
+      "error": null,
+      "status": "pending",
+      "started_at": null,
+      "output": null,
+      "completed_at": null
+    },
+    "remediation": {
+      "error": null,
+      "status": "pending",
+      "started_at": null,
+      "output": null,
+      "completed_at": null
+    },
+    "twin_engine": {
+      "error": null,
+      "status": "pending",
+      "started_at": null,
+      "output": null,
+      "completed_at": null
+    }
+  },
+  "article_14_compliance": {
+    "timestamp": "2026-04-29T03:07:34.118Z",
+    "acknowledgments": {
+      "statistical_uncertainty_understood": true,
+      "legal_counsel_required": true,
+      "counterfactual_twins_realistic": true
+    }
+  }
+}
