@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { useEffect } from "react";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import {
   LayoutDashboard,
   FileSearch,
@@ -13,6 +14,8 @@ import {
   Users,
   LogOut,
   Loader2,
+  Settings,
+  Terminal,
 } from "lucide-react";
 
 export default function DashboardLayout({
@@ -22,7 +25,7 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, loading, logout } = useAuth();
+  const { user, loading, logout, role } = useAuth();
 
   // Auth guard
   useEffect(() => {
@@ -53,6 +56,8 @@ export default function DashboardLayout({
     { href: "/dashboard/audits", label: "All Audits", icon: FileSearch },
     { href: "/dashboard/counterfactual", label: "Twin Explorer", icon: Users },
     { href: "/dashboard/monitoring", label: "Monitoring", icon: Activity },
+    { href: "/dashboard/cicd", label: "CI/CD Gateway", icon: Terminal },
+    { href: "/dashboard/settings", label: "Settings", icon: Settings },
   ];
 
   const handleLogout = async () => {
@@ -166,15 +171,24 @@ export default function DashboardLayout({
               >
                 {user.displayName || user.email?.split("@")[0] || "User"}
               </p>
-              <p
-                className="truncate"
-                style={{
-                  fontSize: "10px",
-                  color: "var(--text-tertiary)",
-                }}
-              >
-                {user.email}
-              </p>
+              {role && (
+                <span
+                  style={{
+                    display: "inline-block",
+                    fontSize: 9,
+                    fontWeight: 600,
+                    fontFamily: "var(--font-mono)",
+                    color: "var(--brand-600)",
+                    background: "var(--brand-50)",
+                    padding: "1px 6px",
+                    borderRadius: "var(--radius-full)",
+                    marginTop: 2,
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  {role.replace(/_/g, " ")}
+                </span>
+              )}
             </div>
             <button
               onClick={handleLogout}
@@ -230,7 +244,7 @@ export default function DashboardLayout({
         </header>
 
         {/* Page Content — 32px padding */}
-        <div style={{ padding: "var(--space-8)" }}>{children}</div>
+        <div style={{ padding: "var(--space-8)" }}><ErrorBoundary>{children}</ErrorBoundary></div>
       </main>
     </div>
   );

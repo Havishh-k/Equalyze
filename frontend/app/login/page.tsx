@@ -3,17 +3,54 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
-import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight, Shield, FlaskConical, Database, Sparkles } from "lucide-react";
 import Link from "next/link";
 
+const DEMO_ACCOUNTS = [
+  {
+    email: "datascientist@equalyze.io",
+    role: "DATA_SCIENTIST",
+    name: "Arjun Mehta",
+    title: "Data Scientist",
+    description: "Run audits, analyze bias metrics, view counterfactual explanations",
+    icon: FlaskConical,
+    color: "#6366f1",
+    bgColor: "rgba(99, 102, 241, 0.08)",
+    borderColor: "rgba(99, 102, 241, 0.2)",
+  },
+  {
+    email: "compliance@equalyze.io",
+    role: "COMPLIANCE_OFFICER",
+    name: "Priya Sharma",
+    title: "Compliance Officer",
+    description: "Approve/reject audits, manage governance workflows, sign reports",
+    icon: Shield,
+    color: "#10b981",
+    bgColor: "rgba(16, 185, 129, 0.08)",
+    borderColor: "rgba(16, 185, 129, 0.2)",
+  },
+  {
+    email: "dataengineer@equalyze.io",
+    role: "DATA_ENGINEER",
+    name: "Ravi Nair",
+    title: "Data Engineer",
+    description: "Upload datasets, configure schema mappings, monitor pipelines",
+    icon: Database,
+    color: "#f59e0b",
+    bgColor: "rgba(245, 158, 11, 0.08)",
+    borderColor: "rgba(245, 158, 11, 0.2)",
+  },
+];
+
 export default function LoginPage() {
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle, demoLogin } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [demoLoading, setDemoLoading] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +79,19 @@ export default function LoginPage() {
     }
   };
 
+  const handleDemoLogin = async (account: typeof DEMO_ACCOUNTS[0]) => {
+    setError("");
+    setDemoLoading(account.email);
+    try {
+      await demoLogin(account.email);
+      router.push("/dashboard");
+    } catch (err: any) {
+      setError(err.message || "Demo login failed. Please try again.");
+    } finally {
+      setDemoLoading(null);
+    }
+  };
+
   const inputStyle: React.CSSProperties = {
     width: "100%",
     padding: "10px 12px 10px 40px",
@@ -61,8 +111,8 @@ export default function LoginPage() {
       style={{ background: "var(--surface-base)" }}
     >
       {/* ── Left: Form ──────────────────────── */}
-      <div className="flex-1 flex items-center justify-center px-8">
-        <div className="w-full max-w-sm animate-fade-in">
+      <div className="flex-1 flex items-center justify-center px-8" style={{ overflowY: "auto" }}>
+        <div className="w-full max-w-sm animate-fade-in" style={{ padding: "40px 0" }}>
           {/* Wordmark */}
           <div style={{ marginBottom: "var(--space-10)" }}>
             <h1
@@ -77,7 +127,7 @@ export default function LoginPage() {
               Equalyze
             </h1>
             <p style={{ fontSize: 14, color: "var(--text-secondary)" }}>
-              AI Bias Detection & Governance Platform
+              AI Bias Detection &amp; Governance Platform
             </p>
           </div>
 
@@ -218,6 +268,118 @@ export default function LoginPage() {
             Sign in with Google
           </button>
 
+          {/* ── Demo Accounts Section ──────────── */}
+          <div style={{ marginTop: "var(--space-8)" }}>
+            <div className="flex items-center gap-2" style={{ marginBottom: "var(--space-4)" }}>
+              <Sparkles style={{ width: 14, height: 14, color: "var(--brand-400)" }} />
+              <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                Quick Demo Access
+              </span>
+            </div>
+            <p style={{ fontSize: 12, color: "var(--text-tertiary)", marginBottom: "var(--space-4)", lineHeight: 1.5 }}>
+              Explore Equalyze instantly — no sign-up required. Each persona unlocks different RBAC capabilities.
+            </p>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {DEMO_ACCOUNTS.map((account) => {
+                const Icon = account.icon;
+                const isLoading = demoLoading === account.email;
+                return (
+                  <button
+                    key={account.email}
+                    id={`demo-login-${account.role.toLowerCase()}`}
+                    onClick={() => handleDemoLogin(account)}
+                    disabled={!!demoLoading || loading}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                      padding: "12px 14px",
+                      borderRadius: "var(--radius-md)",
+                      border: `1px solid ${account.borderColor}`,
+                      background: account.bgColor,
+                      cursor: !!demoLoading || loading ? "wait" : "pointer",
+                      transition: "all 0.2s ease",
+                      textAlign: "left",
+                      opacity: demoLoading && !isLoading ? 0.5 : 1,
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!demoLoading && !loading) {
+                        e.currentTarget.style.transform = "translateY(-1px)";
+                        e.currentTarget.style.boxShadow = `0 4px 12px ${account.borderColor}`;
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "none";
+                    }}
+                  >
+                    {/* Icon */}
+                    <div
+                      style={{
+                        width: 36,
+                        height: 36,
+                        borderRadius: "var(--radius-md)",
+                        background: account.color,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Icon style={{ width: 18, height: 18, color: "#fff" }} />
+                    </div>
+
+                    {/* Text */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
+                        <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary)" }}>
+                          {account.name}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: 10,
+                            fontWeight: 600,
+                            color: account.color,
+                            background: account.bgColor,
+                            border: `1px solid ${account.borderColor}`,
+                            padding: "1px 6px",
+                            borderRadius: 4,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.04em",
+                          }}
+                        >
+                          {account.title}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: 11, color: "var(--text-tertiary)", lineHeight: 1.4, margin: 0 }}>
+                        {account.description}
+                      </p>
+                    </div>
+
+                    {/* Arrow / Spinner */}
+                    <div style={{ flexShrink: 0 }}>
+                      {isLoading ? (
+                        <div
+                          style={{
+                            width: 16,
+                            height: 16,
+                            border: `2px solid ${account.borderColor}`,
+                            borderTopColor: account.color,
+                            borderRadius: "50%",
+                            animation: "spin 0.6s linear infinite",
+                          }}
+                        />
+                      ) : (
+                        <ArrowRight style={{ width: 14, height: 14, color: account.color }} />
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Footer */}
           <p className="text-center" style={{ marginTop: "var(--space-6)", fontSize: 14, color: "var(--text-secondary)" }}>
             Don&apos;t have an account?{" "}
@@ -290,6 +452,13 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+
+      {/* Spin animation for demo loading */}
+      <style jsx>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

@@ -231,7 +231,7 @@ export default function LandingPage() {
           <div className="flex items-center gap-2">
             <Scale className="w-4 h-4" style={{ color: "var(--brand-500)" }} />
             <span className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Equalyze</span>
-            <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>by Team Trident</span>
+            <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>by Team Ok Google , Please fix this</span>
           </div>
           <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
             Google Solutions Challenge 2026

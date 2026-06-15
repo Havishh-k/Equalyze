@@ -131,6 +131,7 @@ class RemediationStrategy(BaseModel):
     estimated_effort: str = ""
     estimated_bias_reduction: str = ""
     risks: str = ""
+    legal_review_required: bool = False
 
 
 # ── Bias Genealogy ────────────────────────────────
@@ -213,6 +214,7 @@ class Audit(BaseModel):
     findings: list[Finding] = []
     overall_severity: Severity = Severity.GREEN
     overall_score: float = 0.0
+    deployment_decision: Optional[str] = None  # "PROCEED" | "PROCEED_WITH_WARNING" | "HALT_DO_NOT_DEPLOY"
     report_url: Optional[str] = None
     report_hash: Optional[str] = None
     agents: dict[str, AgentState] = Field(default_factory=lambda: {
@@ -224,6 +226,15 @@ class Audit(BaseModel):
     })
     audit_log: list[dict[str, Any]] = []
     resolution_events: list[dict[str, Any]] = []
+    # ── HITL Approval (EU AI Act Art. 14) ──
+    approval_status: Optional[str] = None  # "approved" | "escalated" | "halted"
+    approved_by: Optional[str] = None      # reviewer UID
+    approved_by_email: Optional[str] = None
+    approved_by_role: Optional[str] = None
+    approved_at: Optional[datetime] = None
+    approval_token: Optional[str] = None   # SHA-256 immutable receipt token
+    approval_comments: Optional[str] = None
+    hitl_acknowledged_at: Optional[datetime] = None  # When cognitive forcing checkbox was ticked
 
 
 # ── API Request/Response Models ────────────────────
@@ -249,6 +260,7 @@ class AuditCreateResponse(BaseModel):
     audit_id: str
     status: AuditStatus
     estimated_minutes: int = 5
+    data_health: Optional[dict[str, Any]] = None
 
 
 class AuditStatusResponse(BaseModel):

@@ -17,6 +17,7 @@ import {
   XCircle,
   Sparkles,
   Download,
+  Lock,
 } from "lucide-react";
 import {
   getAudit,
@@ -29,6 +30,8 @@ import {
   type CounterfactualTwin,
 } from "@/lib/api";
 import { SeverityBadge } from "@/components/SeverityBadge";
+import { useAuth } from "@/lib/auth-context";
+import FeatureWaterfallChart from "@/components/FeatureWaterfallChart";
 
 // ── Score Gauge ─────────────────────────────────
 
@@ -314,6 +317,14 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
                         {s.estimated_bias_reduction}
                       </p>
                     )}
+                    {s.legal_review_required && (
+                      <div className="ml-9 mt-3 p-3 rounded-lg flex items-start gap-2" style={{ background: "var(--severity-amber-bg)", border: "1px solid var(--severity-amber-border)" }}>
+                        <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" style={{ color: "var(--severity-amber-dot)" }} />
+                        <p className="text-xs leading-relaxed" style={{ color: "var(--severity-amber-text)" }}>
+                          <strong>Legal Review Required:</strong> This strategy modifies model behavior based on protected class membership. Subject to internal legal counsel review to ensure compliance with fair lending threshold regulations (ECOA §1691).
+                        </p>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -375,9 +386,14 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
 
   // Resolution state
   const [showResolveModal, setShowResolveModal] = useState(false);
-  const [resolveAction, setResolveAction] = useState<"approve" | "escalate">("approve");
+  const [resolveAction, setResolveAction] = useState<"approve" | "escalate" | "halt">("approve");
   const [resolveComments, setResolveComments] = useState("");
   const [resolving, setResolving] = useState(false);
+  const [approvalToken, setApprovalToken] = useState<string | null>(null);
+  const [hitlAcknowledged, setHitlAcknowledged] = useState(false);
+  const [hitlAcknowledgedAt, setHitlAcknowledgedAt] = useState<string | null>(null);
+  const { user, role } = useAuth();
+  const isComplianceOfficer = role === "COMPLIANCE_OFFICER";
 
   // Cognitive forcing function state
   const [showExportModal, setShowExportModal] = useState(false);
@@ -427,9 +443,18 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
       const result = await resolveAudit(audit_id, {
         action: resolveAction,
         comments: resolveComments,
+        reviewer_role: role || "DATA_SCIENTIST",
+        reviewer_email: user?.email || "",
+        hitl_acknowledged_at: hitlAcknowledgedAt || new Date().toISOString(),
       });
-      setAudit((prev) => prev ? { ...prev, resolution_status: resolveAction === "approve" ? "approved" : "escalated", resolution_comments: resolveComments } : prev);
-      setShowResolveModal(false);
+      setApprovalToken(result.approval_token);
+      setAudit((prev) => prev ? {
+        ...prev,
+        approval_status: result.approval_status,
+        approval_token: result.approval_token,
+        approved_by_email: result.approved_by_email,
+        approved_at: result.approved_at,
+      } : prev);
     } catch (err) {
       console.error(err);
     } finally {
@@ -510,9 +535,9 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
           </Link>
           <h2 className="text-2xl font-bold flex items-center gap-3">
             {audit.dataset?.filename || "Bias Audit"}
-            {audit.resolution_status && (
-              <span className={`text-xs px-2 py-1 rounded-md font-bold ${audit.resolution_status === 'approved' ? 'severity-green' : 'severity-amber'}`}>
-                {audit.resolution_status.toUpperCase()}
+            {audit.approval_status && (
+              <span className={`text-xs px-2 py-1 rounded-md font-bold ${audit.approval_status === 'approved' ? 'severity-green' : 'severity-amber'}`}>
+                {audit.approval_status.toUpperCase()}
               </span>
             )}
           </h2>
@@ -531,14 +556,26 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
               Remediate with AI
             </Link>
           )}
-          {!isRunning && !audit.resolution_status && (
+          {!isRunning && !audit.approval_status && (
             <button
               onClick={() => setShowResolveModal(true)}
               className="btn btn-primary gap-2"
+              title={!isComplianceOfficer ? "Only Compliance Officers can approve audits" : ""}
             >
-              <CheckCircle className="w-4 h-4" />
-              Resolve Audit
+              {isComplianceOfficer ? (
+                <><CheckCircle className="w-4 h-4" /> Approve / Resolve</>
+              ) : (
+                <><Lock className="w-4 h-4" /> Resolve (CO Only)</>
+              )}
             </button>
+          )}
+          {!isRunning && audit.approval_status && (
+            <span
+              className={`flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-lg ${audit.approval_status === 'approved' ? 'severity-badge severity-badge--green' : 'severity-badge severity-badge--amber'}`}
+            >
+              <span className="severity-dot" aria-hidden="true" />
+              {audit.approval_status.toUpperCase()}
+            </span>
           )}
           {!isRunning && (
             <button
@@ -627,6 +664,11 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
         </div>
       )}
 
+      {/* Explainability — Feature Impact Chart */}
+      {!isRunning && audit.findings && audit.findings.length > 0 && (
+        <FeatureWaterfallChart findings={audit.findings} />
+      )}
+
       {/* Audit log */}
       {!isRunning && audit.audit_log && audit.audit_log.length > 0 && (
         <div className="card p-6">
@@ -668,6 +710,44 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* ── Audit Trail Footer (Chain of Custody) ─── */}
+      {!isRunning && audit.status === "complete" && (
+        <div className="card p-6" style={{ borderTop: "3px solid var(--brand-500)" }}>
+          <h4 className="text-sm font-bold flex items-center gap-2 mb-4">
+            <Shield className="w-4 h-4" style={{ color: "var(--brand-500)" }} />
+            Audit Trail — Tamper-Evident Chain of Custody
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-3 rounded-lg" style={{ background: "var(--surface-sunken)" }}>
+              <p className="text-[10px] font-medium mb-1" style={{ color: "var(--text-muted)" }}>Report Hash (SHA-256)</p>
+              <p className="text-xs font-mono break-all" style={{ color: "var(--text-primary)" }}>{audit.report_hash || "—"}</p>
+            </div>
+            <div className="p-3 rounded-lg" style={{ background: "var(--surface-sunken)" }}>
+              <p className="text-[10px] font-medium mb-1" style={{ color: "var(--text-muted)" }}>Dataset Hash</p>
+              <p className="text-xs font-mono break-all" style={{ color: "var(--text-primary)" }}>{audit.dataset?.file_hash || "—"}</p>
+            </div>
+            <div className="p-3 rounded-lg" style={{ background: "var(--surface-sunken)" }}>
+              <p className="text-[10px] font-medium mb-1" style={{ color: "var(--text-muted)" }}>Audit ID</p>
+              <p className="text-xs font-mono break-all" style={{ color: "var(--text-primary)" }}>{audit.id}</p>
+            </div>
+            <div className="p-3 rounded-lg" style={{ background: "var(--surface-sunken)" }}>
+              <p className="text-[10px] font-medium mb-1" style={{ color: "var(--text-muted)" }}>Completed At</p>
+              <p className="text-xs font-mono" style={{ color: "var(--text-primary)" }}>{audit.completed_at ? new Date(audit.completed_at).toLocaleString() : "—"}</p>
+            </div>
+            <div className="p-3 rounded-lg" style={{ background: "var(--surface-sunken)" }}>
+              <p className="text-[10px] font-medium mb-1" style={{ color: "var(--text-muted)" }}>Operator</p>
+              <p className="text-xs font-mono" style={{ color: "var(--text-primary)" }}>{user?.email || "Unknown"}</p>
+            </div>
+            <div className="p-3 rounded-lg" style={{ background: "var(--surface-sunken)" }}>
+              <p className="text-[10px] font-medium mb-1" style={{ color: "var(--text-muted)" }}>Deployment Decision</p>
+              <p className={`text-xs font-bold ${(audit as any).deployment_decision === "HALT_DO_NOT_DEPLOY" ? "text-red-500" : (audit as any).deployment_decision === "PROCEED_WITH_WARNING" ? "text-amber-500" : "text-green-500"}`}>
+                {((audit as any).deployment_decision || "PENDING").replace(/_/g, " ")}
+              </p>
+            </div>
+          </div>
         </div>
       )}
 
@@ -716,67 +796,185 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
         </div>
       )}
 
-      {/* Resolve Audit Modal */}
+      {/* ── HITL Approval Modal ─────────────────── */}
       {showResolveModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="card p-8 max-w-lg w-full">
-            <h3 className="text-xl font-bold mb-4">Resolve Bias Audit</h3>
-            <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
-              As a compliance officer, your resolution will be immutably logged to BigQuery.
-            </p>
-            
-            <div className="flex gap-4 mb-6">
-              <button
-                onClick={() => setResolveAction("approve")}
-                className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all ${
-                  resolveAction === "approve"
-                    ? "bg-green-500/20 text-green-400 border border-green-500/30"
-                    : "bg-black/20 text-gray-400 border border-white/5"
-                }`}
-              >
-                Approve (Accept Risk)
-              </button>
-              <button
-                onClick={() => setResolveAction("escalate")}
-                className={`flex-1 py-3 rounded-xl text-sm font-semibold transition-all ${
-                  resolveAction === "escalate"
-                    ? "bg-red-500/20 text-red-400 border border-red-500/30"
-                    : "bg-black/20 text-gray-400 border border-white/5"
-                }`}
-              >
-                Escalate (Require Fix)
-              </button>
-            </div>
+            {approvalToken ? (
+              /* ── Post-Approval Receipt ── */
+              <div className="text-center">
+                <div
+                  className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
+                  style={{
+                    background: resolveAction === "approve" ? "var(--severity-green-bg)" : "var(--severity-amber-bg)",
+                    border: `2px solid ${resolveAction === "approve" ? "var(--severity-green-border)" : "var(--severity-amber-border)"}`,
+                  }}
+                >
+                  {resolveAction === "approve" ? (
+                    <CheckCircle className="w-8 h-8" style={{ color: "var(--severity-green-dot)" }} />
+                  ) : (
+                    <AlertTriangle className="w-8 h-8" style={{ color: "var(--severity-amber-dot)" }} />
+                  )}
+                </div>
+                <h3 className="text-xl font-bold mb-2">
+                  Audit {resolveAction === "approve" ? "Approved" : resolveAction === "escalate" ? "Escalated" : "Halted"}
+                </h3>
+                <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
+                  Decision immutably recorded to BigQuery audit ledger.
+                </p>
 
-            <div className="mb-6">
-              <label className="block text-xs font-medium mb-2" style={{ color: "var(--text-muted)" }}>
-                Resolution Comments (Required)
-              </label>
-              <textarea
-                value={resolveComments}
-                onChange={(e) => setResolveComments(e.target.value)}
-                className="w-full h-24 p-3 rounded-xl text-sm bg-[var(--surface-sunken)] border border-[var(--border-default)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--brand-500)]"
-                placeholder="Detail your rationale for this decision..."
-              />
-            </div>
+                {/* Approval Token */}
+                <div
+                  className="p-4 rounded-xl text-left mb-6"
+                  style={{
+                    background: "var(--surface-sunken)",
+                    border: "1px solid var(--border-default)",
+                  }}
+                >
+                  <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--text-muted)" }}>
+                    Approval Token (SHA-256)
+                  </p>
+                  <p
+                    className="text-xs font-mono break-all"
+                    style={{ color: "var(--brand-500)", lineHeight: 1.6 }}
+                  >
+                    {approvalToken}
+                  </p>
+                  <p className="text-[10px] mt-3" style={{ color: "var(--text-tertiary)" }}>
+                    Reviewed by: {user?.email} ({role})
+                  </p>
+                </div>
 
-            <div className="flex items-center justify-end gap-3">
-              <button 
-                onClick={() => setShowResolveModal(false)}
-                className="px-5 py-2.5 rounded-xl text-sm font-semibold hover:opacity-80"
-                style={{ color: "var(--text-muted)" }}
-              >
-                Cancel
-              </button>
-              <button 
-                onClick={handleResolve}
-                disabled={resolving || !resolveComments.trim()}
-                className="btn btn-primary gap-2"
-              >
-                {resolving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shield className="w-4 h-4" />}
-                {resolveAction === "approve" ? "Confirm Approval" : "Confirm Escalation"}
-              </button>
-            </div>
+                <button
+                  onClick={() => { setShowResolveModal(false); setApprovalToken(null); }}
+                  className="btn btn-primary"
+                >
+                  Done
+                </button>
+              </div>
+            ) : (
+              /* ── Pre-Approval Form ── */
+              <>
+                <div className="flex items-center gap-3 mb-2">
+                  <Shield className="w-6 h-6" style={{ color: "var(--brand-500)" }} />
+                  <h3 className="text-xl font-bold">HITL Approval — Article 14</h3>
+                </div>
+                <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
+                  As {role?.replace(/_/g, " ") || "a reviewer"}, your decision will generate an immutable approval token logged to BigQuery.
+                </p>
+
+                {!isComplianceOfficer && (
+                  <div
+                    className="p-4 rounded-xl mb-6 flex items-start gap-3"
+                    style={{ background: "var(--severity-amber-bg)", border: "1px solid var(--severity-amber-border)" }}
+                  >
+                    <AlertTriangle className="w-5 h-5 shrink-0" style={{ color: "var(--severity-amber-dot)" }} />
+                    <div>
+                      <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Role Notice</p>
+                      <p className="text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
+                        You are logged in as <strong>{role?.replace(/_/g, " ")}</strong>. Formal approvals should be made by a Compliance Officer. Your resolution will still be recorded.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Action Selection */}
+                <div className="flex gap-3 mb-6">
+                  {[
+                    { key: "approve" as const, label: "Approve", sub: "Accept risk", color: "green" },
+                    { key: "escalate" as const, label: "Escalate", sub: "Require fix", color: "amber" },
+                    { key: "halt" as const, label: "Halt", sub: "Block deployment", color: "red" },
+                  ].map((opt) => (
+                    <button
+                      key={opt.key}
+                      onClick={() => setResolveAction(opt.key)}
+                      className="flex-1 py-3 rounded-xl text-sm font-semibold transition-all text-center"
+                      style={{
+                        background: resolveAction === opt.key ? `var(--severity-${opt.color}-bg)` : "var(--surface-sunken)",
+                        border: `1px solid ${resolveAction === opt.key ? `var(--severity-${opt.color}-border)` : "var(--border-default)"}`,
+                        color: resolveAction === opt.key ? `var(--severity-${opt.color}-text, var(--text-primary))` : "var(--text-secondary)",
+                      }}
+                    >
+                      {opt.label}
+                      <br />
+                      <span style={{ fontSize: 10, opacity: 0.7 }}>{opt.sub}</span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Reviewer Identity */}
+                <div
+                  className="p-3 rounded-lg mb-4 flex items-center gap-3"
+                  style={{ background: "var(--surface-sunken)", border: "1px solid var(--border-default)" }}
+                >
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center"
+                    style={{ background: "var(--brand-100)", color: "var(--brand-600)" }}
+                  >
+                    <Shield className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold">{user?.displayName || user?.email?.split("@")[0]}</p>
+                    <p className="text-[10px] font-mono" style={{ color: "var(--text-tertiary)" }}>
+                      {role?.replace(/_/g, " ")} · {user?.email}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Comments */}
+                <div className="mb-6">
+                  <label className="block text-xs font-medium mb-2" style={{ color: "var(--text-muted)" }}>
+                    Decision Rationale (Required)
+                  </label>
+                  <textarea
+                    value={resolveComments}
+                    onChange={(e) => setResolveComments(e.target.value)}
+                    className="w-full h-24 p-3 rounded-xl text-sm bg-[var(--surface-sunken)] border border-[var(--border-default)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--brand-500)]"
+                    placeholder="Detail your rationale for this decision. This will be immutably recorded..."
+                  />
+                </div>
+
+                {/* Cognitive Forcing Function — EU AI Act Article 14 */}
+                <div className="mb-6 p-4 rounded-xl" style={{ background: "var(--severity-amber-bg)", border: "1px solid var(--severity-amber-border)" }}>
+                  <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={hitlAcknowledged}
+                      onChange={(e) => {
+                        setHitlAcknowledged(e.target.checked);
+                        if (e.target.checked) setHitlAcknowledgedAt(new Date().toISOString());
+                      }}
+                      className="mt-1"
+                    />
+                    <span className="text-xs leading-relaxed" style={{ color: "var(--severity-amber-text)" }}>
+                      <strong>I acknowledge</strong> I have reviewed the statistical findings, understood the uncertainty margins, and accept responsibility for this deployment decision per EU AI Act Article 14 (Human Oversight). This acknowledgment will be immutably recorded.
+                    </span>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-end gap-3">
+                  <button
+                    onClick={() => setShowResolveModal(false)}
+                    className="px-5 py-2.5 rounded-xl text-sm font-semibold hover:opacity-80"
+                    style={{ color: "var(--text-muted)" }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleResolve}
+                    disabled={resolving || !resolveComments.trim() || !hitlAcknowledged}
+                    className="btn btn-primary gap-2"
+                  >
+                    {resolving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Shield className="w-4 h-4" />}
+                    {resolveAction === "approve"
+                      ? "Confirm Approval"
+                      : resolveAction === "escalate"
+                        ? "Confirm Escalation"
+                        : "Confirm Halt"}
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

@@ -1,0 +1,31 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "--build-arg",
+        "NEXT_PUBLIC_API_URL=https://equalyze-backend-1085178935109.us-central1.run.app/api/v1",
+        "--build-arg",
+        "NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyCk6RnUdVzzrRXOz3IAwprLidyUdzfK80U",
+        "--build-arg",
+        "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=equalyze-9ccfe.firebaseapp.com",
+        "--build-arg",
+        "NEXT_PUBLIC_FIREBASE_PROJECT_ID=equalyze-9ccfe",
+        "--build-arg",
+        "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=equalyze-9ccfe.firebasestorage.app",
+        "--build-arg",
+        "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=940127015585",
+        "--build-arg",
+        "NEXT_PUBLIC_FIREBASE_APP_ID=1:940127015585:web:5c3af7b997c90911b196e0",
+        "--build-arg",
+        "NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=G-V77P2BKHNQ",
+        "-t",
+        "us-central1-docker.pkg.dev/equalyzee/equalyze-repo/frontend:latest",
+        "./frontend",
+      ]
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "push",
+        "us-central1-docker.pkg.dev/equalyzee/equalyze-repo/frontend:latest",
+      ]

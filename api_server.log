@@ -1,0 +1,21 @@
+/Users/om/Projects/Google Solutions /Equalyze/api/agents/base_agent.py:9: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+INFO:     Started server process [70856]
+INFO:     Waiting for application startup.
+{"timestamp":"2026-06-13T15:48:41","level":"INFO","request_id":"","module":"main","message":"Equalyze API v1.0.0 starting in development mode"}
+{"timestamp":"2026-06-13T15:48:41","level":"INFO","request_id":"","module":"base","message":"Adding job tentatively -- it will be properly scheduled when the scheduler starts"}
+{"timestamp":"2026-06-13T15:48:41","level":"INFO","request_id":"","module":"base","message":"Added job "trigger_cloud_scheduler_mock" to job store "default""}
+{"timestamp":"2026-06-13T15:48:41","level":"INFO","request_id":"","module":"base","message":"Scheduler started"}
+INFO:     Application startup complete.
+ERROR:    [Errno 48] error while attempting to bind on address ('0.0.0.0', 8000): address already in use
+INFO:     Waiting for application shutdown.
+{"timestamp":"2026-06-13T15:48:41","level":"INFO","request_id":"","module":"main","message":"Equalyze API shutting down"}
+{"timestamp":"2026-06-13T15:48:41","level":"INFO","request_id":"","module":"base","message":"Scheduler has been shut down"}
+INFO:     Application shutdown complete.

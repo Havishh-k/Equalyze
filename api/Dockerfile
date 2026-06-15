@@ -1,31 +1,45 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10-slim
+# ── Stage 1: Builder ─────────────────────────────
+FROM python:3.11-slim AS builder
 
-# Set environment variables
+WORKDIR /build
+
+# Install build deps separately for layer caching
+COPY api/requirements.txt ./
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# ── Stage 2: Runtime ─────────────────────────────
+FROM python:3.11-slim AS runner
+
+# Security: non-root user
+RUN groupadd -r equalyze && useradd -r -g equalyze equalyze
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PORT=8080
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+# Copy only installed packages from builder
+COPY --from=builder /install /usr/local
 
-# Install Python dependencies
-COPY api/requirements.txt ./api/
-RUN pip install --no-cache-dir -r ./api/requirements.txt
-
-# Copy the application code (api directory)
+# Copy application code
 COPY api ./api/
-
-# Copy trained_models directory
 COPY trained_models ./trained_models/
 
-# Expose the port the app runs on
+# Remove any dev artifacts
+RUN find /app -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+
+# Pre-create storage directories and set ownership for non-root user
+RUN mkdir -p /app/storage/datasets /app/storage/reports && \
+    chown -R equalyze:equalyze /app
+
+# Switch to non-root user
+USER equalyze
+
 EXPOSE ${PORT}
 
-# Run the application
+# Health check for container orchestrators
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:${PORT}/health')" || exit 1
+
 CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT}"]

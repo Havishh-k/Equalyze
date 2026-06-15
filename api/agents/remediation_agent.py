@@ -31,6 +31,14 @@ FINDING:
 MODEL DOMAIN: {domain}
 MODEL TYPE: {model_type}
 
+USER ROLE: {user_role}
+IMPORTANT: The user reading this is a {user_role}. Tailor your recommendations specifically for their domain:
+- DATA_SCIENTIST: Focus on algorithmic fixes, feature engineering, model retraining, and statistical approaches.
+- DATA_ENGINEER: Focus on data pipeline fixes, ETL corrections, upstream data quality, and training set balancing.
+- COMPLIANCE_OFFICER: Focus on legal risk exposure, regulatory deadlines, documentation requirements, and escalation paths.
+
+CRITICAL LEGAL CONSTRAINT: If any strategy involves applying different thresholds, weights, cutoffs, or scoring criteria explicitly based on a protected class (e.g., gender, race, age), you MUST set "legal_review_required": true for that strategy and add this exact text to the "risks" field: "This approach may violate fair lending regulations (ECOA §1691) or anti-discrimination statutes and requires internal legal counsel review before implementation."
+
 For each strategy provide:
 - strategy_name: Short title
 - level: "data" | "feature" | "model" | "post-processing"
@@ -40,6 +48,7 @@ For each strategy provide:
 - estimated_effort: "Low (< 4h)" | "Medium (1-3 days)" | "High (> 1 week)"
 - estimated_bias_reduction: "X% - Y% reduction in [metric name]"
 - risks: Any risks or trade-offs of this approach
+- legal_review_required: true if this strategy modifies behavior based on protected class membership, false otherwise
 
 Output JSON:
 {{
@@ -52,7 +61,8 @@ Output JSON:
       "code_reference": "...",
       "estimated_effort": "Low (< 4h)",
       "estimated_bias_reduction": "30-50% reduction in disparate impact",
-      "risks": "..."
+      "risks": "...",
+      "legal_review_required": false
     }}
   ]
 }}"""
@@ -84,8 +94,9 @@ class RemediationAgent(BaseEqualyzeAgent):
         finding: Finding,
         domain: str = "other",
         model_type: str = "classification",
+        user_role: str = "DATA_SCIENTIST",
     ) -> list[RemediationStrategy]:
-        """Generate 3 ranked remediation strategies for a finding."""
+        """Generate 3 ranked remediation strategies for a finding, tailored to user_role."""
         metrics_summary = []
         for m in finding.metrics:
             metrics_summary.append(f"{m.metric_name}: {m.value} ({m.severity})")
@@ -97,6 +108,7 @@ class RemediationAgent(BaseEqualyzeAgent):
             metrics_summary="; ".join(metrics_summary),
             domain=domain,
             model_type=model_type,
+            user_role=user_role,
         )
 
         try:

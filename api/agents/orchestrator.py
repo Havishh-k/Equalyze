@@ -75,9 +75,10 @@ class OrchestratorAgent:
                     finding.legal_violations = violations
 
             # Compute overall severity
-            overall_severity, overall_score = governance_agent.compute_overall_severity(audit.findings)
+            overall_severity, overall_score, deployment_decision = governance_agent.compute_overall_severity(audit.findings)
             audit.overall_severity = overall_severity
             audit.overall_score = overall_score
+            audit.deployment_decision = deployment_decision
 
             self._update_agent(audit, "governance", AgentStatus.COMPLETE)
             self._log(audit, "governance_complete", f"Overall: {overall_severity} ({overall_score})")

@@ -115,7 +115,7 @@
   --space-24: 96px;
 
   /* ─── TYPOGRAPHY ─── */
-  --font-display: 'Kepler Std', 'Times New Roman', Times, serif;
+  --font-display: 'Instrument Serif', Georgia, serif;
   --font-body:    'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono:    'Geist Mono', 'Fira Code', monospace;
 
@@ -489,6 +489,11 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes slide-up {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-down {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(16px); }
 }
 
 @keyframes fade-in {

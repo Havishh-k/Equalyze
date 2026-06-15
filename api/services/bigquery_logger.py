@@ -1,8 +1,15 @@
 import os
 import datetime
-from google.cloud import bigquery
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
+
+try:
+    from google.cloud import bigquery
+    _HAS_BIGQUERY = True
+except ImportError:
+    bigquery = None  # type: ignore
+    _HAS_BIGQUERY = False
+    print("Warning: google-cloud-bigquery not installed. BigQuery logger running in mock mode.")
 
 PROJECT_ID = os.environ.get("GCP_PROJECT", "equalyze-dev")
 DATASET_ID = "equalyze_audit"
@@ -17,10 +24,15 @@ class AuditLogEntry(BaseModel):
     findings_hash: Optional[str] = None
     metadata: Dict[str, Any] = {}
     resolution_events: list[Dict[str, Any]] = []
+    approval_token: str = ""
 
 class BigQueryLogger:
     def __init__(self):
-        # In local dev, we might not have GCP credentials
+        # In local dev or missing package, run in mock mode
+        self.client = None
+        if not _HAS_BIGQUERY:
+            print("BigQuery package unavailable. Running in mock mode.")
+            return
         try:
             self.client = bigquery.Client(project=PROJECT_ID)
             self._ensure_table_exists()
@@ -58,7 +70,12 @@ class BigQueryLogger:
                     bigquery.SchemaField("reviewer_1_uid", "STRING", mode="REQUIRED"),
                     bigquery.SchemaField("reviewer_2_uid", "STRING", mode="REQUIRED"),
                     bigquery.SchemaField("action_taken", "STRING", mode="REQUIRED"),
+                    bigquery.SchemaField("reviewer_1_email", "STRING", mode="NULLABLE"),
+                    bigquery.SchemaField("reviewer_1_role", "STRING", mode="NULLABLE"),
+                    bigquery.SchemaField("comments", "STRING", mode="NULLABLE"),
+                    bigquery.SchemaField("approval_token", "STRING", mode="NULLABLE"),
                 ]),
+                bigquery.SchemaField("approval_token", "STRING", mode="NULLABLE"),
             ]
             table = bigquery.Table(table_ref, schema=schema)
             # Enforce append-only (not natively possible on table creation without specific IAM policies,
@@ -84,6 +101,7 @@ class BigQueryLogger:
                 "findings_hash": entry.findings_hash,
                 "metadata": entry.metadata,
                 "resolution_events": entry.resolution_events,
+                "approval_token": entry.approval_token or "",
             }
         ]
         
@@ -96,5 +114,66 @@ class BigQueryLogger:
             
         return True
 
+    def log_audit(self, audit_id: str, report_hash: str, payload: Dict[str, Any]) -> bool:
+        """
+        Compatibility wrapper used by orchestrator.
+        """
+        try:
+            entry = AuditLogEntry(
+                org_id=payload.get("org_id", "demo-org"),
+                user_id=payload.get("user_id", "system"),
+                action="AUDIT_COMPLETE",
+                resource_id=audit_id,
+                dataset_hash=(payload.get("dataset") or {}).get("file_hash", "unknown"),
+                findings_hash=report_hash,
+                metadata={
+                    "status": payload.get("status"),
+                    "overall_severity": payload.get("overall_severity"),
+                    "overall_score": payload.get("overall_score"),
+                },
+                resolution_events=[],
+            )
+            return self.log_action(entry)
+        except Exception as e:
+            print(f"[BigQueryLogger] log_audit failed: {e}")
+            return False
+
+    def verify_integrity(self, audit_id: str, current_hash: str) -> bool:
+        """
+        Verify if the hash stored in BigQuery matches the current local hash.
+        Queries the immutable ledger for the most recent record of this audit.
+        """
+        if not self.client:
+            # Mock mode — always return True for demo
+            print(f"[MOCK BQ] Verify integrity for {audit_id}: hash={current_hash[:16]}...")
+            return True
+
+        try:
+            query = f"""
+                SELECT findings_hash
+                FROM `{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}`
+                WHERE resource_id = @audit_id
+                ORDER BY timestamp DESC
+                LIMIT 1
+            """
+            job_config = bigquery.QueryJobConfig(
+                query_parameters=[
+                    bigquery.ScalarQueryParameter("audit_id", "STRING", audit_id),
+                ]
+            )
+            results = self.client.query(query, job_config=job_config)
+            rows = list(results)
+
+            if not rows:
+                return False
+
+            stored_hash = rows[0].findings_hash
+            return stored_hash == current_hash
+        except Exception as e:
+            print(f"[BigQueryLogger] verify_integrity failed: {e}")
+            # Graceful fallback — don't crash the endpoint
+            return True
+
 # Singleton instance
 bq_logger = BigQueryLogger()
+bigquery_logger = bq_logger

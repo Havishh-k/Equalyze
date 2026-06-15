@@ -193,3 +193,23 @@ async def get_schema_suggestions(
 def get_dataset_store():
     # Keep this method for audits.py compatibility
     return _datastore_cache
+
+
+@router.post("/datasets/{dataset_id}/health")
+async def check_dataset_health(
+    dataset_id: str,
+    schema_map: dict,
+    user: Dict[str, Any] = Depends(get_optional_user),
+):
+    """
+    Run the Data Health Scorecard on a dataset with a given schema mapping.
+    Called from the frontend after schema confirmation, before starting the audit.
+    """
+    from api.services.data_health import compute_data_health
+
+    if dataset_id not in _datastore_cache:
+        raise HTTPException(status_code=404, detail="Dataset not found in cache")
+
+    df = _datastore_cache[dataset_id]["df"]
+    report = compute_data_health(df, schema_map)
+    return report.to_dict()

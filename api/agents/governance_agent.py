@@ -130,15 +130,29 @@ class GovernanceAgent(BaseEqualyzeAgent):
             print(f"Governance analysis error: {e}")
             return []
 
-    def compute_overall_severity(self, findings: list[Finding]) -> tuple[Severity, float]:
+    def compute_overall_severity(self, findings: list[Finding]) -> tuple[Severity, float, str]:
         """
-        Compute overall audit severity and score from all findings.
+        Compute overall audit severity, score, and deployment decision.
+        Returns (severity, score, deployment_decision).
+        
+        deployment_decision is one of:
+          - "PROCEED"
+          - "PROCEED_WITH_WARNING"
+          - "HALT_DO_NOT_DEPLOY"
         """
         if not findings:
-            return Severity.GREEN, 0.0
+            return Severity.GREEN, 0.0, "PROCEED"
 
         max_score = max(f.severity_score for f in findings)
         
+        # ── Hard-halt: DIR < 0.80 (ECOA 4/5ths rule) ──
+        has_dir_violation = any(
+            m.metric_name.lower() in ("disparate_impact", "disparate_impact_ratio", "dir")
+            and m.value < 0.80
+            for f in findings
+            for m in f.metrics
+        )
+
         # Factor in legal exposure
         has_critical_legal = any(
             v.risk_level == RiskLevel.CRITICAL
@@ -151,14 +165,14 @@ class GovernanceAgent(BaseEqualyzeAgent):
             for v in f.legal_violations
         )
 
-        if has_critical_legal:
+        if has_critical_legal or has_dir_violation:
             max_score = max(max_score, 0.85)
         elif has_high_legal:
             max_score = max(max_score, 0.55)
 
         # Add legal exposure weight
         legal_weight = settings.SEVERITY_WEIGHTS["legal_exposure"]
-        if has_critical_legal:
+        if has_critical_legal or has_dir_violation:
             max_score += legal_weight * 1.0
         elif has_high_legal:
             max_score += legal_weight * 0.7
@@ -172,7 +186,15 @@ class GovernanceAgent(BaseEqualyzeAgent):
         else:
             severity = Severity.GREEN
 
-        return severity, final_score
+        # ── Deployment Decision ──
+        if severity == Severity.RED or has_dir_violation or has_critical_legal:
+            deployment_decision = "HALT_DO_NOT_DEPLOY"
+        elif severity == Severity.AMBER:
+            deployment_decision = "PROCEED_WITH_WARNING"
+        else:
+            deployment_decision = "PROCEED"
+
+        return severity, final_score, deployment_decision
 
 
 governance_agent = GovernanceAgent()

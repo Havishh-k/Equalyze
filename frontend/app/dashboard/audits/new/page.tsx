@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import DataHealthScorecard from "@/components/DataHealthScorecard";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
@@ -20,11 +21,13 @@ import {
   Landmark,
   Shield,
   BarChart3,
+  MessageSquare,
 } from "lucide-react";
 import {
   uploadDataset,
   getSchemaSuggestions,
   createAudit,
+  runLLMPromptAudit,
   type SchemaMap,
   type ColumnTag,
   type ProxyWarning,
@@ -42,7 +45,13 @@ const DOMAINS = [
 
 export default function NewAuditPage() {
   const router = useRouter();
+  const [auditMode, setAuditMode] = useState<"tabular" | "genai">("tabular");
   const [step, setStep] = useState<Step>(1);
+
+  // GenAI mode state
+  const [llmPrompt, setLlmPrompt] = useState("");
+  const [llmRunning, setLlmRunning] = useState(false);
+  const [llmResult, setLlmResult] = useState<any>(null);
 
   // Step 1 state
   const [file, setFile] = useState<File | null>(null);
@@ -66,6 +75,7 @@ export default function NewAuditPage() {
   // Step 3 state
   const [orgName, setOrgName] = useState("");
   const [modelName, setModelName] = useState("");
+  const [blockedHealth, setBlockedHealth] = useState<any>(null);
   const [launching, setLaunching] = useState(false);
 
   const handleDomainChange = (newDomain: string) => {
@@ -196,6 +206,11 @@ export default function NewAuditPage() {
           jurisdiction: ["india", "eu", "usa"],
         },
       });
+      if (result.audit_id === "blocked") {
+        setLaunching(false);
+        setBlockedHealth(result.data_health);
+        return;
+      }
       router.push(`/dashboard/audits/${result.audit_id}`);
     } catch (err) {
       alert(`Launch failed: ${err instanceof Error ? err.message : "Unknown error"}`);
@@ -254,7 +269,191 @@ export default function NewAuditPage() {
         <p style={{ color: "var(--text-secondary)", fontSize: "var(--text-body)" }}>
           Upload your model&apos;s predictions to analyze for algorithmic bias.
         </p>
+
+        {/* ── Audit Mode Toggle ─────────────── */}
+        <div className="flex items-center gap-1 mt-5 p-1 rounded-lg w-fit"
+          style={{ background: "var(--surface-sunken)", border: "1px solid var(--border-default)" }}>
+          <button
+            onClick={() => { setAuditMode("tabular"); setLlmResult(null); }}
+            className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-semibold transition-all"
+            style={{
+              background: auditMode === "tabular" ? "var(--brand-500)" : "transparent",
+              color: auditMode === "tabular" ? "#fff" : "var(--text-secondary)",
+            }}
+          >
+            <FileSpreadsheet className="w-4 h-4" /> Tabular ML Audit
+          </button>
+          <button
+            onClick={() => { setAuditMode("genai"); setLlmResult(null); }}
+            className="flex items-center gap-2 px-4 py-2 rounded-md text-sm font-semibold transition-all"
+            style={{
+              background: auditMode === "genai" ? "var(--brand-500)" : "transparent",
+              color: auditMode === "genai" ? "#fff" : "var(--text-secondary)",
+            }}
+          >
+            <MessageSquare className="w-4 h-4" /> Generative AI Audit
+          </button>
+        </div>
       </div>
+
+      {/* ═══ Generative AI Mode ═══ */}
+      {auditMode === "genai" ? (
+        <div className="space-y-6">
+          <div className="card p-6 space-y-5">
+            <h3 className="text-sm font-bold flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
+              <MessageSquare className="w-4 h-4" style={{ color: "var(--brand-500)" }} />
+              Prompt Twin Engine — LLM Bias Detection
+            </h3>
+            <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
+              Paste a system prompt template below. Equalyze will generate &ldquo;Prompt Twins&rdquo; by injecting
+              majority vs. minority demographic identifiers and use Gemini as an &ldquo;LLM-as-a-Judge&rdquo; to
+              evaluate semantic bias in the responses.
+            </p>
+            <textarea
+              value={llmPrompt}
+              onChange={(e) => setLlmPrompt(e.target.value)}
+              placeholder="e.g. You are an HR assistant. Review the following candidate application and provide a hiring recommendation: [CANDIDATE_NAME], a [AGE]-year-old [GENDER] from [LOCATION]..."
+              className="w-full h-40 p-4 rounded-xl text-sm font-mono resize-none"
+              style={{
+                background: "var(--surface-sunken)",
+                border: "1px solid var(--border-default)",
+                color: "var(--text-primary)",
+              }}
+            />
+            <div className="flex items-center justify-between">
+              <span className="text-[10px]" style={{ color: "var(--text-muted)" }}>
+                Testing axes: Gender, Race/Ethnicity, Age
+              </span>
+              <button
+                onClick={async () => {
+                  if (!llmPrompt.trim()) return;
+                  setLlmRunning(true);
+                  setLlmResult(null);
+                  try {
+                    const result = await runLLMPromptAudit({
+                      system_prompt: llmPrompt,
+                      demographic_axes: ["gender", "race_ethnicity", "age"],
+                      organization_name: orgName || "Demo Organization",
+                      model_name: "Custom LLM Prompt",
+                    });
+                    setLlmResult(result);
+                  } catch (err: any) {
+                    alert(`LLM audit failed: ${err.message}`);
+                  } finally {
+                    setLlmRunning(false);
+                  }
+                }}
+                disabled={llmRunning || !llmPrompt.trim()}
+                className="btn btn-primary gap-2"
+              >
+                {llmRunning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />}
+                {llmRunning ? "Analyzing Prompt..." : "Run Prompt Twin Analysis"}
+              </button>
+            </div>
+          </div>
+
+          {/* LLM Results */}
+          {llmResult && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-4"
+            >
+              {/* Overall */}
+              <div className="card p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>Prompt Twin Results</h3>
+                  <span className={`text-xs font-bold px-3 py-1 rounded-md ${
+                    llmResult.overall_severity === "RED" ? "severity-red" :
+                    llmResult.overall_severity === "AMBER" ? "severity-amber" : "severity-green"
+                  }`}>
+                    {llmResult.overall_severity} — Score: {(llmResult.overall_score * 100).toFixed(0)}%
+                  </span>
+                </div>
+                <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
+                  Tested {llmResult.total_axes_tested} demographic axes. Found bias in {llmResult.biased_axes_count} axis/axes.
+                </p>
+              </div>
+
+              {/* Per-axis results */}
+              {llmResult.analyses?.map((analysis: any, i: number) => (
+                <div key={i} className="card p-6 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-sm font-bold flex items-center gap-2">
+                      <span className="text-xs font-mono px-2 py-0.5 rounded"
+                        style={{ background: "var(--bg-elevated)", color: "var(--text-muted)" }}>
+                        Axis {i + 1}
+                      </span>
+                      {(analysis.demographic_axis || "").replace(/_/g, " ")}
+                    </h4>
+                    {analysis.bias_assessment && (
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                        analysis.bias_assessment.severity === "RED" ? "severity-red" :
+                        analysis.bias_assessment.severity === "AMBER" ? "severity-amber" : "severity-green"
+                      }`}>
+                        {analysis.bias_assessment.bias_detected ? "BIAS DETECTED" : "NO BIAS"}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Twin comparison */}
+                  {analysis.majority_twin && analysis.minority_twin && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="p-4 rounded-xl" style={{ background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.15)" }}>
+                        <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--accent-blue)" }}>
+                          Majority Twin
+                        </p>
+                        <p className="text-xs font-semibold mb-2" style={{ color: "var(--text-primary)" }}>
+                          {analysis.majority_twin.identifier}
+                        </p>
+                        <p className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                          {analysis.majority_twin.simulated_response?.slice(0, 300)}
+                          {(analysis.majority_twin.simulated_response?.length || 0) > 300 ? "..." : ""}
+                        </p>
+                        <span className="inline-block mt-2 text-[10px] font-mono px-1.5 py-0.5 rounded"
+                          style={{ background: "var(--bg-elevated)", color: "var(--text-muted)" }}>
+                          Tone: {analysis.majority_twin.tone_classification}
+                        </span>
+                      </div>
+                      <div className="p-4 rounded-xl" style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.15)" }}>
+                        <p className="text-[10px] font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--severity-red)" }}>
+                          Minority Twin
+                        </p>
+                        <p className="text-xs font-semibold mb-2" style={{ color: "var(--text-primary)" }}>
+                          {analysis.minority_twin.identifier}
+                        </p>
+                        <p className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                          {analysis.minority_twin.simulated_response?.slice(0, 300)}
+                          {(analysis.minority_twin.simulated_response?.length || 0) > 300 ? "..." : ""}
+                        </p>
+                        <span className="inline-block mt-2 text-[10px] font-mono px-1.5 py-0.5 rounded"
+                          style={{ background: "var(--bg-elevated)", color: "var(--text-muted)" }}>
+                          Tone: {analysis.minority_twin.tone_classification}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Discrimination statement */}
+                  {analysis.bias_assessment?.discrimination_statement && (
+                    <div className="p-3 rounded-lg text-center"
+                      style={{
+                        background: analysis.bias_assessment.bias_detected ? "rgba(239,68,68,0.08)" : "rgba(34,197,94,0.08)",
+                        border: `1px solid ${analysis.bias_assessment.bias_detected ? "rgba(239,68,68,0.2)" : "rgba(34,197,94,0.2)"}`,
+                      }}>
+                      <p className="text-xs font-semibold leading-relaxed"
+                        style={{ color: analysis.bias_assessment.bias_detected ? "var(--severity-red)" : "var(--severity-green)" }}>
+                        &ldquo;{analysis.bias_assessment.discrimination_statement}&rdquo;
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </motion.div>
+          )}
+        </div>
+      ) : (
+      <>
 
       {/* ── Progress Steps ────────────────── */}
       <div className="flex items-center gap-4 mb-10">
@@ -603,6 +802,11 @@ export default function NewAuditPage() {
             exit={{ opacity: 0, x: -20 }}
             className="space-y-6"
           >
+            {/* Data Health Block (shown when audit was blocked) */}
+            {blockedHealth && (
+              <DataHealthScorecard data={blockedHealth} />
+            )}
+
             {/* Model metadata */}
             <div className="card p-6">
               <h3 className="text-sm font-semibold mb-5 flex items-center gap-2" style={{ color: "var(--text-primary)" }}>
@@ -780,6 +984,8 @@ export default function NewAuditPage() {
           </motion.div>
         )}
       </AnimatePresence>
+      </>
+      )}
     </div>
   );
 }
