@@ -6,7 +6,6 @@ Falls back to a comprehensive mock corpus when no GCP credentials are configured
 
 import os
 from typing import List, Dict, Any
-from api.config import settings
 
 
 # ── Mock Legal Corpus ────────────────────────────

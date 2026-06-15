@@ -1,4 +1,3 @@
-import json
 from api.agents.base_agent import BaseEqualyzeAgent
 from api.config import settings
 from api.models.audit import ProxyWarning

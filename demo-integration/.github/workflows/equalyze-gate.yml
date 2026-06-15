@@ -34,6 +34,7 @@ jobs:
       env:
         # Map your repository secret to the expected environment variable
         EQUALYZE_API_KEY: ${{ secrets.EQUALYZE_API_KEY }}
+        EQUALYZE_BASE_URL: "https://equalyze-frontend-1085178935109.us-central1.run.app/api/v1"
         DATASET_PATH: predictions.csv
       run: |
         # Simulate running the SDK via the simulation script for the demo

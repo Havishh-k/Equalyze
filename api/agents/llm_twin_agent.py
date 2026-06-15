@@ -6,7 +6,6 @@ injecting majority vs. minority demographic identifiers and comparing
 the target LLM's responses for semantic divergence.
 """
 
-import json
 from typing import Any
 
 from api.agents.base_agent import BaseEqualyzeAgent

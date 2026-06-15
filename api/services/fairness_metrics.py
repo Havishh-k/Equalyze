@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 from typing import Any
 
-from api.models.audit import BiasMetric, Severity
+from api.models.audit import Severity
 
 
 class FairnessEvaluator:

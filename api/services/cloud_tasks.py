@@ -1,6 +1,5 @@
 import os
 import requests
-import json
 
 PROJECT_ID = os.environ.get("GCP_PROJECT", "equalyze-dev")
 REGION = "us-central1"

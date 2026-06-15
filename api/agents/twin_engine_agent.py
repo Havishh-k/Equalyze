@@ -7,14 +7,12 @@ AI-generated counterfactual twins that PROVE discrimination.
 import json
 import pandas as pd
 import numpy as np
-from typing import Any
-from datetime import datetime
 
 from api.agents.base_agent import BaseEqualyzeAgent
 from api.config import settings
 from api.models.audit import (
     Finding, FindingType, CounterfactualTwin, BiasMetric,
-    GenealogyNode, Severity, AgentState, AgentStatus,
+    GenealogyNode, Severity,
 )
 from api.services.fairness_metrics import FairnessEvaluator
 

@@ -4,7 +4,6 @@ The "smoking gun" endpoint: prove bias by showing how flipping
 a single protected attribute changes the model's decision.
 """
 
-import os
 import copy
 import joblib
 import numpy as np
@@ -12,7 +11,6 @@ import pandas as pd
 from pathlib import Path
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from typing import Optional
 
 router = APIRouter()
 

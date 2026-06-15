@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from typing import Dict, Any, List
+from typing import Dict, Any
 from pydantic import BaseModel
 from api.services.db import get_current_user, get_db
 

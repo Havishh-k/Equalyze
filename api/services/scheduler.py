@@ -1,6 +1,5 @@
 import urllib.request
 from apscheduler.schedulers.background import BackgroundScheduler
-import threading
 
 def trigger_cloud_scheduler_mock():
     """
@@ -14,7 +13,7 @@ def trigger_cloud_scheduler_mock():
             method="POST",
             headers={"Content-Length": "0"}
         )
-        with urllib.request.urlopen(req, timeout=5) as response:
+        with urllib.request.urlopen(req, timeout=5):
             pass # Fired successfully
     except Exception as e:
         print(f"[Scheduler] Failed to trigger: {e}")

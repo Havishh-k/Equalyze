@@ -4,7 +4,6 @@ Serves publicly-accessible Bias Receipts via a share token.
 No authentication required.
 """
 
-import uuid
 import hashlib
 from fastapi import APIRouter, HTTPException, Depends
 from typing import Dict, Any

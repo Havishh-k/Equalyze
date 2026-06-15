@@ -8,10 +8,9 @@ For global production deployment, swap to Redis-backed storage.
 
 import time
 import collections
-from fastapi import Request, HTTPException
+from fastapi import Request
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.types import ASGIApp
 
 
 # ── In-Memory Sliding Window Rate Limiter ─────────
@@ -146,7 +145,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
 
         # HSTS only in production (when behind HTTPS)
-        if not request.url.hostname in ("localhost", "127.0.0.1"):
+        if request.url.hostname not in ("localhost", "127.0.0.1"):
             response.headers["Strict-Transport-Security"] = (
                 "max-age=31536000; includeSubDomains"
             )

@@ -6,7 +6,6 @@ No scipy dependency — uses pure numpy chi-squared implementation.
 
 import pandas as pd
 import numpy as np
-from typing import Any
 
 from api.models.audit import ProxyWarning
 

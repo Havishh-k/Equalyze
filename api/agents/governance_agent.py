@@ -3,8 +3,6 @@ Equalyze — Governance Agent
 Maps bias findings to regulations and computes legal exposure scores.
 """
 
-import json
-from typing import Any
 
 from api.agents.base_agent import BaseEqualyzeAgent
 from api.config import settings

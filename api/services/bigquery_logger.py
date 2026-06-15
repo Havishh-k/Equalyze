@@ -42,7 +42,8 @@ class BigQueryLogger:
 
     def _ensure_table_exists(self):
         """Ensures the dataset and table exist for immutable audit logging."""
-        if not self.client: return
+        if not self.client:
+            return
         
         dataset_ref = self.client.dataset(DATASET_ID)
         try:

@@ -63,7 +63,7 @@ class BaseEqualyzeAgent:
                 if attempt == 2:
                     raise
                 continue
-            except Exception as e:
+            except Exception:
                 if attempt == 2:
                     raise
                 continue
@@ -80,7 +80,7 @@ class BaseEqualyzeAgent:
                 if attempt == 2:
                     raise
                 continue
-            except Exception as e:
+            except Exception:
                 if attempt == 2:
                     raise
                 continue

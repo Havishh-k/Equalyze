@@ -1,7 +1,7 @@
 import os
 import firebase_admin
-from firebase_admin import credentials, firestore, auth, storage
-from fastapi import HTTPException, Security, Depends
+from firebase_admin import credentials, firestore, auth
+from fastapi import HTTPException, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Dict, Any
 from pathlib import Path

@@ -5,10 +5,9 @@ Master coordinator that runs the full audit pipeline.
 
 import pandas as pd
 from datetime import datetime
-from typing import Any
 
 from api.models.audit import (
-    Audit, AuditStatus, AgentState, AgentStatus, Severity, Finding,
+    Audit, AuditStatus, AgentState, AgentStatus, Severity,
 )
 from api.agents.twin_engine_agent import twin_engine_agent
 from api.agents.governance_agent import governance_agent

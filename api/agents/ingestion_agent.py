@@ -9,8 +9,7 @@ from typing import Any
 
 from api.agents.base_agent import BaseEqualyzeAgent
 from api.config import settings
-from api.models.audit import ColumnTag, SchemaMap, ProxyWarning
-from api.services.proxy_detector import proxy_detector
+from api.models.audit import ColumnTag, SchemaMap
 
 
 INGESTION_SYSTEM_PROMPT = """You are the Equalyze Ingestion Agent. You analyze datasets for AI bias audits.
@@ -105,7 +104,7 @@ class IngestionAgent(BaseEqualyzeAgent):
         try:
             result = self.invoke_sync(prompt)
             return self._parse_schema_result(result, column_names)
-        except Exception as e:
+        except Exception:
             # Fallback: use heuristic-based classification
             return self._heuristic_schema(column_names, column_stats)
 

@@ -1,5 +1,4 @@
 import dp_accounting
-import math
 
 class PrivacyMetrics:
     """

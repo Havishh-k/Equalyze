@@ -7,17 +7,15 @@ import uuid
 from datetime import datetime
 from fastapi import APIRouter, HTTPException, BackgroundTasks, Depends
 from typing import Optional, Dict, Any
-
+from pydantic import BaseModel
 from api.models.audit import (
     Audit, AuditStatus, AuditCreateResponse, AuditStatusResponse,
-    SchemaConfirmRequest, Finding, Severity, AgentStatus, AgentState,
-    DatasetInfo, ModelMetadata,
+    SchemaConfirmRequest, DatasetInfo,
 )
 from api.routers.datasets import get_dataset_store
 from api.services.db import get_db, get_optional_user
 from api.services.fairness_metrics import FairnessEvaluator
 from api.services.data_health import compute_data_health
-from firebase_admin import firestore
 
 router = APIRouter()
 
@@ -360,7 +358,7 @@ async def list_audits(
         return {"audits": []}
 
 
-from pydantic import BaseModel
+
 
 class RemediateRequest(BaseModel):
     num_rows: int = 50
@@ -411,7 +409,7 @@ async def remediate_audit(
                     "df": df,
                     "metadata": {"filename": audit_dict.get("dataset", {}).get("filename", "dataset.csv")}
                 }
-            except Exception as e:
+            except Exception:
                 raise HTTPException(status_code=400, detail="Dataset not in cache and failed to load from disk. Re-upload to remediate.")
         else:
             raise HTTPException(status_code=400, detail="Dataset not in cache. Re-upload to remediate.")
@@ -461,7 +459,7 @@ async def remediate_audit(
     dp_epsilon = privacy_metrics.calculate_epsilon(original_rows, synthetic_rows)
     
     # Save augmented CSV for download
-    import tempfile, os
+    import os
     save_path = os.path.join("data", "datasets", dataset_id, "remediated.csv")
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
     augmented_df.to_csv(save_path, index=False)
@@ -486,7 +484,8 @@ async def remediate_audit(
 async def download_remediated(audit_id: str):
     """Serve the remediated CSV file."""
     from fastapi.responses import FileResponse
-    import os, glob
+    import os
+    import glob
     
     # Find the file
     pattern = os.path.join("data", "datasets", "*", "remediated.csv")
