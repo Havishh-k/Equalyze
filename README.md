@@ -2,7 +2,7 @@
 
 **AI Bias Detection & Governance Platform**
 
-> Enterprise-grade algorithmic fairness auditing with human-in-the-loop compliance, counterfactual twin generation, and immutable audit trails.
+> Enterprise-grade algorithmic fairness auditing with human-in-the-loop compliance, counterfactual twin generation, and immutable audit trails. Equalyze empowers organizations to deploy AI responsibly by providing transparent, rigorous, and automated bias detection.
 
 ---
 
@@ -189,13 +189,13 @@ cd frontend && npx next lint
 
 ---
 
-## 🏢 Team Trident
+## 🏢 Team: Okay Google, Fix This
 
 | Member | Ownership |
 |--------|-----------|
-| **Om** | Architecture, deployment, agent orchestration, BigQuery |
-| **Farhan** | FastAPI backend, fairness metrics engine, security middleware |
-| **Manas** | Next.js frontend, component library, UX |
+| **OmPrakash** | Architecture, deployment, agent orchestration, BigQuery |
+| **Havish** | FastAPI backend, fairness metrics engine, security middleware |
+| **Om** | Next.js frontend, component library, UX |
 
 ---
 
