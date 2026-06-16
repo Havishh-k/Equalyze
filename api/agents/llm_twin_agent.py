@@ -126,6 +126,10 @@ class LLMTwinAgent(BaseEqualyzeAgent):
                         "discrimination_statement": f"Analysis failed for {axis}: {str(e)}",
                     },
                 })
+            
+            # Rate limiting for Gemini free tier: space out concurrent-like requests
+            import asyncio
+            await asyncio.sleep(3)
 
         # Compute overall severity
         if overall_max_score >= 0.6:

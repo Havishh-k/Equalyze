@@ -51,39 +51,63 @@ class BaseEqualyzeAgent:
     async def invoke(self, prompt: str, context: Optional[dict] = None) -> dict[str, Any]:
         """
         Send a prompt to Gemini and get a structured JSON response.
-        Includes retry logic for parse failures.
+        Includes retry logic for parse failures and rate limit backoff (429).
         """
-        full_prompt = self._build_prompt(prompt, context)
+        import asyncio
+        import google.api_core.exceptions
 
-        for attempt in range(3):
+        full_prompt = self._build_prompt(prompt, context)
+        max_retries = 5
+        base_delay = 2
+
+        for attempt in range(max_retries):
             try:
                 response = await self.model.generate_content_async(full_prompt)
                 return self._parse_response(response)
             except json.JSONDecodeError:
-                if attempt == 2:
+                if attempt == max_retries - 1:
                     raise
-                continue
-            except Exception:
-                if attempt == 2:
+                await asyncio.sleep(base_delay * (2 ** attempt))
+            except google.api_core.exceptions.ResourceExhausted as e:
+                # 429 Rate Limit Exceeded
+                if attempt == max_retries - 1:
+                    raise Exception(f"Rate limit exceeded after {max_retries} retries: {str(e)}")
+                # Exponential backoff: 2s, 4s, 8s, 16s...
+                delay = base_delay * (2 ** attempt)
+                print(f"Rate limit hit (429). Retrying in {delay} seconds...")
+                await asyncio.sleep(delay)
+            except Exception as e:
+                if attempt == max_retries - 1:
                     raise
-                continue
+                await asyncio.sleep(base_delay * (2 ** attempt))
 
     def invoke_sync(self, prompt: str, context: Optional[dict] = None) -> dict[str, Any]:
-        """Synchronous version of invoke."""
-        full_prompt = self._build_prompt(prompt, context)
+        """Synchronous version of invoke with rate limit backoff."""
+        import time
+        import google.api_core.exceptions
 
-        for attempt in range(3):
+        full_prompt = self._build_prompt(prompt, context)
+        max_retries = 5
+        base_delay = 2
+
+        for attempt in range(max_retries):
             try:
                 response = self.model.generate_content(full_prompt)
                 return self._parse_response(response)
             except json.JSONDecodeError:
-                if attempt == 2:
+                if attempt == max_retries - 1:
                     raise
-                continue
-            except Exception:
-                if attempt == 2:
+                time.sleep(base_delay * (2 ** attempt))
+            except google.api_core.exceptions.ResourceExhausted as e:
+                if attempt == max_retries - 1:
+                    raise Exception(f"Rate limit exceeded after {max_retries} retries: {str(e)}")
+                delay = base_delay * (2 ** attempt)
+                print(f"Rate limit hit (429). Retrying in {delay} seconds...")
+                time.sleep(delay)
+            except Exception as e:
+                if attempt == max_retries - 1:
                     raise
-                continue
+                time.sleep(base_delay * (2 ** attempt))
 
     def _build_prompt(self, prompt: str, context: Optional[dict] = None) -> str:
         """Build the full prompt, optionally including context."""
