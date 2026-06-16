@@ -235,6 +235,8 @@ class Audit(BaseModel):
     approval_token: Optional[str] = None   # SHA-256 immutable receipt token
     approval_comments: Optional[str] = None
     hitl_acknowledged_at: Optional[datetime] = None  # When cognitive forcing checkbox was ticked
+    # ── RBAC: Operator Role (drives role-based remediation) ──
+    operator_role: str = "DATA_SCIENTIST"  # DATA_SCIENTIST | DATA_ENGINEER | COMPLIANCE_OFFICER
 
 
 # ── API Request/Response Models ────────────────────

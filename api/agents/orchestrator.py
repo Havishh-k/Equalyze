@@ -97,6 +97,7 @@ class OrchestratorAgent:
                         finding=finding,
                         domain=domain,
                         model_type=audit.model_metadata.model_type,
+                        user_role=audit.operator_role,
                     )
                     finding.remediation_strategies = strategies
 

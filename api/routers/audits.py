@@ -133,6 +133,7 @@ async def create_audit(
         ),
         model_metadata=request.model_metadata,
         schema_map=request.schema_map,
+        operator_role=user.get("role", "DATA_SCIENTIST"),
     )
 
     _active_audits[audit.id] = audit

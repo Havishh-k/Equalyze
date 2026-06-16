@@ -18,6 +18,9 @@ import {
   Sparkles,
   Download,
   Lock,
+  Code2,
+  Database,
+  Gavel,
 } from "lucide-react";
 import {
   getAudit,
@@ -30,7 +33,7 @@ import {
   type CounterfactualTwin,
 } from "@/lib/api";
 import { SeverityBadge } from "@/components/SeverityBadge";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth, type UserRole } from "@/lib/auth-context";
 import FeatureWaterfallChart from "@/components/FeatureWaterfallChart";
 
 // ── Score Gauge ─────────────────────────────────
@@ -212,10 +215,81 @@ function TwinCard({ twin, protectedAttr }: { twin: CounterfactualTwin; protected
   );
 }
 
-// ── Finding Section ─────────────────────────────
+// ── Role View Switcher ──────────────────────────
 
-function FindingSection({ finding, index }: { finding: any; index: number }) {
+const ROLE_CONFIG = {
+  DATA_SCIENTIST: {
+    label: "Data Scientist",
+    icon: Code2,
+    color: "#3B82F6",
+    description: "Algorithmic fixes, feature engineering, model retraining",
+  },
+  DATA_ENGINEER: {
+    label: "Data Engineer",
+    icon: Database,
+    color: "#8B5CF6",
+    description: "Pipeline fixes, data quality, upstream corrections",
+  },
+  COMPLIANCE_OFFICER: {
+    label: "Compliance Officer",
+    icon: Gavel,
+    color: "#F59E0B",
+    description: "Legal exposure, regulatory deadlines, documentation",
+  },
+} as const;
+
+function RoleViewSwitcher({
+  activeRole,
+  onSwitch,
+}: {
+  activeRole: UserRole;
+  onSwitch: (role: UserRole) => void;
+}) {
+  return (
+    <div className="card p-4">
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>
+          Role-Based Intelligence View
+        </p>
+        <span
+          className="text-[10px] font-medium px-2 py-0.5 rounded-full"
+          style={{ background: `${ROLE_CONFIG[activeRole].color}20`, color: ROLE_CONFIG[activeRole].color }}
+        >
+          {ROLE_CONFIG[activeRole].description}
+        </span>
+      </div>
+      <div className="flex gap-2">
+        {(Object.keys(ROLE_CONFIG) as UserRole[]).map((r) => {
+          const cfg = ROLE_CONFIG[r];
+          const isActive = r === activeRole;
+          return (
+            <button
+              key={r}
+              onClick={() => onSwitch(r)}
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-semibold transition-all"
+              style={{
+                background: isActive ? `${cfg.color}15` : "var(--surface-sunken)",
+                border: `1.5px solid ${isActive ? cfg.color : "var(--border-default)"}`,
+                color: isActive ? cfg.color : "var(--text-secondary)",
+              }}
+            >
+              <cfg.icon className="w-4 h-4" />
+              {cfg.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ── Finding Section (Role-Filtered) ─────────────
+
+function FindingSection({ finding, index, viewRole }: { finding: any; index: number; viewRole: UserRole }) {
   const isScheduledFinding = !finding.metrics && finding.description;
+  const isDS = viewRole === "DATA_SCIENTIST";
+  const isDE = viewRole === "DATA_ENGINEER";
+  const isCO = viewRole === "COMPLIANCE_OFFICER";
 
   return (
     <motion.div
@@ -247,24 +321,52 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
         </div>
       ) : (
         <>
-          {/* Metrics grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {finding.metrics?.map((m: any) => (
-              <MetricCard key={m.metric_name} metric={m} />
-            ))}
-          </div>
+          {/* ── DATA SCIENTIST & DATA ENGINEER: Metrics grid ── */}
+          {(isDS || isDE) && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {finding.metrics?.map((m: any) => (
+                <MetricCard key={m.metric_name} metric={m} />
+              ))}
+            </div>
+          )}
 
-          {/* Counterfactual twins */}
-          {finding.counterfactual_twins?.map((twin: any) => (
+          {/* ── COMPLIANCE OFFICER: Summary metrics (simplified) ── */}
+          {isCO && finding.metrics && (
+            <div className="card p-5">
+              <h4 className="text-sm font-bold flex items-center gap-2 mb-3">
+                <Shield className="w-4 h-4" style={{ color: "var(--severity-amber)" }} />
+                Risk Summary
+              </h4>
+              <div className="grid grid-cols-3 gap-3">
+                {finding.metrics.filter((m: any) => ["RED", "AMBER"].includes(m.severity)).slice(0, 3).map((m: any) => (
+                  <div key={m.metric_name} className="p-3 rounded-lg" style={{ background: "var(--surface-sunken)" }}>
+                    <p className="text-[10px] font-semibold uppercase" style={{ color: "var(--text-muted)" }}>{m.metric_name.replace(/_/g, " ")}</p>
+                    <p className="text-lg font-bold font-mono" style={{ color: m.severity === "RED" ? "var(--severity-red)" : "var(--severity-amber)" }}>
+                      {typeof m.value === "number" ? m.value.toFixed(4) : "N/A"}
+                    </p>
+                    <SeverityBadge severity={m.severity} size="sm" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── DATA SCIENTIST: Counterfactual twins ── */}
+          {isDS && finding.counterfactual_twins?.map((twin: any) => (
             <TwinCard key={twin.id} twin={twin} protectedAttr={finding.protected_attribute} />
           ))}
 
-          {/* Legal violations */}
+          {/* ── ALL ROLES: Legal violations (expanded for CO, collapsed for others) ── */}
           {(finding.legal_violations?.length || 0) > 0 && (
-            <div className="card p-6">
+            <div className="card p-6" style={isCO ? { borderLeft: "3px solid var(--severity-red)" } : {}}>
               <h4 className="text-sm font-bold flex items-center gap-2 mb-4">
                 <Scale className="w-4 h-4" style={{ color: "var(--severity-red)" }} />
                 Legal Exposure
+                {isCO && (
+                  <span className="ml-2 text-[10px] font-medium px-2 py-0.5 rounded-full" style={{ background: "rgba(239,68,68,0.1)", color: "var(--severity-red)" }}>
+                    PRIMARY VIEW
+                  </span>
+                )}
               </h4>
               <div className="space-y-3">
                 {finding.legal_violations.map((v: any, i: number) => (
@@ -283,24 +385,37 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
                     <p className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                       {v.plain_english}
                     </p>
+                    {/* CO gets remediation_required field */}
+                    {isCO && v.remediation_required && (
+                      <div className="mt-2 p-2 rounded-lg" style={{ background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)" }}>
+                        <p className="text-[10px] font-semibold uppercase mb-1" style={{ color: "var(--severity-amber)" }}>Required Action</p>
+                        <p className="text-xs" style={{ color: "var(--text-secondary)" }}>{v.remediation_required}</p>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Remediation strategies */}
+          {/* ── Remediation strategies (shown for all, styled per role) ── */}
           {(finding.remediation_strategies?.length || 0) > 0 && (
-            <div className="card p-6">
+            <div className="card p-6" style={isDS ? { borderLeft: "3px solid #3B82F6" } : isDE ? { borderLeft: "3px solid #8B5CF6" } : {}}>
               <h4 className="text-sm font-bold flex items-center gap-2 mb-4">
                 <Zap className="w-4 h-4" style={{ color: "var(--severity-amber)" }} />
                 Remediation Strategies
+                <span className="ml-2 text-[10px] font-medium px-2 py-0.5 rounded-full" style={{
+                  background: `${ROLE_CONFIG[viewRole].color}15`,
+                  color: ROLE_CONFIG[viewRole].color,
+                }}>
+                  Tailored for {ROLE_CONFIG[viewRole].label}
+                </span>
               </h4>
               <div className="space-y-3">
                 {finding.remediation_strategies.map((s: any) => (
                   <div key={s.rank} className="p-4 rounded-xl" style={{ background: "var(--bg-card)", border: "1px solid var(--border-default)" }}>
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "rgba(59,130,246,0.15)", color: "var(--accent-blue)" }}>
+                      <span className="text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center" style={{ background: `${ROLE_CONFIG[viewRole].color}20`, color: ROLE_CONFIG[viewRole].color }}>
                         {s.rank}
                       </span>
                       <span className="text-sm font-semibold">{s.name}</span>
@@ -311,6 +426,22 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
                     <p className="text-xs leading-relaxed ml-9" style={{ color: "var(--text-secondary)" }}>
                       {s.description}
                     </p>
+                    {/* DS/DE: Show code reference */}
+                    {(isDS || isDE) && s.code_reference && (
+                      <p className="text-[10px] ml-9 mt-2 font-mono px-2 py-1 rounded w-fit" style={{ background: "var(--bg-elevated)", color: "var(--accent-blue)" }}>
+                        📦 {s.code_reference}
+                      </p>
+                    )}
+                    {/* DS/DE: Show implementation steps */}
+                    {(isDS || isDE) && s.implementation_steps?.length > 0 && (
+                      <div className="ml-9 mt-3 space-y-1">
+                        {s.implementation_steps.map((step: string, si: number) => (
+                          <p key={si} className="text-[11px] leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                            {step}
+                          </p>
+                        ))}
+                      </div>
+                    )}
                     {s.estimated_bias_reduction && (
                       <p className="text-[10px] ml-9 mt-2 flex items-center gap-1" style={{ color: "var(--severity-green)" }}>
                         <TrendingDown className="w-3 h-3" />
@@ -331,8 +462,8 @@ function FindingSection({ finding, index }: { finding: any; index: number }) {
             </div>
           )}
 
-          {/* Genealogy */}
-          {(finding.genealogy_tree?.length || 0) > 0 && (
+          {/* ── DATA SCIENTIST & DATA ENGINEER: Genealogy ── */}
+          {(isDS || isDE) && (finding.genealogy_tree?.length || 0) > 0 && (
             <div className="card p-6">
               <h4 className="text-sm font-bold mb-4">Bias Genealogy — Root Cause Analysis</h4>
               <div className="space-y-3">
@@ -393,7 +524,13 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
   const [hitlAcknowledged, setHitlAcknowledged] = useState(false);
   const [hitlAcknowledgedAt, setHitlAcknowledgedAt] = useState<string | null>(null);
   const { user, role } = useAuth();
+  const [viewRole, setViewRole] = useState<UserRole>(role || "DATA_SCIENTIST");
   const isComplianceOfficer = role === "COMPLIANCE_OFFICER";
+
+  // Sync viewRole when auth role resolves
+  useEffect(() => {
+    if (role) setViewRole(role);
+  }, [role]);
 
   // Cognitive forcing function state
   const [showExportModal, setShowExportModal] = useState(false);
@@ -625,6 +762,11 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
         )}
       </div>
 
+      {/* Role-Based View Switcher */}
+      {!isRunning && audit.findings && audit.findings.length > 0 && (
+        <RoleViewSwitcher activeRole={viewRole} onSwitch={setViewRole} />
+      )}
+
       {/* Running state */}
       {isRunning && (
         <motion.div
@@ -658,14 +800,14 @@ export default function AuditResultsPage({ params }: { params: Promise<{ audit_i
             </div>
           ) : (
             audit.findings.map((finding, i) => (
-              <FindingSection key={finding.id || i} finding={finding} index={i} />
+              <FindingSection key={finding.id || i} finding={finding} index={i} viewRole={viewRole} />
             ))
           )}
         </div>
       )}
 
-      {/* Explainability — Feature Impact Chart */}
-      {!isRunning && audit.findings && audit.findings.length > 0 && (
+      {/* Explainability — Feature Impact Chart (DS & DE only) */}
+      {!isRunning && audit.findings && audit.findings.length > 0 && (viewRole === "DATA_SCIENTIST" || viewRole === "DATA_ENGINEER") && (
         <FeatureWaterfallChart findings={audit.findings} />
       )}
 
