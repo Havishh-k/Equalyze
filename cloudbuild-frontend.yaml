@@ -6,7 +6,7 @@ steps:
         "--build-arg",
         "NEXT_PUBLIC_API_URL=https://equalyze-backend-1085178935109.us-central1.run.app/api/v1",
         "--build-arg",
-        "NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyCk6RnUdVzzrRXOz3IAwprLidyUdzfK80U",
+        "NEXT_PUBLIC_FIREBASE_API_KEY=$_NEXT_PUBLIC_FIREBASE_API_KEY",
         "--build-arg",
         "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=equalyze-9ccfe.firebaseapp.com",
         "--build-arg",

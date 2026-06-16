@@ -193,9 +193,9 @@ cd frontend && npx next lint
 
 | Member | Ownership |
 |--------|-----------|
-| **OmPrakash** | Architecture, deployment, agent orchestration, BigQuery |
+| **Om** | Architecture, deployment, agent orchestration, BigQuery |
 | **Havish** | FastAPI backend, fairness metrics engine, security middleware |
-| **Om** | Next.js frontend, component library, UX |
+| **Omprakash** | Next.js frontend, component library, UX |
 
 ---
 
